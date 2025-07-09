@@ -18,9 +18,8 @@ namespace OnlineMedicineBookingApplication.Domain.Entities
         [Required(ErrorMessage = "Admin Email is required")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string AdminEmail { get; set; }
-        [Required(ErrorMessage = "Admin Password is required")]
-        [StringLength(6, ErrorMessage = "Admin Password must be exactly 6 characters long.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
+        [Required(ErrorMessage = "User Password is required")]
+        [MaxLength(50)]
         public string AdminPassword { get; set; }
 
 
