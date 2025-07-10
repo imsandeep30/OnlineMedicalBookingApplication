@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineMedicineBookingApplication.Infrastructure", "OnlineMedicineBookingApplication.Infrastructure\OnlineMedicineBookingApplication.Infrastructure.csproj", "{21DAB6F8-0E37-4BD4-91D6-23B34C2A67C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineMedicineBookingApplication.Application", "OnlineMedicineBookingApplication.Application\OnlineMedicineBookingApplication.Application.csproj", "{24FC56B3-9C81-429E-B659-6561060AAEA5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{21DAB6F8-0E37-4BD4-91D6-23B34C2A67C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{21DAB6F8-0E37-4BD4-91D6-23B34C2A67C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{21DAB6F8-0E37-4BD4-91D6-23B34C2A67C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24FC56B3-9C81-429E-B659-6561060AAEA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24FC56B3-9C81-429E-B659-6561060AAEA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24FC56B3-9C81-429E-B659-6561060AAEA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24FC56B3-9C81-429E-B659-6561060AAEA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

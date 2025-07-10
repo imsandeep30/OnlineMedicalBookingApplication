@@ -1,52 +1,36 @@
-﻿using OnlineMedicineBookingApplication.Domain;
-using OnlineMedicineBookingApplication.Infrastructure;
-using System;
-using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer;
-using OnlineMedicineBookingApplication.Domain.Entities;
-using OnlineMedicineBookingApplication.Infrastructure.Services;
-using OnlineMedicineBookingApplication.Application.Interfaces;
+﻿using OnlineMedicineBookingApplication.Application.Services;
+using OnlineMedicineBookingApplication.Infrastructure.Repositories;
 using OnlineMedicineBookingApplication.Application.Models;
-public class Program
-{
-    public static void Main(string[] args)
-    {
-        //using (var context = new DBContext())
-        //{
-        //    var things = context.Admins.ToList();
-        //    foreach (var admin in things)
-        //    {
-        //        Console.WriteLine($"AdminId: {admin.AdminId}, AdminName: {admin.AdminName}, AdminEmail: {admin.AdminEmail}");
-        //    }
-        //}
-        var service = new MedicineService();
 
-        //Console.WriteLine("All Medicines:");
-        //var all = service.GetAllMedicines();
-        //foreach (var med in all)
-        //{
-        //    Console.WriteLine($"{med.MedicineName} - ${med.Price}");
-        //}
-        var allMedicines = service.GetAllMedicinesAsync();
-        foreach (var med in allMedicines.Result)
+class Program
+{
+    static async Task Main(string[] args)
+    {
+        var repository = new MedicineRepository();
+        var service = new MedicineService(repository);
+        var allMedicines = await service.GetAllMedicinesAsync();
+        foreach (var med in allMedicines)
         {
-            Console.WriteLine($"{med.MedicineName} - ${med.Price} - {med.Description}");
+            Console.WriteLine($"{med.MedicineName} - {med.Price} Rs");
         }
-        var searching = new MedicineFilterDTO
+        var filter = new MedicineFilterDTO
         {
-            ProblemKeywords = new List<string> {"headache" , "fever"},
+            SearchText = "Para",
+            MinPrice = 20,
+            MaxPrice = 60,
+            OnlyAvailable = true
         };
-        var filtered = service.FilterMedicinesAsync(searching);
-        foreach (var med in filtered.Result)
+
+        var filtered = await service.FilterMedicinesAsync(filter);
+        Console.WriteLine("\nFiltered Medicines:");
+        foreach (var med in filtered)
         {
-            Console.WriteLine($"{med.MedicineName} - ${med.Price}");
+            Console.WriteLine($"{med.MedicineName} - {med.Price} Rs");
         }
-        //Console.WriteLine("Filtered Medicines:");
-        //var filtered = service.FilterMedicines(searching);
-        //foreach (var med in filtered)
-        //{
-        //    Console.WriteLine($"{med.MedicineName} - ${med.Price}");
-        //}
+        var medDetails = await service.GetMedicineByIdAsync(1);
+        if (medDetails != null)
+        {
+            Console.WriteLine($"\nDetails:\nName: {medDetails.MedicineName}\nDesc: {medDetails.Description}");
+        }
     }
 }
