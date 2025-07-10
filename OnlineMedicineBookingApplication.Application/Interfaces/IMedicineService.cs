@@ -9,8 +9,8 @@ namespace OnlineMedicineBookingApplication.Application.Interfaces
 {
     public interface IMedicineService
     {
-        List<MedicineDTO> GetAllMedicines();
-        List<MedicineDTO> FilterMedicines(MedicineFilterDTO filter);
-        MedicineDTO GetMedicineById(int id);
+        Task<List<MedicineDTO>> GetAllMedicinesAsync();
+        Task<List<MedicineDTO>> FilterMedicinesAsync(MedicineFilterDTO filter);
+        Task<MedicineDTO?> GetMedicineByIdAsync(int id);
     }
 }

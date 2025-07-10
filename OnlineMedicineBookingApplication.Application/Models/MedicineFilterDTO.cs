@@ -12,5 +12,7 @@ namespace OnlineMedicineBookingApplication.Application.Models
         public decimal? MinPrice { get; set; }
         public decimal? MaxPrice { get; set; }
         public bool? OnlyAvailable { get; set; }
+        public List<string>? ProblemKeywords { get; set; }
+
     }
 }

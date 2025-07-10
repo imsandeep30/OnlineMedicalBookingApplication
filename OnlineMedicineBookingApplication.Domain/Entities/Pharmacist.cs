@@ -36,6 +36,6 @@ namespace OnlineMedicineBookingApplication.Domain.Entities
             [StringLength(200)]
             public string Location { get; set; }
 
-            public bool IsApproved { get; set; } = false; // default status before admin approval
+            public bool IsApproved { get; set; } = false;
         }
 }

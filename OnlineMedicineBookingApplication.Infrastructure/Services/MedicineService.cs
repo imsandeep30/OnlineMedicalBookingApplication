@@ -1,4 +1,5 @@
-﻿using OnlineMedicineBookingApplication.Application.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineMedicineBookingApplication.Application.Interfaces;
 using OnlineMedicineBookingApplication.Application.Models;
 using OnlineMedicineBookingApplication.Domain.Entities;
 using System.Collections.Generic;
@@ -15,12 +16,13 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Services
             _context = new DBContext();
         }
 
-        public List<MedicineDTO> GetAllMedicines()
+        public async Task<List<MedicineDTO>> GetAllMedicinesAsync()
         {
-            return _context.Medicines.Select(MapToDTO).ToList();
+            var medicines = await _context.Medicines.ToListAsync();
+            return medicines.Select(MapToDTO).ToList();
         }
 
-        public List<MedicineDTO> FilterMedicines(MedicineFilterDTO filter)
+        public async Task<List<MedicineDTO>> FilterMedicinesAsync(MedicineFilterDTO filter)
         {
             var query = _context.Medicines.AsQueryable();
 
@@ -40,12 +42,18 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Services
             if (filter.OnlyAvailable == true)
                 query = query.Where(m => m.QuantityAvailable > 0);
 
-            return query.Select(MapToDTO).ToList();
+            if (filter.ProblemKeywords != null && filter.ProblemKeywords.Any())
+            {
+                query = query.Where(m =>filter.ProblemKeywords.Any(kw =>m.Description.ToLower().Contains(kw.ToLower())));
+            }
+
+            var medicines = await query.ToListAsync();
+            return medicines.Select(MapToDTO).ToList();
         }
 
-        public MedicineDTO GetMedicineById(int id)
+        public async Task<MedicineDTO?> GetMedicineByIdAsync(int id)
         {
-            var med = _context.Medicines.FirstOrDefault(m => m.MedicineId == id);
+            var med = await _context.Medicines.FirstOrDefaultAsync(m => m.MedicineId == id);
             return med != null ? MapToDTO(med) : null;
         }
 
