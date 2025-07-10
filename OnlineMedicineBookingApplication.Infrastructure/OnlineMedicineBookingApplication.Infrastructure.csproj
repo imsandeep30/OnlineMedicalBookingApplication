@@ -20,8 +20,4 @@
     <ProjectReference Include="..\OnlineMedicineBookingApplication.Domain\OnlineMedicineBookingApplication.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="repos\" />
-  </ItemGroup>
-
 </Project>
