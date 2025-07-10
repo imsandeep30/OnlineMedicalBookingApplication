@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineMedicineBookingApplication.Domain.Entities;
 using OnlineMedicineBookingApplication.Infrastructure.SeedingData;
+using System.Runtime.CompilerServices;
 
 namespace OnlineMedicineBookingApplication.Infrastructure
 {
@@ -10,9 +11,10 @@ namespace OnlineMedicineBookingApplication.Infrastructure
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Pharmacist> Pharmacists { get; set; }
         public DbSet<Medicine> Medicines { get; set; }
+        public DbSet<Prescription> Prescriptions { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString = "Data Source=IAM_MANIDEEP_\\SQLEXPRESS;Initial Catalog=OnlineMedicineBooking;Integrated Security=True;Encrypt=False";
+            string connectionString = "Data Source=SREENITHA\\SQLEXPRESS;Initial Catalog=OnlineMedicineBooking;Integrated Security=True;Encrypt=False";
             optionsBuilder.UseSqlServer(connectionString);
         }
 
@@ -53,6 +55,16 @@ namespace OnlineMedicineBookingApplication.Infrastructure
                        Location = "Hyderabad",
                        IsApproved = true,
                    }    
+            );
+            modelBuilder.Entity<Prescription>().HasData(
+                new Prescription
+                {
+                    PrescriptionId = 1,
+                    UserId = 1,
+                    FileName = "Prescription1.pdf",
+                    FilePath = "/prescriptions/Prescription1.pdf",
+                    Status = "Pending"
+                }
             );
             var medicines = MedicineSeedData.GetMedicine();
             int id = 1;
