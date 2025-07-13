@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace OnlineMedicineBookingApplication.Domain.Entities
 {
-    public class Testing
+    internal class Cart
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
     }
 }
