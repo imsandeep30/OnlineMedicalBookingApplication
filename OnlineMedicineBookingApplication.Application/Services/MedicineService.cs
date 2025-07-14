@@ -17,7 +17,47 @@ namespace OnlineMedicineBookingApplication.Application.Services
         {
             _medicineRepository = medicineRepository;
         }
-
+        public async Task AddMedicine(MedicineDTO medicineDto)
+        {
+            var medicine = new Medicine
+            {
+                MedicineName = medicineDto.MedicineName,
+                Brand = medicineDto.Brand,
+                Price = medicineDto.Price,
+                QuantityAvailable = medicineDto.QuantityAvailable,
+                Description = medicineDto.Description
+            };
+            await _medicineRepository.AddMedicine(medicine);
+        }
+        public async Task DeleteMedicine(string name)
+        {
+            var medicine = await _medicineRepository.FilterAsync(name, null, null, null, null);
+            if (medicine == null || medicine.Count == 0)
+                throw new KeyNotFoundException("Medicine not found.");
+            else
+            {
+                foreach (var med in medicine)
+                {
+                    await _medicineRepository.DeleteMedicine(med.MedicineId);
+                }
+            }
+        }
+        public async Task UpdateMedicine(MedicineDTO medicine)
+        {
+            var existingMedicine = await _medicineRepository.GetByIdAsync(medicine.MedicineId);
+            if (existingMedicine == null)
+                throw new KeyNotFoundException("Medicine not found.");
+            else
+            {
+                existingMedicine.MedicineName = medicine.MedicineName;
+                existingMedicine.Brand = medicine.Brand;
+                existingMedicine.Price = medicine.Price;
+                existingMedicine.QuantityAvailable = medicine.QuantityAvailable;
+                existingMedicine.Description = medicine.Description;
+                await _medicineRepository.DeleteMedicine(existingMedicine.MedicineId);
+                await _medicineRepository.AddMedicine(existingMedicine);
+            }
+        }
         public async Task<List<MedicineDTO>> GetAllMedicinesAsync()
         {
             var medicines = await _medicineRepository.GetAllAsync();

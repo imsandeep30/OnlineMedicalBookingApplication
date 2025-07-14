@@ -10,9 +10,9 @@ namespace OnlineMedicineBookingApplication.Infrastructure.DBContext
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Admin> Admins { get; set; }
-        public DbSet<Pharmacist> Pharmacists { get; set; }
+        //public DbSet<Pharmacist> Pharmacists { get; set; }
         public DbSet<Medicine> Medicines { get; set; }
-        public DbSet<Prescription> Prescriptions { get; set; }
+        //public DbSet<Prescription> Prescriptions { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             string connectionString = "Data Source=IAM_MANIDEEP_\\SQLEXPRESS;Initial Catalog=OnlineMedicineBooking;Integrated Security=True;Encrypt=False";
@@ -44,29 +44,29 @@ namespace OnlineMedicineBookingApplication.Infrastructure.DBContext
                     AdminPassword = "Admin@123",
                 }
             );
-            modelBuilder.Entity<Pharmacist>().HasData(
-                   new Pharmacist
-                   {
-                       PharmacistId = 1,
-                       PharmacistName = "Pharmacist",
-                       PharmacistPhone = "7093454577",
-                       PharmacistEmail = "Pharamacist123@gmail.com",
-                       PharmacistPassword = "Pharamacist@123",
-                       PharmacyName = "Appolo",
-                       Location = "Hyderabad",
-                       IsApproved = true,
-                   }
-            );
-            modelBuilder.Entity<Prescription>().HasData(
-                new Prescription
-                {
-                    PrescriptionId = 1,
-                    UserId = 1,
-                    FileName = "Prescription1.pdf",
-                    FilePath = "/prescriptions/Prescription1.pdf",
-                    Status = "Pending"
-                }
-            );
+            //modelBuilder.Entity<Pharmacist>().HasData(
+            //       new Pharmacist
+            //       {
+            //           PharmacistId = 1,
+            //           PharmacistName = "Pharmacist",
+            //           PharmacistPhone = "7093454577",
+            //           PharmacistEmail = "Pharamacist123@gmail.com",
+            //           PharmacistPassword = "Pharamacist@123",
+            //           PharmacyName = "Appolo",
+            //           Location = "Hyderabad",
+            //           IsApproved = true,
+            //       }
+            //);
+            //modelBuilder.Entity<Prescription>().HasData(
+            //    new Prescription
+            //    {
+            //        PrescriptionId = 1,
+            //        UserId = 1,
+            //        FileName = "Prescription1.pdf",
+            //        FilePath = "/prescriptions/Prescription1.pdf",
+            //        Status = "Pending"
+            //    }
+            //);
             var medicines = MedicineSeedData.GetMedicine();
             int id = 1;
 

@@ -11,5 +11,7 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Contracts
         Task<List<Medicine>> GetAllAsync();
         Task<List<Medicine>> FilterAsync(string? searchText, decimal? min, decimal? max, bool? onlyAvailable, List<string>? keywords);
         Task<Medicine?> GetByIdAsync(int id);
+        Task AddMedicine(Medicine medicine);
+        Task DeleteMedicine(int medicineId);
     }
 }
