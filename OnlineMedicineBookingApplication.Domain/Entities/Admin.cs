@@ -2,7 +2,20 @@
 
 namespace OnlineMedicineBookingApplication.Domain.Entities
 {
-    public class Admin
+    public class workneed
+    {
+        string[] services_work = {"admin login",
+         "add medicine call",
+         "delete medicine call",
+         "update medicine call",
+         "view medicine call",
+         "add user call",
+         "delete user call",
+        "update order status call",
+        "updatae order validate call"};
+    }
+
+public class Admin
     {
         [Key]
         public int AdminId { get; set; }
@@ -19,6 +32,6 @@ namespace OnlineMedicineBookingApplication.Domain.Entities
         [MaxLength(50)]
         public string AdminPassword { get; set; }
 
-
     }
+    
 }

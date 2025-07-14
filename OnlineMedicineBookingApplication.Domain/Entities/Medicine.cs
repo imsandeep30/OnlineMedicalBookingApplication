@@ -8,6 +8,16 @@ using System.Threading.Tasks;
 
 namespace OnlineMedicineBookingApplication.Domain.Entities
 {
+    public class medicineworkneed
+    {
+        //adding medicine
+        //deleting medicine
+        //updating medicine
+        //viewing medicine
+        //filtering medicine
+        //searching medicine
+        public string[] Medicinework = { "//add medicine//update medicine//delete medicine//view all medicines//filter medicines" };
+    }
     public class Medicine
     {
         [Key]
@@ -36,5 +46,6 @@ namespace OnlineMedicineBookingApplication.Domain.Entities
 
         [StringLength(500)]
         public string Description { get; set; }
+        public bool presecptionRequired { get; set; } = false;
     }
 }

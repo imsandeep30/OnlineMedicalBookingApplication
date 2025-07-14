@@ -1,5 +1,7 @@
-﻿using System;
+﻿using OnlineMedicineBookingApplication.Domain.Entities;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,21 @@ using System.Threading.Tasks;
 
 namespace OnlineMedicineBookingApplication.Domain.Entities
 {
+    public class UserWork
+    {
+
+        string[] serviceswork = {
+         "add user","delete user", "view users", "view all users",
+        " update user",
+         "validate user login",
+         "reset user password",
+         "view cart call",
+        "update cart call",
+        "add to cart call",
+        "remove from cart call",
+        "view order status call"
+        };
+    }
     public class User
     {
         [Key]
