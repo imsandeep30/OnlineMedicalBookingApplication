@@ -17,6 +17,21 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
         {
             _context = new MedicineAppContext();
         }
+        public Task AddMedicine(Medicine medicine)
+        {
+            _context.Medicines.Add(medicine);
+            return _context.SaveChangesAsync();
+        }
+        public Task DeleteMedicine(int medicineId)
+        {
+            var medicine = _context.Medicines.FirstOrDefault(m => m.MedicineId == medicineId);
+            if (medicine != null)
+            {
+                _context.Medicines.Remove(medicine);
+                return _context.SaveChangesAsync();
+            }
+            return Task.CompletedTask;
+        }
 
         public async Task<List<Medicine>> GetAllAsync()
         {

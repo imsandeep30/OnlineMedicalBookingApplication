@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineMedicineBookingApplication.Infrastructure.DBContext;
 
@@ -11,9 +12,11 @@ using OnlineMedicineBookingApplication.Infrastructure.DBContext;
 namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
 {
     [DbContext(typeof(MedicineAppContext))]
-    partial class MedicineAppContextModelSnapshot : ModelSnapshot
+    [Migration("20250714045452_newMigration7")]
+    partial class newMigration7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -226,46 +229,6 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                             QuantityAvailable = 50,
                             presecptionRequired = false
                         });
-
-                });
-
-            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Order", b =>
-                {
-                    b.Property<int>("OrderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
-
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("OrderStatus")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("PaymentStatus")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("ShippingAddress")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<decimal>("TotalAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrderId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.User", b =>
@@ -307,17 +270,6 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                             UserPassword = "Test@123",
                             UserPhone = "7093454577"
                         });
-                });
-
-            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Order", b =>
-                {
-                    b.HasOne("OnlineMedicineBookingApplication.Domain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }
