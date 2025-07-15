@@ -9,8 +9,8 @@ namespace OnlineMedicineBookingApplication.Application.Models
     public class OrderRequestDTO
     {
         public int UserId { get; set; }
-       public string ShippingAddress { get; set; }
-        public string PaymentStatus { get; set; } 
+       public string? ShippingAddress { get; set; }
+        public string? PaymentStatus { get; set; } 
         public decimal TotalAmount { get; set; } 
     }
 }

@@ -7,7 +7,7 @@ using OnlineMedicineBookingApplication.Application.Models;
 using OnlineMedicineBookingApplication.Application.Services;
 using OnlineMedicineBookingApplication.Domain.Entities;
 using OnlineMedicineBookingApplication.Infrastructure.Contracts;
-using OnlineMedicineBookingApplication.Application.Models;
+//using OnlineMedicineBookingApplication.Application.Models;
 
 namespace OnlineMedicineBookingApplication.Application.Services
 {

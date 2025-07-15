@@ -54,8 +54,7 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
                 });
             }
 
-            cart.TotalPrice = cart.Items.Sum(i =>
-                i.Quantity * _context.Medicines.FirstOrDefault(m => m.MedicineId == i.MedicineId)?.Price ?? 0);
+            cart.TotalPrice = cart.Items.Sum(i =>i.Quantity * _context.Medicines.FirstOrDefault(m => m.MedicineId == i.MedicineId)?.Price ?? 0);
 
             await _context.SaveChangesAsync();
         }
