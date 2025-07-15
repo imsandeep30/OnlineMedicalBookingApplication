@@ -12,13 +12,12 @@ namespace OnlineMedicineBookingApplication.Application.Services
     public class UserService: IUserService
     {
         private readonly IUserContract _userRepository;
-        private readonly ICartRepository _cartRepository;
 
 
-        public UserService(IUserContract userRepository, ICartRepository cartRepository)
+        public UserService(IUserContract userRepository)
         {
             _userRepository = userRepository;
-            _cartRepository = cartRepository;
+       
         }
 
         public async Task<User> LoginAsync(UserDTO user)
@@ -39,10 +38,6 @@ namespace OnlineMedicineBookingApplication.Application.Services
         public Task UpdateUser(User user) => _userRepository.UpdateUser(user);
 
         public Task ResetUserPassword(int userId, string newPassword) => _userRepository.ResetPassword(userId, newPassword);
-
-        public Task<Cart> GetUserCart(int userId) => _cartRepository.GetCartByUserIdAsync(userId);
-
-
 
     }
 }
