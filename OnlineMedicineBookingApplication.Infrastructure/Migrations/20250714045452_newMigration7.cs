@@ -10,18 +10,18 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Pharmacists");
+            //migrationBuilder.DropTable(
+            //    name: "Pharmacists");
 
-            migrationBuilder.DropTable(
-                name: "Prescriptions");
+            //migrationBuilder.DropTable(
+            //    name: "Prescriptions");
 
-            migrationBuilder.AddColumn<bool>(
-                name: "presecptionRequired",
-                table: "Medicines",
-                type: "bit",
-                nullable: false,
-                defaultValue: false);
+            //migrationBuilder.AddColumn<bool>(
+            //    name: "presecptionRequired",
+            //    table: "Medicines",
+            //    type: "bit",
+            //    nullable: false,
+            //    defaultValue: false);
 
             migrationBuilder.UpdateData(
                 table: "Medicines",

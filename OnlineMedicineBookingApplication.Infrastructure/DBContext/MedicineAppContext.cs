@@ -21,7 +21,7 @@ namespace OnlineMedicineBookingApplication.Infrastructure.DBContext
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString = "Data Source=SREENITHA\\SQLEXPRESS;Initial Catalog=OnlineMedicineBooking;Integrated Security=True;Encrypt=False";
+            string connectionString = "Data Source=KAPIL-ASUS\\SQLEXPRESS1;Initial Catalog=OnlineMedicineBooking;Integrated Security=True;Encrypt=False;Trust Server Certificate=True";
             optionsBuilder.UseSqlServer(connectionString);
         }
 
