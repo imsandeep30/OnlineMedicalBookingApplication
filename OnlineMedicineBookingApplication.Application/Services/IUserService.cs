@@ -19,10 +19,5 @@ namespace OnlineMedicineBookingApplication.Application.Services
         Task UpdateUser(User user);
         Task ResetUserPassword(int userId, string newPassword);
 
-        Task<Cart> GetUserCart(int userId);
-
-        Task AddOrUpdateItemInCart(int userId, int medicineId, int quantity);
-
-        Task ClearCartAsync(int userId);
     }
 }
