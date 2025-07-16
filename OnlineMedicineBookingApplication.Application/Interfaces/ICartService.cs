@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OnlineMedicineBookingApplication.Application.Services
+namespace OnlineMedicineBookingApplication.Application.Interfaces
 {
     public interface ICartService
     {

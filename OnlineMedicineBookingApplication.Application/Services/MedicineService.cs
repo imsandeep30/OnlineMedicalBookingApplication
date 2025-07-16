@@ -7,6 +7,7 @@ using OnlineMedicineBookingApplication.Domain.Entities;
 using OnlineMedicineBookingApplication.Infrastructure.Contracts;
 using OnlineMedicineBookingApplication.Infrastructure.DBContext;
 using OnlineMedicineBookingApplication.Application.Models;
+using OnlineMedicineBookingApplication.Application.Interfaces;
 namespace OnlineMedicineBookingApplication.Application.Services
 {
     public class MedicineService : IMedicineService

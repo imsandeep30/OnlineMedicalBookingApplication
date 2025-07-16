@@ -1,4 +1,5 @@
-﻿using OnlineMedicineBookingApplication.Application.Models;
+﻿using OnlineMedicineBookingApplication.Application.Interfaces;
+using OnlineMedicineBookingApplication.Application.Models;
 using OnlineMedicineBookingApplication.Infrastructure.Contracts;
 using System;
 using System.Collections.Generic;

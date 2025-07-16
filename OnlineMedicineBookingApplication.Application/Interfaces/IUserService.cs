@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using OnlineMedicineBookingApplication.Application.Models;
 using OnlineMedicineBookingApplication.Domain.Entities;
 
-namespace OnlineMedicineBookingApplication.Application.Services
+namespace OnlineMedicineBookingApplication.Application.Interfaces
 {
     public interface IUserService
     {
