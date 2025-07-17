@@ -12,8 +12,8 @@ using OnlineMedicineBookingApplication.Infrastructure.DBContext;
 namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
 {
     [DbContext(typeof(MedicineAppContext))]
-    [Migration("20250715121406_NewSelected")]
-    partial class NewSelected
+    [Migration("20250717054153_DbMIgration")]
+    partial class DbMIgration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,47 +24,6 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Admin", b =>
-                {
-                    b.Property<int>("AdminId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdminId"));
-
-                    b.Property<string>("AdminEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AdminName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("AdminPassword")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("AdminPhone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("AdminId");
-
-                    b.ToTable("Admins");
-
-                    b.HasData(
-                        new
-                        {
-                            AdminId = 1,
-                            AdminEmail = "Admin@gmail.com",
-                            AdminName = "admin",
-                            AdminPassword = "Admin@123",
-                            AdminPhone = "7093454577"
-                        });
-                });
 
             modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Cart", b =>
                 {
@@ -326,6 +285,10 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UserEmail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -352,9 +315,19 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                         new
                         {
                             UserId = 1,
+                            Role = "User",
                             UserEmail = "User@gmail.com",
                             UserName = "user",
                             UserPassword = "Test@123",
+                            UserPhone = "7093454577"
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            Role = "Admin",
+                            UserEmail = "admin@gmial.com",
+                            UserName = "admin",
+                            UserPassword = "Admin@123",
                             UserPhone = "7093454577"
                         });
                 });

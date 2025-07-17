@@ -8,27 +8,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class NewSelected : Migration
+    public partial class DbMIgration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Admins",
-                columns: table => new
-                {
-                    AdminId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    AdminName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    AdminPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AdminEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AdminPassword = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Admins", x => x.AdminId);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Carts",
                 columns: table => new
@@ -72,7 +56,8 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                     UserName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     UserPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserPassword = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    UserPassword = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -131,11 +116,6 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Admins",
-                columns: new[] { "AdminId", "AdminEmail", "AdminName", "AdminPassword", "AdminPhone" },
-                values: new object[] { 1, "Admin@gmail.com", "admin", "Admin@123", "7093454577" });
-
-            migrationBuilder.InsertData(
                 table: "Medicines",
                 columns: new[] { "MedicineId", "Brand", "Description", "ExpiryDate", "ManufactureDate", "MedicineName", "Price", "QuantityAvailable", "presecptionRequired" },
                 values: new object[,]
@@ -154,8 +134,12 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "UserId", "UserEmail", "UserName", "UserPassword", "UserPhone" },
-                values: new object[] { 1, "User@gmail.com", "user", "Test@123", "7093454577" });
+                columns: new[] { "UserId", "Role", "UserEmail", "UserName", "UserPassword", "UserPhone" },
+                values: new object[,]
+                {
+                    { 1, "User", "User@gmail.com", "user", "Test@123", "7093454577" },
+                    { 2, "Admin", "admin@gmial.com", "admin", "Admin@123", "7093454577" }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_CartItems_CartId",
@@ -176,9 +160,6 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Admins");
-
             migrationBuilder.DropTable(
                 name: "CartItems");
 

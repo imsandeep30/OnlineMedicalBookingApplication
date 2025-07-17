@@ -24,6 +24,7 @@ namespace OnlineMedicineBookingApplication.Domain.Entities
         "remove from cart call",
         "view order status call"
         };
+
     }
     public class User
     {
@@ -41,5 +42,8 @@ namespace OnlineMedicineBookingApplication.Domain.Entities
         [Required(ErrorMessage = "User Password is required")]
         [MaxLength(50)]
         public string UserPassword { get; set; }
+
+        [Required]
+        public string Role { get; set; } = "User";
     }
 }

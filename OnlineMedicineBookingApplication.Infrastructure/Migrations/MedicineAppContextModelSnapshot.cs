@@ -22,47 +22,6 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Admin", b =>
-                {
-                    b.Property<int>("AdminId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdminId"));
-
-                    b.Property<string>("AdminEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AdminName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("AdminPassword")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("AdminPhone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("AdminId");
-
-                    b.ToTable("Admins");
-
-                    b.HasData(
-                        new
-                        {
-                            AdminId = 1,
-                            AdminEmail = "Admin@gmail.com",
-                            AdminName = "admin",
-                            AdminPassword = "Admin@123",
-                            AdminPhone = "7093454577"
-                        });
-                });
-
             modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Cart", b =>
                 {
                     b.Property<int>("CartId")
@@ -271,103 +230,48 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                             ManufactureDate = new DateTime(2025, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MedicineName = "Salbutamol Inhaler",
                             Price = 150.00m,
-                            QuantityAvailable = 50
+                            QuantityAvailable = 50,
+                            presecptionRequired = false
                         });
                 });
 
-            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Pharmacist", b =>
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Order", b =>
                 {
-                    b.Property<int>("PharmacistId")
+                    b.Property<int>("OrderId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PharmacistId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
 
-                    b.Property<bool>("IsApproved")
-                        .HasColumnType("bit");
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Location")
+                    b.Property<string>("OrderStatus")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("PharmacistEmail")
+                    b.Property<string>("PaymentStatus")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("PharmacistName")
+                    b.Property<string>("ShippingAddress")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("PharmacistPassword")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("PharmacistPhone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PharmacyName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("PharmacistId");
-
-                    b.ToTable("Pharmacists");
-
-                    b.HasData(
-                        new
-                        {
-                            PharmacistId = 1,
-                            IsApproved = true,
-                            Location = "Hyderabad",
-                            PharmacistEmail = "Pharamacist123@gmail.com",
-                            PharmacistName = "Pharmacist",
-                            PharmacistPassword = "Pharamacist@123",
-                            PharmacistPhone = "7093454577",
-                            PharmacyName = "Appolo"
-                        });
-                });
-
-            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Prescription", b =>
-                {
-                    b.Property<int>("PrescriptionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PrescriptionId"));
-
-                    b.Property<string>("FileName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FilePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("PrescriptionId");
+                    b.HasKey("OrderId");
 
-                    b.ToTable("Prescriptions");
+                    b.HasIndex("UserId");
 
-                    b.HasData(
-                        new
-                        {
-                            PrescriptionId = 1,
-                            FileName = "Prescription1.pdf",
-                            FilePath = "/prescriptions/Prescription1.pdf",
-                            Status = "Pending",
-                            UserId = 1
-                        });
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.User", b =>
@@ -377,6 +281,10 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserEmail")
                         .IsRequired()
@@ -404,9 +312,19 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                         new
                         {
                             UserId = 1,
+                            Role = "User",
                             UserEmail = "User@gmail.com",
                             UserName = "user",
                             UserPassword = "Test@123",
+                            UserPhone = "7093454577"
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            Role = "Admin",
+                            UserEmail = "admin@gmial.com",
+                            UserName = "admin",
+                            UserPassword = "Admin@123",
                             UserPhone = "7093454577"
                         });
                 });

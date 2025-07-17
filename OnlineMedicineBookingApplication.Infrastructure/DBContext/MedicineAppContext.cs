@@ -9,9 +9,6 @@ namespace OnlineMedicineBookingApplication.Infrastructure.DBContext
     public class MedicineAppContext : DbContext
     {
         public DbSet<User> Users { get; set; }
-        public DbSet<Admin> Admins { get; set; }
-
-       
         public DbSet<Medicine> Medicines { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Cart> Carts { get; set; }
@@ -22,7 +19,7 @@ namespace OnlineMedicineBookingApplication.Infrastructure.DBContext
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString = "Data Source=KAPIL-ASUS\\SQLEXPRESS1;Initial Catalog=OnlineMedicineBooking;Integrated Security=True;Encrypt=False;Trust Server Certificate=True";
+            string connectionString = "Data Source=IAM_MANIDEEP_\\SQLEXPRESS;Initial Catalog=OnlineMedicineBooking;Integrated Security=True;Encrypt=False";
             optionsBuilder.UseSqlServer(connectionString);
         }
 
@@ -38,19 +35,19 @@ namespace OnlineMedicineBookingApplication.Infrastructure.DBContext
                     UserPhone = "7093454577",
                     UserEmail = "User@gmail.com",
                     UserPassword = "Test@123",
+                    Role = "User",
+                },
+                new User
+                {
+                    UserId = 2,
+                    UserName = "admin",
+                    UserPhone = "7093454577",
+                    UserEmail = "admin@gmial.com",
+                    UserPassword = "Admin@123",
+                    Role = "Admin",
                 }
             );
 
-            modelBuilder.Entity<Admin>().HasData(
-                new Admin
-                {
-                    AdminId = 1,
-                    AdminName = "admin",
-                    AdminPhone = "7093454577",
-                    AdminEmail = "Admin@gmail.com",
-                    AdminPassword = "Admin@123",
-                }
-            );
             //modelBuilder.Entity<Pharmacist>().HasData(
             //       new Pharmacist
             //       {
