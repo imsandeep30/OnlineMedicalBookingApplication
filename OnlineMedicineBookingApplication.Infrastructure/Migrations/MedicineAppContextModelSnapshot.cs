@@ -223,49 +223,103 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                             ManufactureDate = new DateTime(2025, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MedicineName = "Salbutamol Inhaler",
                             Price = 150.00m,
-                            QuantityAvailable = 50,
-                            presecptionRequired = false
+                            QuantityAvailable = 50
                         });
-
                 });
 
-            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Order", b =>
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Pharmacist", b =>
                 {
-                    b.Property<int>("OrderId")
+                    b.Property<int>("PharmacistId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PharmacistId"));
 
-                    b.Property<DateTime>("OrderDate")
-                        .HasColumnType("datetime2");
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("OrderStatus")
+                    b.Property<string>("Location")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("PaymentStatus")
+                    b.Property<string>("PharmacistEmail")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ShippingAddress")
+                    b.Property<string>("PharmacistName")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<decimal>("TotalAmount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("PharmacistPassword")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("PharmacistPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PharmacyName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("PharmacistId");
+
+                    b.ToTable("Pharmacists");
+
+                    b.HasData(
+                        new
+                        {
+                            PharmacistId = 1,
+                            IsApproved = true,
+                            Location = "Hyderabad",
+                            PharmacistEmail = "Pharamacist123@gmail.com",
+                            PharmacistName = "Pharmacist",
+                            PharmacistPassword = "Pharamacist@123",
+                            PharmacistPhone = "7093454577",
+                            PharmacyName = "Appolo"
+                        });
+                });
+
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Prescription", b =>
+                {
+                    b.Property<int>("PrescriptionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PrescriptionId"));
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.HasKey("OrderId");
+                    b.HasKey("PrescriptionId");
 
-                    b.HasIndex("UserId");
+                    b.ToTable("Prescriptions");
 
-                    b.ToTable("Orders");
+                    b.HasData(
+                        new
+                        {
+                            PrescriptionId = 1,
+                            FileName = "Prescription1.pdf",
+                            FilePath = "/prescriptions/Prescription1.pdf",
+                            Status = "Pending",
+                            UserId = 1
+                        });
                 });
 
             modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.User", b =>
