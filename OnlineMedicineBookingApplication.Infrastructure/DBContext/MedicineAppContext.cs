@@ -14,14 +14,15 @@ namespace OnlineMedicineBookingApplication.Infrastructure.DBContext
        
         public DbSet<Medicine> Medicines { get; set; }
         public DbSet<Order> Orders { get; set; }
-
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
 
         //public DbSet<Pharmacist> Pharmacists { get; set; }
         //public DbSet<Prescription> Prescriptions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString = "Data Source=SREENITHA\\SQLEXPRESS;Initial Catalog=OnlineMedicineBooking;Integrated Security=True;Encrypt=False";
+            string connectionString = "Data Source=KAPIL-ASUS\\SQLEXPRESS1;Initial Catalog=OnlineMedicineBooking;Integrated Security=True;Encrypt=False;Trust Server Certificate=True";
             optionsBuilder.UseSqlServer(connectionString);
         }
 

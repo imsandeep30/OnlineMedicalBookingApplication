@@ -12,8 +12,8 @@ using OnlineMedicineBookingApplication.Infrastructure.DBContext;
 namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
 {
     [DbContext(typeof(MedicineAppContext))]
-    [Migration("20250714045452_newMigration7")]
-    partial class newMigration7
+    [Migration("20250715121406_NewSelected")]
+    partial class NewSelected
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,6 +64,54 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                             AdminPassword = "Admin@123",
                             AdminPhone = "7093454577"
                         });
+                });
+
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Cart", b =>
+                {
+                    b.Property<int>("CartId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartId"));
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CartId");
+
+                    b.ToTable("Carts");
+                });
+
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.CartItem", b =>
+                {
+                    b.Property<int>("CartItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartItemId"));
+
+                    b.Property<int>("CartId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MedicineId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CartItemId");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Medicine", b =>
@@ -231,6 +279,45 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Order", b =>
+                {
+                    b.Property<int>("OrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OrderStatus")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("PaymentStatus")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("ShippingAddress")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
+                });
+
             modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.User", b =>
                 {
                     b.Property<int>("UserId")
@@ -270,6 +357,37 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                             UserPassword = "Test@123",
                             UserPhone = "7093454577"
                         });
+                });
+
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.CartItem", b =>
+                {
+                    b.HasOne("OnlineMedicineBookingApplication.Domain.Entities.Cart", "Cart")
+                        .WithMany()
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineMedicineBookingApplication.Domain.Entities.Cart", null)
+                        .WithMany("Items")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Cart");
+                });
+
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Order", b =>
+                {
+                    b.HasOne("OnlineMedicineBookingApplication.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Cart", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

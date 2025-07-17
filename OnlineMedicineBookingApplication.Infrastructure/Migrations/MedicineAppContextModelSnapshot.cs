@@ -63,6 +63,54 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Cart", b =>
+                {
+                    b.Property<int>("CartId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartId"));
+
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CartId");
+
+                    b.ToTable("Carts");
+                });
+
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.CartItem", b =>
+                {
+                    b.Property<int>("CartItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartItemId"));
+
+                    b.Property<int>("CartId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MedicineId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CartItemId");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CartItems");
+                });
+
             modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Medicine", b =>
                 {
                     b.Property<int>("MedicineId")
@@ -363,6 +411,21 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.CartItem", b =>
+                {
+                    b.HasOne("OnlineMedicineBookingApplication.Domain.Entities.Cart", "Cart")
+                        .WithMany()
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineMedicineBookingApplication.Domain.Entities.Cart", null)
+                        .WithMany("Items")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Cart");
+                });
+
             modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Order", b =>
                 {
                     b.HasOne("OnlineMedicineBookingApplication.Domain.Entities.User", "User")
@@ -372,6 +435,11 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Cart", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

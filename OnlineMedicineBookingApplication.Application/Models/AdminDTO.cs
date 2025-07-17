@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace OnlineMedicineBookingApplication.Application.Models
 {
-    public class OrderStatusUpdateDTO
+    public class AdminDTO
     {
-        public int OrderId { get; set; }
-        public string? NewStatus { get; set; } 
+        public string AdminEmail { get; set; }
+        public string AdminPassword { get; set; }
     }
 }

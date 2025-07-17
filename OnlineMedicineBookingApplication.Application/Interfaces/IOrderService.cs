@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OnlineMedicineBookingApplication.Application.Models;
 
-namespace OnlineMedicineBookingApplication.Application.Services
+namespace OnlineMedicineBookingApplication.Application.Interfaces
 {
     public interface IOrderService
     {

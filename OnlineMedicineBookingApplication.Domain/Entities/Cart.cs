@@ -11,15 +11,15 @@ namespace OnlineMedicineBookingApplication.Domain.Entities
     public class Cart
     {
         [Key]
-        int CartId { get; set; }
+        public int CartId { get; set; }
         public int UserId { get; set; }
         [ForeignKey("UserId")]
-        public Dictionary<int, int> MedicineWithQuantity { get; set; }
+        public List<CartItem> Items { get; set; } = new List<CartItem>();
         public decimal TotalPrice { get; set; }
 
     }
-    public class cartworkneed
-    {
-        public string[] Cartwork = { "//add to cart//remove from cart//update cart//view cart" };
-    }
+    //public class cartworkneed
+    //{
+    //    public string[] Cartwork = { "//add to cart//remove from cart//update cart//view cart" };
+    //}
 }

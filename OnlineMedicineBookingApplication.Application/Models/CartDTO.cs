@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace OnlineMedicineBookingApplication.Application.Models
 {
-    public class OrderRequestDTO
+    public class CartDTO
     {
+        public int CartId { get; set; }
         public int UserId { get; set; }
-       public string? ShippingAddress { get; set; }
-        public string? PaymentStatus { get; set; } 
-        public decimal TotalAmount { get; set; } 
+        public required List<CartItemDTO> Items { get; set; }
+        public decimal TotalPrice { get; set; }
     }
 }
