@@ -9,8 +9,8 @@ namespace OnlineMedicineBookingApplication.Application.Interfaces
 {
     public interface IMedicineService
     {
-        Task AddMedicine(MedicineDTO medicine);
-        Task UpdateMedicine(MedicineDTO medicine);
+        Task<AddMedicineDTO> AddMedicine(AddMedicineDTO medicine);
+        Task<MedicineDTO> UpdateMedicine(MedicineDTO medicine);
         Task DeleteMedicine(string name);
 
         Task<List<MedicineDTO>> GetAllMedicinesAsync();

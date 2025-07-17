@@ -18,7 +18,7 @@ namespace OnlineMedicineBookingApplication.Application.Services
         {
             _medicineRepository = medicineRepository;
         }
-        public async Task AddMedicine(MedicineDTO medicineDto)
+        public async Task<AddMedicineDTO> AddMedicine(AddMedicineDTO medicineDto)
         {
             var medicine = new Medicine
             {
@@ -26,9 +26,13 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 Brand = medicineDto.Brand,
                 Price = medicineDto.Price,
                 QuantityAvailable = medicineDto.QuantityAvailable,
-                Description = medicineDto.Description
+                Description = medicineDto.Description,
+                ManufactureDate = medicineDto.ManufactureDate,
+                ExpiryDate = medicineDto.ExpiryDate,
+                presecptionRequired = medicineDto.presecptionRequired,
             };
             await _medicineRepository.AddMedicine(medicine);
+            return medicineDto;
         }
         public async Task DeleteMedicine(string name)
         {
@@ -43,7 +47,7 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 }
             }
         }
-        public async Task UpdateMedicine(MedicineDTO medicine)
+        public async Task<MedicineDTO> UpdateMedicine(MedicineDTO medicine)
         {
             var existingMedicine = await _medicineRepository.GetByIdAsync(medicine.MedicineId);
             if (existingMedicine == null)
@@ -57,6 +61,7 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 existingMedicine.Description = medicine.Description;
                 await _medicineRepository.DeleteMedicine(existingMedicine.MedicineId);
                 await _medicineRepository.AddMedicine(existingMedicine);
+                return medicine;
             }
         }
         public async Task<List<MedicineDTO>> GetAllMedicinesAsync()
@@ -83,6 +88,7 @@ namespace OnlineMedicineBookingApplication.Application.Services
             var med = await _medicineRepository.GetByIdAsync(id);
             return med != null ? MapToDTO(med) : null;
         }
+
 
         private MedicineDTO MapToDTO(Medicine m) => new MedicineDTO
         {

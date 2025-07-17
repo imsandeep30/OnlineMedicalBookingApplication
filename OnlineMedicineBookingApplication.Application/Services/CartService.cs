@@ -12,7 +12,6 @@ namespace OnlineMedicineBookingApplication.Application.Services
     public class CartService : ICartService
     {
         private readonly ICartRepository _cartRepository;
-
         public CartService(ICartRepository cartRepository)
         {
             _cartRepository = cartRepository;
