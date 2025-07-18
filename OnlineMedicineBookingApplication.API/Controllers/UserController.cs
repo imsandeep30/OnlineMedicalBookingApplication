@@ -26,15 +26,18 @@ namespace OnlineMedicineBookingApplication.API.Controllers
             return Ok(medicineDto);
         }
 
-        [HttpPost("update-medicine")]
-        public async Task<IActionResult> UpdateMedicineAsync([FromBody] MedicineDTO medicineDto)
+        [HttpPut("update-medicine/{id}")]
+        public async Task<IActionResult> UpdateMedicineAsync(int id, [FromBody] MedicineDTO medicineDto)
         {
-            if (medicineDto == null)
+            if (id != medicineDto.MedicineId)
             {
-                return BadRequest("Invalid medicine data.");
+                return BadRequest("Medicine ID mismatch.");
             }
-
             var updatedMedicine = await _medicineService.UpdateMedicine(medicineDto);
+            if (updatedMedicine == null)
+            {
+                return NotFound("Medicine not found.");
+            }
             return Ok(updatedMedicine);
         }
 
