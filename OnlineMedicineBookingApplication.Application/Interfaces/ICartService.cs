@@ -11,6 +11,7 @@ namespace OnlineMedicineBookingApplication.Application.Interfaces
     {
         Task<CartDTO> GetCartAsync(int userId);
         Task AddOrUpdateItemAsync(int userId, int medicineId, int quantity);
+        Task<CartDTO> RemoveItemAsync(int userId, int medicineId);
         Task ClearCartAsync(int userId);
     }
 }

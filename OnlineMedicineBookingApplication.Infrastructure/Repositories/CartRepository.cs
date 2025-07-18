@@ -59,6 +59,19 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<Cart> RemoveItemAsync(int userId, int medicineId)
+        {
+            var cart = await GetCartByUserIdAsync(userId);
+            var itemToRemove = cart.Items.FirstOrDefault(i => i.MedicineId == medicineId);
+            if (itemToRemove != null)
+            {
+                cart.Items.Remove(itemToRemove);
+                cart.TotalPrice = cart.Items.Sum(i => i.Quantity * _context.Medicines.FirstOrDefault(m => m.MedicineId == i.MedicineId)?.Price ?? 0);
+                await _context.SaveChangesAsync();
+            }
+            return cart;
+        }
+
         public async Task ClearCartAsync(int userId)
         {
             var cart = await GetCartByUserIdAsync(userId);

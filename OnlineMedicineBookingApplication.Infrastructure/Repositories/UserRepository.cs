@@ -14,9 +14,9 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
     {
         private readonly MedicineAppContext _context;
 
-        public UserRepository()
+        public UserRepository(MedicineAppContext context)
         {
-            _context = new MedicineAppContext();
+            _context = context;
         }
 
         public async Task<User> GetUserByEmailAndPassword(string email, string password)

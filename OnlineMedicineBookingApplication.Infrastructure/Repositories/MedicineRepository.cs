@@ -12,10 +12,9 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
     public class MedicineRepository : IMedicineContract
     {
         private readonly MedicineAppContext _context;
-        
-        public MedicineRepository()
+        public MedicineRepository(MedicineAppContext context)
         {
-            _context = new MedicineAppContext();
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
         public Task AddMedicine(Medicine medicine)
         {

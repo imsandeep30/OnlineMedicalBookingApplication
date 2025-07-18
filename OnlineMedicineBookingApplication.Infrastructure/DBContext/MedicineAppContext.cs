@@ -17,10 +17,9 @@ namespace OnlineMedicineBookingApplication.Infrastructure.DBContext
         //public DbSet<Pharmacist> Pharmacists { get; set; }
         //public DbSet<Prescription> Prescriptions { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public MedicineAppContext(DbContextOptions<MedicineAppContext> options)
+        : base(options)
         {
-            string connectionString = "Data Source=IAM_MANIDEEP_\\SQLEXPRESS;Initial Catalog=OnlineMedicineBooking;Integrated Security=True;Encrypt=False";
-            optionsBuilder.UseSqlServer(connectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

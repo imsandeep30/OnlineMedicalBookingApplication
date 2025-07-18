@@ -11,6 +11,7 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Contracts
     {
         Task<Cart> GetCartByUserIdAsync(int userId);
         Task AddOrUpdateItemAsync(int userId, int medicineId, int quantity);
+        Task<Cart> RemoveItemAsync(int userId, int medicineId);
         Task ClearCartAsync(int userId);
         Task SaveChangesAsync();
     }

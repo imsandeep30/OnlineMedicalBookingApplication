@@ -42,5 +42,20 @@ namespace OnlineMedicineBookingApplication.Application.Services
         {
             await _cartRepository.ClearCartAsync(userId);
         }
+        public async Task<CartDTO> RemoveItemAsync(int userId, int medicineId)
+        {
+            var cart = await _cartRepository.RemoveItemAsync(userId, medicineId);
+            return new CartDTO
+            {
+                CartId = cart.CartId,
+                UserId = cart.UserId,
+                TotalPrice = cart.TotalPrice,
+                Items = cart.Items.Select(i => new CartItemDTO
+                {
+                    MedicineId = i.MedicineId,
+                    Quantity = i.Quantity
+                }).ToList()
+            };
+        }
     }
 }

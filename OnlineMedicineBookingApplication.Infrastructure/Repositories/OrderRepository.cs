@@ -13,9 +13,9 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
     public class OrderRepository : IOrderContract
     {
         private readonly MedicineAppContext _context;
-        public OrderRepository()
+        public OrderRepository(MedicineAppContext context)
         {
-            _context = new MedicineAppContext();
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
         public async Task AddOrderAsync(Order order)
         {
