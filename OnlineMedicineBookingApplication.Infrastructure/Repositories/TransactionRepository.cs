@@ -9,9 +9,9 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
     {
         private readonly MedicineAppContext _context;
 
-        public TransactionRepository()
+        public TransactionRepository(MedicineAppContext context)
         {
-            _context = new MedicineAppContext(); 
+            _context = context; 
         }
 
         public async Task AddTransactionAsync(Transaction transaction)
