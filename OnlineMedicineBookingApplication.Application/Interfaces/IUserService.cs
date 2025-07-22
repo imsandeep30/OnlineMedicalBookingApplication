@@ -12,11 +12,11 @@ namespace OnlineMedicineBookingApplication.Application.Interfaces
     {
         Task<User> LoginAsync(UserDTO user);
 
-        Task RegisterAsync(User user);
+        Task RegisterAsync(UserRegisterDTO userRegisterDTO);
         Task<User> GetUserProfile(int id);
         Task<List<User>> GetAllUsers();
         Task DeleteUser(int id);
-        Task UpdateUser(User user);
+        Task UpdateUser(UserUpdateDTO user);
         Task ResetUserPassword(int userId, string newPassword);
 
     }

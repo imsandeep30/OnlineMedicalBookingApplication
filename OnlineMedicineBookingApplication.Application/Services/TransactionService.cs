@@ -30,6 +30,10 @@ namespace OnlineMedicineBookingApplication.Application.Services
         public async Task<List<TransactionResponseDto>> GetAllTransactionsAsync()
         {
             var transactions = await _repository.GetAllTransactionsAsync();
+            if (transactions.Count == 0)
+            {
+                return null;
+            }
             return transactions.Select(txn => new TransactionResponseDto
             {
                 TransactionId = txn.TransactionId,
