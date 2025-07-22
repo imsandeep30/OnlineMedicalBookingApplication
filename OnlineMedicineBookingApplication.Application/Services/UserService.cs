@@ -26,9 +26,17 @@ namespace OnlineMedicineBookingApplication.Application.Services
             return await _userRepository.GetUserByEmailAndPassword(user.UserEmail, user.UserPassword);
         }
 
-        public async Task RegisterAsync(User user)
+        public async Task RegisterAsync(UserRegisterDTO user)
         {
-            await _userRepository.AddUser(user);
+            var newUser = new User
+            {
+                UserName = user.UserName,
+                UserEmail = user.UserEmail,
+                UserPassword = user.UserPassword,
+                UserPhone = user.UserPhone,
+                Role = user.Role,
+            };
+            await _userRepository.AddUserAsync(newUser);
         }
         public Task<User> GetUserProfile(int id) => _userRepository.GetUserById(id);
 
@@ -36,7 +44,18 @@ namespace OnlineMedicineBookingApplication.Application.Services
 
         public Task DeleteUser(int id) => _userRepository.DeleteUser(id);
 
-        public Task UpdateUser(User user) => _userRepository.UpdateUser(user);
+        public Task UpdateUser(UserUpdateDTO userUpdateDTO)
+        {
+            var user = new User
+            {
+                UserName = userUpdateDTO.Name,
+                UserEmail = userUpdateDTO.Email,
+                UserPhone = userUpdateDTO.PhoneNumber,
+                UserPassword = userUpdateDTO.Password,
+                Role = userUpdateDTO.Role,
+            };
+            return _userRepository.UpdateUser(user);
+        }
 
         public Task ResetUserPassword(int userId, string newPassword) => _userRepository.ResetPassword(userId, newPassword);
 

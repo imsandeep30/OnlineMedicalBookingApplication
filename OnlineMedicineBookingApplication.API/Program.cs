@@ -28,6 +28,9 @@ namespace OnlineMedicineBookingApplication.API
             //Cart Service and Repository
             builder.Services.AddScoped<ICartService, CartService>();
             builder.Services.AddScoped<ICartRepository, CartRepository>();
+            //User Service and Repository
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IUserContract, UserRepository>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

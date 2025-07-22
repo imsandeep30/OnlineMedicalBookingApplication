@@ -23,7 +23,7 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == email && u.UserPassword == password);
         }
-        public async Task AddUser(User user)
+        public async Task AddUserAsync(User user)
         {
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
