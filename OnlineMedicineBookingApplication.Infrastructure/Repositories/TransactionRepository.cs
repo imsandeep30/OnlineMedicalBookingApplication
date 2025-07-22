@@ -12,11 +12,10 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
 
         public TransactionRepository(MedicineAppContext context)
         {
-<<<<<<< HEAD
             _context = context;
-=======
+
             _context = context; 
->>>>>>> e69256bc966d438776dd72df19349d22c2f8f64f
+
         }
 
         public async Task AddTransactionAsync(Transaction transaction)

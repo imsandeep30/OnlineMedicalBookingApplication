@@ -18,6 +18,7 @@ namespace OnlineMedicineBookingApplication.Application.Services
         {
             _orderRepository = orderRepository;
         }
+        // Add a new order and return its ID
         public async Task<int> AddOrderAsync(OrderRequestDTO orderDto)
         {
             var order = new Order
@@ -31,6 +32,7 @@ namespace OnlineMedicineBookingApplication.Application.Services
             await _orderRepository.SaveChangesAsync();
             return order.OrderId;
         }
+        // Get all orders placed by a specific user
         public async Task<IEnumerable<OrderResponseDTO>> GetOrdersByUserIdAsync(int userId)
         {
             var orders = await _orderRepository.GetOrdersByUserIdAsync(userId);
@@ -45,6 +47,7 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 TotalAmount = o.TotalAmount
             });
         }
+        // Get all orders by the admin
         public async Task<IEnumerable<OrderResponseDTO>> GetAllOrdersAsync()
         {
             var orders = await _orderRepository.GetAllOrdersAsync();
@@ -59,6 +62,7 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 TotalAmount = o.TotalAmount
             });
         }
+        // Get a specific order by its ID
         public async Task<OrderResponseDTO> GetOrderByIdAsync(int orderId)
         {
             var order = await _orderRepository.GetOrderByIdAsync(orderId);
@@ -74,28 +78,29 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 TotalAmount = order.TotalAmount
             };
         }
+        // Update the status of an existing order
         public async Task<bool> UpdateOrderStatusAsyc(OrderStatusUpdateDTO statusDto)
         {
             await _orderRepository.UpdateOrderStatusAsync(statusDto.OrderId, statusDto.NewStatus);
             await _orderRepository.SaveChangesAsync();
             return true;
         }
+        // Update the details of an existing order by a specific user
         public async Task<bool> UpdateOrderAsync(OrderUpdateDTO updateDto)
         {
-            var order = new Order
-            {
-                OrderId = updateDto.OrderId,
-                ShippingAddress = updateDto.ShippingAddress,
-                PaymentStatus = updateDto.PaymentStatus,
-                TotalAmount = updateDto.TotalAmount
-            };
-            var updated = await _orderRepository.UpdateOrderAsync(order);
-            if (updated)
+           var existingOrder=await _orderRepository.GetOrderByIdAsync(updateDto.OrderId);
+            if (existingOrder == null) return false;
+            existingOrder.ShippingAddress = updateDto.ShippingAddress;
+            existingOrder.PaymentStatus = updateDto.PaymentStatus;
+            existingOrder.TotalAmount = updateDto.TotalAmount;
+            var updated=await _orderRepository.UpdateOrderAsync(existingOrder);
+            if(updated)
             {
                 await _orderRepository.SaveChangesAsync();
             }
             return updated;
         }
+        // Cancel an order (delete it from the system)
         public async Task<bool> CancelOrderAsync(int orderId)
         {
             var canceled = await _orderRepository.CancelOrderAsync(orderId);
