@@ -12,8 +12,8 @@ using OnlineMedicineBookingApplication.Infrastructure.DBContext;
 namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
 {
     [DbContext(typeof(MedicineAppContext))]
-    [Migration("20250717110735_migr1")]
-    partial class migr1
+    [Migration("20250722063536_medicinedata")]
+    partial class medicinedata
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

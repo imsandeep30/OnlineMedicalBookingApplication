@@ -274,6 +274,34 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Transaction", b =>
+                {
+                    b.Property<int>("TransactionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionId"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("TransactionDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("TransactionId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("Transactions");
+                });
+
             modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.User", b =>
                 {
                     b.Property<int>("UserId")
@@ -353,6 +381,17 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Transaction", b =>
+                {
+                    b.HasOne("OnlineMedicineBookingApplication.Domain.Entities.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Cart", b =>

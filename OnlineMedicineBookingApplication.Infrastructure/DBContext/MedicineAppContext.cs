@@ -13,6 +13,7 @@ namespace OnlineMedicineBookingApplication.Infrastructure.DBContext
         public DbSet<Order> Orders { get; set; }
         public DbSet<Cart> Carts { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
 
         //public DbSet<Pharmacist> Pharmacists { get; set; }
         //public DbSet<Prescription> Prescriptions { get; set; }
