@@ -22,7 +22,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
                 return BadRequest(ModelState);
             }
             var orderId = await _orderService.AddOrderAsync(orderDto);
-            return Ok(orderId);
+            return Ok(orderDto);
         }
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetOrdersByUserId(int userId)
@@ -44,7 +44,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
             }
             return Ok(orders);
         }
-        [HttpGet("Get/OrderId")]
+        [HttpGet("GetByOrderId")]
         public async Task<IActionResult> GetOrderById(int orderId)
         {
             var order = await _orderService.GetOrderByIdAsync(orderId);
@@ -68,7 +68,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
             }
             return Ok("Order status updated successfully.");
         }
-        [HttpPut]
+        [HttpPut("OrderUpdate")]
         public async Task<IActionResult> UpdateOrder([FromBody] OrderUpdateDTO updateDto)
         {
             if (!ModelState.IsValid)

@@ -26,7 +26,8 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 UserId = orderDto.UserId,
                 ShippingAddress = orderDto.ShippingAddress,
                 TotalAmount = orderDto.TotalAmount,
-                PaymentStatus = orderDto.PaymentStatus
+                PaymentStatus = orderDto.PaymentStatus,
+                 OrderStatus = "Pending"
             };
             await _orderRepository.AddOrderAsync(order);
             await _orderRepository.SaveChangesAsync();
