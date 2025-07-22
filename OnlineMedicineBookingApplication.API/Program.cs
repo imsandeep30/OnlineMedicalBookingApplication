@@ -31,6 +31,9 @@ namespace OnlineMedicineBookingApplication.API
             //User Service and Repository
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IUserContract, UserRepository>();
+            //Transaction Service and Repository
+            builder.Services.AddScoped<ITransactionService, TransactionService>();
+            builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
