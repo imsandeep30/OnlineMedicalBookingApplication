@@ -31,6 +31,7 @@ namespace OnlineMedicineBookingApplication.Application.Services
 
             var order = new Order
             {
+<<<<<<< HEAD
                 UserId = dto.UserId,
                 ShippingAddress = dto.ShippingAddress,
                 TotalAmount = cart.TotalPrice,
@@ -60,6 +61,13 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 PaymentStatus = orderResult.PaymentStatus,
                 OrderStatus = orderResult.OrderStatus,
                 TotalAmount = orderResult.TotalAmount
+=======
+                UserId = orderDto.UserId,
+                ShippingAddress = orderDto.ShippingAddress,
+                TotalAmount = orderDto.TotalAmount,
+                PaymentStatus = orderDto.PaymentStatus,
+                 OrderStatus = "Pending"
+>>>>>>> ec96fd80ccd5c4fc843b14bd2dff4963762eccf6
             };
         }
 
