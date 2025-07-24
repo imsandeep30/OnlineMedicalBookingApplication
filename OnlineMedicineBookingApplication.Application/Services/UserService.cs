@@ -1,5 +1,5 @@
 ﻿using OnlineMedicineBookingApplication.Application.Interfaces;
-using OnlineMedicineBookingApplication.Application.Models;
+using OnlineMedicineBookingApplication.Application.Models.UserDTOS;
 using OnlineMedicineBookingApplication.Domain.Entities;
 using OnlineMedicineBookingApplication.Infrastructure.Contracts;
 using System;
@@ -13,12 +13,12 @@ namespace OnlineMedicineBookingApplication.Application.Services
     public class UserService: IUserService
     {
         private readonly IUserContract _userRepository;
+        private readonly ICartContract _cartRepository;
 
-
-        public UserService(IUserContract userRepository)
+        public UserService(IUserContract userRepository,ICartContract cartRepository)
         {
             _userRepository = userRepository;
-       
+            _cartRepository = cartRepository;
         }
 
         public async Task<User> LoginAsync(UserDTO user)
@@ -37,6 +37,13 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 Role = user.Role,
             };
             await _userRepository.AddUserAsync(newUser);
+            var newCart = new Cart
+            {
+                UserId = newUser.UserId,
+                Items = new List<CartItem>(),
+                TotalPrice = 0,
+            };
+            await _cartRepository.DefaultCart(newCart);
         }
         public Task<User> GetUserProfile(int id) => _userRepository.GetUserById(id);
 

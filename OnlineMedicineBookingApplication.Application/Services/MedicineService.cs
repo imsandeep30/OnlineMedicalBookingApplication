@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using OnlineMedicineBookingApplication.Domain.Entities;
 using OnlineMedicineBookingApplication.Infrastructure.Contracts;
 using OnlineMedicineBookingApplication.Infrastructure.DBContext;
-using OnlineMedicineBookingApplication.Application.Models;
 using OnlineMedicineBookingApplication.Application.Interfaces;
+using OnlineMedicineBookingApplication.Application.Models.MedicineDTOS;
 namespace OnlineMedicineBookingApplication.Application.Services
 {
     public class MedicineService : IMedicineService
@@ -82,7 +82,6 @@ namespace OnlineMedicineBookingApplication.Application.Services
 
             return medicines.Select(MapToDTO).ToList();
         }
-
         public async Task<MedicineDTO?> GetMedicineByIdAsync(int id)
         {
             var med = await _medicineRepository.GetByIdAsync(id);

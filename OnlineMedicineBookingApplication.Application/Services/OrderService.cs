@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OnlineMedicineBookingApplication.Application.Interfaces;
-using OnlineMedicineBookingApplication.Application.Models;
+using OnlineMedicineBookingApplication.Application.Models.OrderDTOS;
 using OnlineMedicineBookingApplication.Domain.Entities;
 using OnlineMedicineBookingApplication.Infrastructure.Contracts;
 //using OnlineMedicineBookingApplication.Application.Models;
@@ -13,25 +13,56 @@ namespace OnlineMedicineBookingApplication.Application.Services
 {
     public class OrderService : IOrderService
     {
+        private readonly ICartContract _cartRepository;
         private readonly IOrderContract _orderRepository;
-        public OrderService(IOrderContract orderRepository)
+        public OrderService(IOrderContract orderRepository, ICartContract cartRepository)
         {
             _orderRepository = orderRepository;
+            _cartRepository = cartRepository;
         }
         // Add a new order and return its ID
-        public async Task<int> AddOrderAsync(OrderRequestDTO orderDto)
+        public async Task<OrderResponseDTO> AddOrderAsync(OrderUserRequestDTO dto)
         {
+            var cart = await _cartRepository.GetCartByUserIdAsync(dto.UserId);
+            if (cart == null || !cart.Items.Any())
+            {
+                throw new InvalidOperationException("Cart is empty or does not exist.");
+            }
+
             var order = new Order
             {
-                UserId = orderDto.UserId,
-                ShippingAddress = orderDto.ShippingAddress,
-                TotalAmount = orderDto.TotalAmount,
-                PaymentStatus = orderDto.PaymentStatus
+                UserId = dto.UserId,
+                ShippingAddress = dto.ShippingAddress,
+                TotalAmount = cart.TotalPrice,
+                PaymentStatus = "Pending",
+                OrderStatus = "Pending",
+                OrderItems = cart.Items.Select(item => new OrderItem
+                {
+                    MedicineId = item.MedicineId,
+                    Quantity = item.Quantity,
+                    Price = item.Price
+                }).ToList(),
             };
-            await _orderRepository.AddOrderAsync(order);
-            await _orderRepository.SaveChangesAsync();
-            return order.OrderId;
+
+            var orderResult = await _orderRepository.AddOrderAsync(order);
+            if (orderResult == null)
+            {
+                throw new InvalidOperationException("Failed to place order.");
+            }
+            // Clear the cart after placing the order
+            await _cartRepository.ClearCartAsync(dto.UserId);
+            return new OrderResponseDTO
+            {
+                OrderId = orderResult.OrderId,
+                UserId = orderResult.UserId,
+                OrderDate = orderResult.OrderDate,
+                ShippingAddress = orderResult.ShippingAddress,
+                PaymentStatus = orderResult.PaymentStatus,
+                OrderStatus = orderResult.OrderStatus,
+                TotalAmount = orderResult.TotalAmount
+            };
         }
+
         // Get all orders placed by a specific user
         public async Task<IEnumerable<OrderResponseDTO>> GetOrdersByUserIdAsync(int userId)
         {
@@ -88,13 +119,13 @@ namespace OnlineMedicineBookingApplication.Application.Services
         // Update the details of an existing order by a specific user
         public async Task<bool> UpdateOrderAsync(OrderUpdateDTO updateDto)
         {
-           var existingOrder=await _orderRepository.GetOrderByIdAsync(updateDto.OrderId);
+            var existingOrder = await _orderRepository.GetOrderByIdAsync(updateDto.OrderId);
             if (existingOrder == null) return false;
             existingOrder.ShippingAddress = updateDto.ShippingAddress;
             existingOrder.PaymentStatus = updateDto.PaymentStatus;
             existingOrder.TotalAmount = updateDto.TotalAmount;
-            var updated=await _orderRepository.UpdateOrderAsync(existingOrder);
-            if(updated)
+            var updated = await _orderRepository.UpdateOrderAsync(existingOrder);
+            if (updated)
             {
                 await _orderRepository.SaveChangesAsync();
             }

@@ -1,4 +1,4 @@
-﻿using OnlineMedicineBookingApplication.Application.Models;
+﻿using OnlineMedicineBookingApplication.Application.Models.CartDTOS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +13,6 @@ namespace OnlineMedicineBookingApplication.Application.Interfaces
         Task AddOrUpdateItemAsync(int userId, int medicineId, int quantity);
         Task<CartDTO> RemoveItemAsync(int userId, int medicineId);
         Task ClearCartAsync(int userId);
+        Task<bool> PlaceOrderFromCartAsync(int userId, string shippingAddress);
     }
 }

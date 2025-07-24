@@ -1,38 +1,41 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.SqlServer;
 using OnlineMedicineBookingApplication.Domain.Entities;
 using OnlineMedicineBookingApplication.Infrastructure.Contracts;
 using OnlineMedicineBookingApplication.Infrastructure.DBContext;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
 {
-    public class CartRepository : ICartRepository
+    public class CartRepository : ICartContract
     {
         private readonly MedicineAppContext _context;
+        private readonly UserRepository _userRepository;
 
         public CartRepository(MedicineAppContext context)
         {
             _context = context;
         }
+        public async Task DefaultCart(Cart cart)
+        {
+            if (cart == null)
+            {
+                throw new ArgumentNullException(nameof(cart), "Cart cannot be null.");
+            }
+            _context.Carts.Add(cart);
+            await _context.SaveChangesAsync();
+        }
 
         public async Task<Cart> GetCartByUserIdAsync(int userId)
         {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+            {
+                throw new ArgumentException($"No user found with ID {userId}", nameof(userId));
+            }
             var cart = await _context.Carts
                 .Include(c => c.Items)
                 .FirstOrDefaultAsync(c => c.UserId == userId);
-
-            if (cart == null)
-            {
-                cart = new Cart { UserId = userId };
-                _context.Carts.Add(cart);
-                await _context.SaveChangesAsync();
-            }
-
             return cart;
         }
 
@@ -49,12 +52,15 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
             {
                 cart.Items.Add(new CartItem
                 {
+                    CartId = cart.CartId, 
                     MedicineId = medicineId,
-                    Quantity = quantity
+                    Quantity = quantity,
+                    Price = _context.Medicines.FirstOrDefault(m => m.MedicineId == medicineId)?.Price ?? 0
                 });
             }
 
-            cart.TotalPrice = cart.Items.Sum(i =>i.Quantity * _context.Medicines.FirstOrDefault(m => m.MedicineId == i.MedicineId)?.Price ?? 0);
+            cart.TotalPrice = cart.Items.Sum(i =>
+                i.Quantity * (_context.Medicines.FirstOrDefault(m => m.MedicineId == i.MedicineId)?.Price ?? 0));
 
             await _context.SaveChangesAsync();
         }
@@ -66,7 +72,9 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
             if (itemToRemove != null)
             {
                 cart.Items.Remove(itemToRemove);
-                cart.TotalPrice = cart.Items.Sum(i => i.Quantity * _context.Medicines.FirstOrDefault(m => m.MedicineId == i.MedicineId)?.Price ?? 0);
+                cart.TotalPrice = cart.Items.Sum(i =>
+                    i.Quantity * (_context.Medicines.FirstOrDefault(m => m.MedicineId == i.MedicineId)?.Price ?? 0));
+
                 await _context.SaveChangesAsync();
             }
             return cart;

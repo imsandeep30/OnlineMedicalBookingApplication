@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnlineMedicineBookingApplication.Application.Interfaces;
-using OnlineMedicineBookingApplication.Application.Models;
+using OnlineMedicineBookingApplication.Application.Models.TransactionDTOS;
 using OnlineMedicineBookingApplication.Application.Services;
 namespace OnlineMedicineBookingApplication.API.Controllers
 {
@@ -21,8 +21,13 @@ namespace OnlineMedicineBookingApplication.API.Controllers
             {
                 return BadRequest("Transaction data cannot be null.");
             }
-            await _transactionService.AddTransactionAsync(transactionDto);
-            return Ok("Transaction added successfully.");
+
+            var result = await _transactionService.AddTransactionAsync(transactionDto);
+
+            if (result == null)
+                return BadRequest("Transaction failed. Order not placed.");
+
+            return Ok(result); // returns transaction + order info
         }
         [HttpGet("AllTransactions")]
         public async Task<IActionResult> GetAllTransactions()

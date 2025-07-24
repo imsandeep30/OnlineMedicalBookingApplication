@@ -2,9 +2,9 @@
 
 namespace OnlineMedicineBookingApplication.Infrastructure.Contracts
 {
-    public interface ITransactionRepository
+    public interface ITransactionContract
     {
-        Task AddTransactionAsync(Transaction transaction);
+        Task<Transaction> AddTransactionAsync(Transaction transaction);
         Task<List<Transaction>> GetAllTransactionsAsync();
     }
 }

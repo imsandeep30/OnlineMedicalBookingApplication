@@ -1,10 +1,10 @@
-﻿using OnlineMedicineBookingApplication.Application.Models;
+﻿using OnlineMedicineBookingApplication.Application.Models.TransactionDTOS;
 
 namespace OnlineMedicineBookingApplication.Application.Services
 {
     public interface ITransactionService
     {
-        Task AddTransactionAsync(TransactionDto dto);
+        Task<TransactionResponseDto> AddTransactionAsync(TransactionDto dto);
         Task<List<TransactionResponseDto>> GetAllTransactionsAsync();
     }
 }

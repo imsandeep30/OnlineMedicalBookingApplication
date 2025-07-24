@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace OnlineMedicineBookingApplication.Application.Models
+namespace OnlineMedicineBookingApplication.Application.Models.CartDTOS
 {
     public class CartDTO
     {

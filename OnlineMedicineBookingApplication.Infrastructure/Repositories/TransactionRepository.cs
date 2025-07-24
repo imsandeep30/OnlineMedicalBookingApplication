@@ -6,7 +6,7 @@ using OnlineMedicineBookingApplication.Infrastructure.Repositories;
 
 namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
 {
-    public class TransactionRepository : ITransactionRepository
+    public class TransactionRepository : ITransactionContract
     {
         private readonly MedicineAppContext _context;
 
@@ -14,15 +14,27 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
         {
             _context = context;
 
-            _context = context; 
 
         }
 
-        public async Task AddTransactionAsync(Transaction transaction)
+        public async Task<Transaction> AddTransactionAsync(Transaction transaction)
         {
+            var order = await _context.Orders.Include(o => o.OrderItems)
+                                             .FirstOrDefaultAsync(o => o.OrderId == transaction.OrderId);
+
+            if (order == null) throw new ArgumentException("Order not found");
+
+            if (order.PaymentStatus != "Completed")
+            {
+                order.PaymentStatus = "Completed";
+                order.OrderStatus = "Confirmed";
+            }
+
             _context.Transactions.Add(transaction);
             await _context.SaveChangesAsync();
+            return transaction;
         }
+
 
         public async Task<List<Transaction>> GetAllTransactionsAsync()
         {

@@ -17,21 +17,12 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
-        public async Task AddOrderAsync(Order order)
+        public async Task<Order> AddOrderAsync(Order order)
         {
             await _context.Orders.AddAsync(order);
-
+            int k=await _context.SaveChangesAsync();
+            return k>0 ? order : null;
         }
-        //public async Task AddTransactionIfPaymentCompletedAsync(Order order)
-        //{
-        //    // Logic to add transaction if payment status is completed
-        //    if (order.PaymentStatus == "Completed")
-        //    {
-        //        // Add transaction logic here
-
-        //        await _context.SaveChangesAsync();
-        //    }
-        //}
         public async Task<IEnumerable<Order>> GetOrdersByUserIdAsync(int userId)
         {
             return await _context.Orders.Where(o => o.UserId == userId).ToListAsync();

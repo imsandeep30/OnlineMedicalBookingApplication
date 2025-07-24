@@ -1,21 +1,24 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnlineMedicineBookingApplication.Application.Interfaces;
-using OnlineMedicineBookingApplication.Application.Models;
+using OnlineMedicineBookingApplication.Application.Models.OrderDTOS;
 
 namespace OnlineMedicineBookingApplication.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    //orderController
     public class OrderController : ControllerBase
     {
+        //Injecting the Order Service Interface
         private readonly IOrderService _orderService;
+        //dependency Injection
         public OrderController(IOrderService orderService)
         {
             _orderService = orderService;
         }
         [HttpPost("place-order")]
-        public async Task<IActionResult> CreateOrder([FromBody] OrderRequestDTO orderDto)
+        public async Task<IActionResult> CreateOrder([FromBody] OrderUserRequestDTO orderDto)
         {
             if(!ModelState.IsValid)
             {

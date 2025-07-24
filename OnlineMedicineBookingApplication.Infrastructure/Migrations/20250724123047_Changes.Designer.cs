@@ -12,8 +12,8 @@ using OnlineMedicineBookingApplication.Infrastructure.DBContext;
 namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
 {
     [DbContext(typeof(MedicineAppContext))]
-    [Migration("20250722063536_medicinedata")]
-    partial class medicinedata
+    [Migration("20250724123047_Changes")]
+    partial class Changes
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,6 +57,9 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
 
                     b.Property<int>("MedicineId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
@@ -277,6 +280,33 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                     b.ToTable("Orders");
                 });
 
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.OrderItem", b =>
+                {
+                    b.Property<int>("OrderItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderItemId"));
+
+                    b.Property<int>("MedicineId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderItemId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderItems");
+                });
+
             modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Transaction", b =>
                 {
                     b.Property<int>("TransactionId")
@@ -386,6 +416,17 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.OrderItem", b =>
+                {
+                    b.HasOne("OnlineMedicineBookingApplication.Domain.Entities.Order", "Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Transaction", b =>
                 {
                     b.HasOne("OnlineMedicineBookingApplication.Domain.Entities.Order", "Order")
@@ -400,6 +441,11 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
             modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Cart", b =>
                 {
                     b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Order", b =>
+                {
+                    b.Navigation("OrderItems");
                 });
 #pragma warning restore 612, 618
         }

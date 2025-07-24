@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnlineMedicineBookingApplication.Application.Interfaces;
-using OnlineMedicineBookingApplication.Application.Models;
+using OnlineMedicineBookingApplication.Application.Models.MedicineDTOS;
 
 namespace OnlineMedicineBookingApplication.API.Controllers
 {

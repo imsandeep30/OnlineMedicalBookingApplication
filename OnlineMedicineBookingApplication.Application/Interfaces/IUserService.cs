@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OnlineMedicineBookingApplication.Application.Models;
+using OnlineMedicineBookingApplication.Application.Models.UserDTOS;
 using OnlineMedicineBookingApplication.Domain.Entities;
 
 namespace OnlineMedicineBookingApplication.Application.Interfaces

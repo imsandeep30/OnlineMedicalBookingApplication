@@ -27,13 +27,13 @@ namespace OnlineMedicineBookingApplication.API
             builder.Services.AddScoped<IMedicineContract, MedicineRepository>();
             //Cart Service and Repository
             builder.Services.AddScoped<ICartService, CartService>();
-            builder.Services.AddScoped<ICartRepository, CartRepository>();
+            builder.Services.AddScoped<ICartContract, CartRepository>();
             //User Service and Repository
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IUserContract, UserRepository>();
             //Transaction Service and Repository
             builder.Services.AddScoped<ITransactionService, TransactionService>();
-            builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+            builder.Services.AddScoped<ITransactionContract, TransactionRepository>();
             //Order Service and Repository
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IOrderContract, OrderRepository>();

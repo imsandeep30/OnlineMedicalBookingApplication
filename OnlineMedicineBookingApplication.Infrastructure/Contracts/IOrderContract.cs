@@ -10,7 +10,7 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Contracts
     public interface IOrderContract
     {
         // Add a new order
-        Task AddOrderAsync(Order order);
+        Task<Order> AddOrderAsync(Order order);
         // Add transaction if payment status is completed
         //Task AddTransactionIfPaymentCompletedAsync(Order order);
         // View order status by user (user-specific)

@@ -1,4 +1,4 @@
-﻿using OnlineMedicineBookingApplication.Application.Models;
+﻿using OnlineMedicineBookingApplication.Application.Models.MedicineDTOS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
