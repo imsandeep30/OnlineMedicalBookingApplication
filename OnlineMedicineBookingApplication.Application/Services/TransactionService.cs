@@ -22,7 +22,16 @@ namespace OnlineMedicineBookingApplication.Application.Services
             {
                 throw new ArgumentNullException(nameof(dto), "Transaction data cannot be null.");
             }
+
             var order = await _orderRepository.GetOrderByIdAsync(dto.OrderId);
+            if(order == null)
+            {
+                throw new ArgumentException("Order not found", nameof(dto.OrderId));
+            }
+            else if(order.PaymentStatus == "Completed")
+            {
+                throw new InvalidOperationException("Order payment already completed.");
+            }
             var transaction = new Transaction
             {
                 OrderId = dto.OrderId,
