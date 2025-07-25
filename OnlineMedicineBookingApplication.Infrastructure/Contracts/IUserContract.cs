@@ -9,12 +9,12 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Contracts
 {
     public interface IUserContract
     {
-        Task<User> GetUserByEmailAndPassword(string email, string password);//login user
+        Task<User> GetUserByEmailAndPasswordAsync(string email, string password);//login user
         Task AddUserAsync(User user); //register user
-        Task<User> GetUserById(int id);               // view userProfile
-        Task<List<User>> GetAllUsers();               // view all users
-        Task DeleteUser(int id);                      // delete user
-        Task UpdateUser(User user);                   // update user
-        Task ResetPassword(int userId, string newPassword);  // reset user password
+        Task<User> GetUserByIdAsync(int id);               // view userProfile
+        Task<List<User>> GetAllUsersAsync();               // view all users
+        Task DeleteUserAsync(int id);                      // delete user
+        Task<User> UpdateUserAsync(User user);                   // update user
+        Task ResetPasswordAsync(int userId, string newPassword);  // reset user password
     }
 }

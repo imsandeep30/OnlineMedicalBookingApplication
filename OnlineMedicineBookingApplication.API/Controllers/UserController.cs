@@ -45,7 +45,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
         [HttpGet("Profile/{id}")]
         public async Task<IActionResult> GetUserProfile(int id)
         {
-            var user = await _userService.GetUserProfile(id);
+            var user = await _userService.GetUserProfileAsync(id);
             if (user != null)
             {
                 return Ok(user);
@@ -55,7 +55,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
         [HttpGet("AllUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
-            var users = await _userService.GetAllUsers();
+            var users = await _userService.GetAllUsersAsync();
             if (users != null && users.Count > 0)
             {
                 return Ok(users);
@@ -65,7 +65,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
         [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            await _userService.DeleteUser(id);
+            await _userService.DeleteUserAsync(id);
             return Ok("User deleted successfully.");
         }
         [HttpPut("Update")]
@@ -75,7 +75,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
             {
                 return BadRequest("User model cannot be null.");
             }
-            await _userService.UpdateUser(user);
+            await _userService.UpdateUserAsync(user);
             return Ok("User updated successfully.");
         }
         [HttpGet("ResetPassword/{userId}/{newPassword}")]
@@ -85,7 +85,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
             {
                 return BadRequest("New password cannot be empty.");
             }
-            await _userService.ResetUserPassword(userId, newPassword);
+            await _userService.ResetUserPasswordAsync(userId, newPassword);
             return Ok("User password reset successfully.");
         }
     }

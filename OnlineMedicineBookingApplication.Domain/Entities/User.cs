@@ -32,16 +32,16 @@ namespace OnlineMedicineBookingApplication.Domain.Entities
         public int UserId { get; set; }
         [Required(ErrorMessage = "User Name is required")]
         [StringLength(100, ErrorMessage = "User Name cannot be longer than 100 characters.")]
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
         [Required(ErrorMessage = "User Phone is required")]
         [RegularExpression(@"^\d{10}$", ErrorMessage = "User Phone must be a 10-digit number.")]
-        public string UserPhone { get; set; }
+        public string? UserPhone { get; set; }
         [Required(ErrorMessage = "User Email is required")]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]
-        public string UserEmail { get; set; }
+        public string? UserEmail { get; set; }
         [Required(ErrorMessage = "User Password is required")]
         [MaxLength(50)]
-        public string UserPassword { get; set; }
+        public string? UserPassword { get; set; }
 
         [Required]
         public string Role { get; set; } = "User";

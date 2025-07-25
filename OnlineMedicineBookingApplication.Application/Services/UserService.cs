@@ -23,7 +23,7 @@ namespace OnlineMedicineBookingApplication.Application.Services
 
         public async Task<User> LoginAsync(UserDTO user)
         {
-            return await _userRepository.GetUserByEmailAndPassword(user.UserEmail, user.UserPassword);
+            return await _userRepository.GetUserByEmailAndPasswordAsync(user.UserEmail, user.UserPassword);
         }
 
         public async Task RegisterAsync(UserRegisterDTO user)
@@ -45,26 +45,36 @@ namespace OnlineMedicineBookingApplication.Application.Services
             };
             await _cartRepository.DefaultCart(newCart);
         }
-        public Task<User> GetUserProfile(int id) => _userRepository.GetUserById(id);
+        public Task<User> GetUserProfileAsync(int id) => _userRepository.GetUserByIdAsync(id);
 
-        public Task<List<User>> GetAllUsers() => _userRepository.GetAllUsers();
+        public Task<List<User>> GetAllUsersAsync() => _userRepository.GetAllUsersAsync();
 
-        public Task DeleteUser(int id) => _userRepository.DeleteUser(id);
+        public Task DeleteUserAsync(int id) => _userRepository.DeleteUserAsync(id);
 
-        public Task UpdateUser(UserUpdateDTO userUpdateDTO)
+        public async Task<UserResponseDTO> UpdateUserAsync(UserUpdateDTO userUpdateDTO)
         {
-            var user = new User
+            if (userUpdateDTO == null)
             {
+                throw new ArgumentNullException(nameof(userUpdateDTO), "User update data cannot be null.");
+            }
+            var requestedUser = new User
+            {
+                UserId = userUpdateDTO.UserId,
                 UserName = userUpdateDTO.Name,
-                UserEmail = userUpdateDTO.Email,
                 UserPhone = userUpdateDTO.PhoneNumber,
-                UserPassword = userUpdateDTO.Password,
-                Role = userUpdateDTO.Role,
             };
-            return _userRepository.UpdateUser(user);
+
+            await _userRepository.UpdateUserAsync(requestedUser);
+
+            return new UserResponseDTO
+            {
+                userEmail = requestedUser.UserEmail,
+                userName =requestedUser.UserName,
+                userPhone = requestedUser.UserPhone,
+            };
         }
 
-        public Task ResetUserPassword(int userId, string newPassword) => _userRepository.ResetPassword(userId, newPassword);
+        public Task ResetUserPasswordAsync(int userId, string newPassword) => _userRepository.ResetPasswordAsync(userId, newPassword);
 
     }
 }

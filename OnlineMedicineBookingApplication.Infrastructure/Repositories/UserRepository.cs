@@ -19,7 +19,7 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<User> GetUserByEmailAndPassword(string email, string password)
+        public async Task<User> GetUserByEmailAndPasswordAsync(string email, string password)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == email && u.UserPassword == password);
         }
@@ -28,17 +28,22 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
         }
-        public async Task<User> GetUserById(int id)
+        public async Task<User> GetUserByIdAsync(int id)
         {
-            return await _context.Users.FindAsync(id);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
+            if (user == null)
+            {
+                throw new ArgumentException("User not found.");
+            }
+            return user;
         }
 
-        public async Task<List<User>> GetAllUsers()
+        public async Task<List<User>> GetAllUsersAsync()
         {
             return await _context.Users.ToListAsync();
         }
 
-        public async Task DeleteUser(int id)
+        public async Task DeleteUserAsync(int id)
         {
             var user = await _context.Users.FindAsync(id);
             if (user != null)
@@ -48,13 +53,23 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
             }
         }
 
-        public async Task UpdateUser(User user)
+        public async Task<User> UpdateUserAsync(User user)
         {
-            _context.Users.Update(user);
-            await _context.SaveChangesAsync();
+            var existingUser = await _context.Users.FindAsync(user.UserId);
+            if(existingUser == null)
+            {
+                   throw new ArgumentException("User not found.");
+            }
+            else
+            {
+                existingUser.UserName = user.UserName;
+                existingUser.UserPhone = user.UserPhone;
+                await _context.SaveChangesAsync();
+                return existingUser;
+            }
         }
 
-        public async Task ResetPassword(int userId, string newPassword)
+        public async Task ResetPasswordAsync(int userId, string newPassword)
         {
             var user = await _context.Users.FindAsync(userId);
             if (user != null)
