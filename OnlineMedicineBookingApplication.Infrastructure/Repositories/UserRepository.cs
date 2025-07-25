@@ -10,6 +10,10 @@ using OnlineMedicineBookingApplication.Infrastructure.DBContext;
 
 namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
 {
+    public class work
+    {
+        public void hello() { }
+    }
     public class UserRepository: IUserContract
     {
         private readonly MedicineAppContext _context;
@@ -74,6 +78,7 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
             var user = await _context.Users.FindAsync(userId);
             if (user != null)
             {
+                //checking password strength can be added here
                 user.UserPassword = newPassword; //Should hash in production
                 await _context.SaveChangesAsync();
             }
