@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using OnlineMedicineBookingApplication.Application.Interfaces;
 using OnlineMedicineBookingApplication.Application.Models.TransactionDTOS;
 using OnlineMedicineBookingApplication.Application.Services;
+using Microsoft.AspNetCore.Authorization;
 namespace OnlineMedicineBookingApplication.API.Controllers
 {
     [Route("api/[controller]")]
@@ -15,6 +16,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
             _transactionService = transactionService;
         }
         [HttpPost("AddTransaction")]
+        [Authorize(Roles = "User")] // Only users with User or Admin role can access this endpoint
         public async Task<IActionResult> AddTransaction(TransactionDto transactionDto)
         {
             if (transactionDto == null)
@@ -30,6 +32,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
             return Ok(result); // returns transaction + order info
         }
         [HttpGet("AllTransactions")]
+        [Authorize(Roles = "Admin")] // Only users with Admin role can access this endpoint
         public async Task<IActionResult> GetAllTransactions()
         {
             var transactions = await _transactionService.GetAllTransactionsAsync();

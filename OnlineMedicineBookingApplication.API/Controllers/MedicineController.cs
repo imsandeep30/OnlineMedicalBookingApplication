@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OnlineMedicineBookingApplication.Application.Interfaces;
 using OnlineMedicineBookingApplication.Application.Models.MedicineDTOS;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OnlineMedicineBookingApplication.API.Controllers
 {
@@ -16,6 +17,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
         }
 
         [HttpPost("add-medicine")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddMedicineAsync([FromBody] AddMedicineDTO medicineDto)
         {
             var result = await _medicineService.AddMedicine(medicineDto);
@@ -28,6 +30,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
         }
 
         [HttpPut("update-medicine/{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateMedicineAsync(int id, [FromBody] MedicineDTO medicineDto)
         {
             if (id != medicineDto.MedicineId)
@@ -43,6 +46,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "User,Admin")] // Only users with User or Admin role can access this endpoint
         public async Task<IActionResult> GetMedicineByIdAsync(int id)
         {
             var medicine = await _medicineService.GetMedicineByIdAsync(id);
@@ -51,12 +55,14 @@ namespace OnlineMedicineBookingApplication.API.Controllers
             return Ok(medicine);
         }
         [HttpGet("all-medicines")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllMedicinesAsync()
         {
             var medicines = await _medicineService.GetAllMedicinesAsync();
             return Ok(medicines);
         }
         [HttpPost("filter-medicines")]
+        [Authorize(Roles = "User,Admin")] // Only users with User or Admin role can access this endpoint
         public async Task<IActionResult> FilterMedicinesAsync([FromBody] MedicineFilterDTO filter)
         {
             if (filter == null)
@@ -67,6 +73,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
             return Ok(filteredMedicines);
         }
         [HttpDelete("delete-medicine/{name}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteMedicineAsync(string name)
         {
             if (string.IsNullOrEmpty(name))

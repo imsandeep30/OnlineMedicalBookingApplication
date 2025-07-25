@@ -10,10 +10,6 @@ using OnlineMedicineBookingApplication.Infrastructure.DBContext;
 
 namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
 {
-    public class work
-    {
-        public void hello() { }
-    }
     public class UserRepository: IUserContract
     {
         private readonly MedicineAppContext _context;

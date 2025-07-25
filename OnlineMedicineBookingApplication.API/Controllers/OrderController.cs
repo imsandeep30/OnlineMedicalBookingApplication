@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OnlineMedicineBookingApplication.Application.Interfaces;
 using OnlineMedicineBookingApplication.Application.Models.OrderDTOS;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OnlineMedicineBookingApplication.API.Controllers
 {
@@ -18,6 +19,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
             _orderService = orderService;
         }
         [HttpPost("place-order")]
+        [Authorize(Roles = "User")] // Only users with User or Admin role can access this endpoint
         public async Task<IActionResult> CreateOrder([FromBody] OrderUserRequestDTO orderDto)
         {
             if(!ModelState.IsValid)
@@ -28,6 +30,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
             return Ok(orderDto);
         }
         [HttpGet("user/{userId}")]
+        [Authorize(Roles = "User,Admin")] // Only users with User or Admin role can access this endpoint
         public async Task<IActionResult> GetOrdersByUserId(int userId)
         {
             var orders = await _orderService.GetOrdersByUserIdAsync(userId);
@@ -38,6 +41,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
             return Ok(orders);
         }
         [HttpGet("GetAllOrders")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetAllOrders()
         {
             var orders = await _orderService.GetAllOrdersAsync();
@@ -48,6 +52,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
             return Ok(orders);
         }
         [HttpGet("GetByOrderId")]
+        [Authorize(Roles = "Admin")] // Only users with User or Admin role can access this endpoint
         public async Task<IActionResult> GetOrderById(int orderId)
         {
             var order = await _orderService.GetOrderByIdAsync(orderId);
@@ -58,6 +63,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
             return Ok(order);
         }
         [HttpPut("status")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateOrderStatus([FromBody] OrderStatusUpdateDTO statusUpdateDto)
         {
             if (!ModelState.IsValid)
@@ -72,6 +78,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
             return Ok("Order status updated successfully.");
         }
         [HttpPut("OrderUpdate")]
+        [Authorize(Roles = "User,Admin")] // Both User and Admin can update orders
         public async Task<IActionResult> UpdateOrder([FromBody] OrderUpdateDTO updateDto)
         {
             if (!ModelState.IsValid)
@@ -82,6 +89,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
             return result ? Ok(result) : NotFound("Order not found");
         }
         [HttpDelete("{orderId}")]
+        [Authorize(Roles = "User,Admin")] // Both User and Admin can cancel orders
         public async Task<IActionResult> CancelOrder(int orderId)
         {
             var result=await _orderService.CancelOrderAsync(orderId);
