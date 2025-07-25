@@ -5,15 +5,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using OnlineMedicineBookingApplication.Infrastructure;
+using OnlineMedicineBookingApplication.Infrastructure.DBContext;
 
 #nullable disable
 
 namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
 {
-    [DbContext(typeof(DBContext))]
-    [Migration("20250709090619_MedicineDetails")]
-    partial class MedicineDetails
+    [DbContext(typeof(MedicineAppContext))]
+    [Migration("20250724123047_Changes")]
+    partial class Changes
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,45 +25,55 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Admin", b =>
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Cart", b =>
                 {
-                    b.Property<int>("AdminId")
+                    b.Property<int>("CartId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdminId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartId"));
 
-                    b.Property<string>("AdminEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("AdminName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("AdminPassword")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.HasKey("CartId");
 
-                    b.Property<string>("AdminPhone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.ToTable("Carts");
+                });
 
-                    b.HasKey("AdminId");
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.CartItem", b =>
+                {
+                    b.Property<int>("CartItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.ToTable("Admins");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CartItemId"));
 
-                    b.HasData(
-                        new
-                        {
-                            AdminId = 1,
-                            AdminEmail = "Admin@gmail.com",
-                            AdminName = "admin",
-                            AdminPassword = "Admin@123",
-                            AdminPhone = "7093454577"
-                        });
+                    b.Property<int>("CartId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MedicineId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CartItemId");
+
+                    b.HasIndex("CartId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Medicine", b =>
@@ -101,9 +111,12 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                     b.Property<int>("QuantityAvailable")
                         .HasColumnType("int");
 
+                    b.Property<bool>("presecptionRequired")
+                        .HasColumnType("bit");
+
                     b.HasKey("MedicineId");
 
-                    b.ToTable("Medicine");
+                    b.ToTable("Medicines");
 
                     b.HasData(
                         new
@@ -115,7 +128,8 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                             ManufactureDate = new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MedicineName = "Paracetamol",
                             Price = 20.00m,
-                            QuantityAvailable = 100
+                            QuantityAvailable = 100,
+                            presecptionRequired = false
                         },
                         new
                         {
@@ -126,7 +140,8 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                             ManufactureDate = new DateTime(2025, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MedicineName = "Amoxicillin",
                             Price = 35.50m,
-                            QuantityAvailable = 80
+                            QuantityAvailable = 80,
+                            presecptionRequired = false
                         },
                         new
                         {
@@ -137,7 +152,8 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                             ManufactureDate = new DateTime(2024, 11, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MedicineName = "Cetirizine",
                             Price = 15.75m,
-                            QuantityAvailable = 200
+                            QuantityAvailable = 200,
+                            presecptionRequired = false
                         },
                         new
                         {
@@ -148,7 +164,8 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                             ManufactureDate = new DateTime(2025, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MedicineName = "Ibuprofen",
                             Price = 22.00m,
-                            QuantityAvailable = 150
+                            QuantityAvailable = 150,
+                            presecptionRequired = false
                         },
                         new
                         {
@@ -159,7 +176,8 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                             ManufactureDate = new DateTime(2025, 3, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MedicineName = "Ranitidine",
                             Price = 18.00m,
-                            QuantityAvailable = 130
+                            QuantityAvailable = 130,
+                            presecptionRequired = false
                         },
                         new
                         {
@@ -170,7 +188,8 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                             ManufactureDate = new DateTime(2024, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MedicineName = "Dolo 650",
                             Price = 25.00m,
-                            QuantityAvailable = 120
+                            QuantityAvailable = 120,
+                            presecptionRequired = false
                         },
                         new
                         {
@@ -181,7 +200,8 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                             ManufactureDate = new DateTime(2025, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MedicineName = "Azithromycin",
                             Price = 55.00m,
-                            QuantityAvailable = 90
+                            QuantityAvailable = 90,
+                            presecptionRequired = false
                         },
                         new
                         {
@@ -192,7 +212,8 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                             ManufactureDate = new DateTime(2025, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MedicineName = "ORS Powder",
                             Price = 10.00m,
-                            QuantityAvailable = 300
+                            QuantityAvailable = 300,
+                            presecptionRequired = false
                         },
                         new
                         {
@@ -203,7 +224,8 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                             ManufactureDate = new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MedicineName = "Pantoprazole",
                             Price = 30.00m,
-                            QuantityAvailable = 110
+                            QuantityAvailable = 110,
+                            presecptionRequired = false
                         },
                         new
                         {
@@ -214,65 +236,103 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                             ManufactureDate = new DateTime(2025, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             MedicineName = "Salbutamol Inhaler",
                             Price = 150.00m,
-                            QuantityAvailable = 50
+                            QuantityAvailable = 50,
+                            presecptionRequired = false
                         });
                 });
 
-            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Pharmacist", b =>
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Order", b =>
                 {
-                    b.Property<int>("PharmacistId")
+                    b.Property<int>("OrderId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PharmacistId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
 
-                    b.Property<bool>("IsApproved")
-                        .HasColumnType("bit");
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
 
-                    b.Property<string>("Location")
+                    b.Property<string>("OrderStatus")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("PharmacistEmail")
+                    b.Property<string>("PaymentStatus")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("PharmacistName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("PharmacistPassword")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("PharmacistPhone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PharmacyName")
+                    b.Property<string>("ShippingAddress")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.HasKey("PharmacistId");
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.ToTable("Pharmacists");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.HasData(
-                        new
-                        {
-                            PharmacistId = 1,
-                            IsApproved = true,
-                            Location = "Hyderabad",
-                            PharmacistEmail = "Pharamacist123@gmail.com",
-                            PharmacistName = "Pharmacist",
-                            PharmacistPassword = "Pharamacist@123",
-                            PharmacistPhone = "7093454577",
-                            PharmacyName = "Appolo"
-                        });
+                    b.HasKey("OrderId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.OrderItem", b =>
+                {
+                    b.Property<int>("OrderItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderItemId"));
+
+                    b.Property<int>("MedicineId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderItemId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrderItems");
+                });
+
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Transaction", b =>
+                {
+                    b.Property<int>("TransactionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionId"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PaymentMethod")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("TransactionDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("TransactionId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.User", b =>
@@ -282,6 +342,10 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserEmail")
                         .IsRequired()
@@ -309,11 +373,79 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                         new
                         {
                             UserId = 1,
+                            Role = "User",
                             UserEmail = "User@gmail.com",
                             UserName = "user",
                             UserPassword = "Test@123",
                             UserPhone = "7093454577"
+                        },
+                        new
+                        {
+                            UserId = 2,
+                            Role = "Admin",
+                            UserEmail = "admin@gmial.com",
+                            UserName = "admin",
+                            UserPassword = "Admin@123",
+                            UserPhone = "7093454577"
                         });
+                });
+
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.CartItem", b =>
+                {
+                    b.HasOne("OnlineMedicineBookingApplication.Domain.Entities.Cart", "Cart")
+                        .WithMany()
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("OnlineMedicineBookingApplication.Domain.Entities.Cart", null)
+                        .WithMany("Items")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Cart");
+                });
+
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Order", b =>
+                {
+                    b.HasOne("OnlineMedicineBookingApplication.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.OrderItem", b =>
+                {
+                    b.HasOne("OnlineMedicineBookingApplication.Domain.Entities.Order", "Order")
+                        .WithMany("OrderItems")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Transaction", b =>
+                {
+                    b.HasOne("OnlineMedicineBookingApplication.Domain.Entities.Order", "Order")
+                        .WithMany()
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Cart", b =>
+                {
+                    b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Order", b =>
+                {
+                    b.Navigation("OrderItems");
                 });
 #pragma warning restore 612, 618
         }

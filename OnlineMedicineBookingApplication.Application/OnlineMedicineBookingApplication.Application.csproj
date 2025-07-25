@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\OnlineMedicineBookingApplication.Domain\OnlineMedicineBookingApplication.Domain.csproj" />
+    <ProjectReference Include="..\OnlineMedicineBookingApplication.Infrastructure\OnlineMedicineBookingApplication.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

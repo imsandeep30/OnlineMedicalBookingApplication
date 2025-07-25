@@ -5,11 +5,11 @@ VisualStudioVersion = 17.14.36202.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineMedicineBookingApplication.Domain", "OnlineMedicineBookingApplication.Domain\OnlineMedicineBookingApplication.Domain.csproj", "{2C8FE355-7D57-45C1-9591-3894513CAE59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineMedicineBookingApplication.Application", "OnlineMedicineBookingApplication.Application\OnlineMedicineBookingApplication.Application.csproj", "{31309A67-4229-4117-8084-DCF7EE1A7913}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineMedicineBookingApplication.Infrastructure", "OnlineMedicineBookingApplication.Infrastructure\OnlineMedicineBookingApplication.Infrastructure.csproj", "{21DAB6F8-0E37-4BD4-91D6-23B34C2A67C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineMedicineBookingApplication.Infrastructure", "OnlineMedicineBookingApplication.Infrastructure\OnlineMedicineBookingApplication.Infrastructure.csproj", "{B66B2B00-F3F1-4C5B-B48B-F271EB215C52}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineMedicineBookingApplication.Application", "OnlineMedicineBookingApplication.Application\OnlineMedicineBookingApplication.Application.csproj", "{24FC56B3-9C81-429E-B659-6561060AAEA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{64D63785-5189-4C27-8702-CE41B780DB8C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineMedicineBookingApplication.API", "OnlineMedicineBookingApplication.API\OnlineMedicineBookingApplication.API.csproj", "{433F633B-2316-48D3-B2DE-425495CC54EB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,18 +21,18 @@ Global
 		{2C8FE355-7D57-45C1-9591-3894513CAE59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C8FE355-7D57-45C1-9591-3894513CAE59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C8FE355-7D57-45C1-9591-3894513CAE59}.Release|Any CPU.Build.0 = Release|Any CPU
-		{31309A67-4229-4117-8084-DCF7EE1A7913}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{31309A67-4229-4117-8084-DCF7EE1A7913}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{31309A67-4229-4117-8084-DCF7EE1A7913}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{31309A67-4229-4117-8084-DCF7EE1A7913}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B66B2B00-F3F1-4C5B-B48B-F271EB215C52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B66B2B00-F3F1-4C5B-B48B-F271EB215C52}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B66B2B00-F3F1-4C5B-B48B-F271EB215C52}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B66B2B00-F3F1-4C5B-B48B-F271EB215C52}.Release|Any CPU.Build.0 = Release|Any CPU
-		{64D63785-5189-4C27-8702-CE41B780DB8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{64D63785-5189-4C27-8702-CE41B780DB8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{64D63785-5189-4C27-8702-CE41B780DB8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{64D63785-5189-4C27-8702-CE41B780DB8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21DAB6F8-0E37-4BD4-91D6-23B34C2A67C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21DAB6F8-0E37-4BD4-91D6-23B34C2A67C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21DAB6F8-0E37-4BD4-91D6-23B34C2A67C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21DAB6F8-0E37-4BD4-91D6-23B34C2A67C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24FC56B3-9C81-429E-B659-6561060AAEA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24FC56B3-9C81-429E-B659-6561060AAEA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24FC56B3-9C81-429E-B659-6561060AAEA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24FC56B3-9C81-429E-B659-6561060AAEA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{433F633B-2316-48D3-B2DE-425495CC54EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{433F633B-2316-48D3-B2DE-425495CC54EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{433F633B-2316-48D3-B2DE-425495CC54EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{433F633B-2316-48D3-B2DE-425495CC54EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

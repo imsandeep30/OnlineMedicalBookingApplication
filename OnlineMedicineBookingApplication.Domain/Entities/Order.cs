@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace OnlineMedicineBookingApplication.Domain.Entities
 {
+    public class  OrderWork
+    {
+        public string orderwork = "//add transaction call if payment status is completed\r\n//view order status this is for user to view his order status\r\n//view all orders this is for admin to view all orders\r\n//add order \r\n// update order status\r\n// update order validation\r\n//cancel order";
+    }
     public class Order
     {
         [Key]
@@ -32,10 +36,12 @@ namespace OnlineMedicineBookingApplication.Domain.Entities
 
         [Required]
         [StringLength(20)]
-        public string OrderStatus { get; set; } 
+        public string OrderStatus { get; set; } = "Pending";
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal TotalAmount { get; set; }
+
+        public List<OrderItem> OrderItems { get; set; }
     }
 }
