@@ -8,6 +8,7 @@ namespace OnlineMedicineBookingApplication.Infrastructure.DBContext
 {
     public class MedicineAppContext : DbContext
     {
+        // DbSets for each entity in the application
         public DbSet<User> Users { get; set; }
         public DbSet<Medicine> Medicines { get; set; }
         public DbSet<Order> Orders { get; set; }
@@ -19,11 +20,12 @@ namespace OnlineMedicineBookingApplication.Infrastructure.DBContext
         //public DbSet<Pharmacist> Pharmacists { get; set; }
         //public DbSet<Prescription> Prescriptions { get; set; }
 
+        // Constructor to pass options to the base DbContext
         public MedicineAppContext(DbContextOptions<MedicineAppContext> options)
         : base(options)
         {
         }
-
+        //Seeding the data to the database tables
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

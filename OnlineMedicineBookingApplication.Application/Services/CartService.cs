@@ -12,11 +12,14 @@ using System.Threading.Tasks;
 
 namespace OnlineMedicineBookingApplication.Application.Services
 {
+    // Service class handling cart-related operations
     public class CartService : ICartService
     {
         private readonly ICartContract _cartRepository;
         private readonly IOrderService _orderService;
         private readonly ITransactionService _transactionService;
+
+        // Constructor injecting necessary dependencies
         public CartService(ICartContract cartRepository, IOrderService orderService, ITransactionService transactionService)
         {
             _cartRepository = cartRepository;
@@ -24,6 +27,7 @@ namespace OnlineMedicineBookingApplication.Application.Services
             _transactionService = transactionService;
         }
 
+        // Retrieves the user's cart with all items
         public async Task<CartDTO> GetCartAsync(int userId)
         {
             var cart = await _cartRepository.GetCartByUserIdAsync(userId);
@@ -40,15 +44,19 @@ namespace OnlineMedicineBookingApplication.Application.Services
             };
         }
 
+        // Adds or updates an item in the user's cart
         public async Task AddOrUpdateItemAsync(int userId, int medicineId, int quantity)
         {
             await _cartRepository.AddOrUpdateItemAsync(userId, medicineId, quantity);
         }
 
+        // Clears all items from the user's cart
         public async Task ClearCartAsync(int userId)
         {
             await _cartRepository.ClearCartAsync(userId);
         }
+
+        // Removes a specific medicine from the user's cart
         public async Task<CartDTO> RemoveItemAsync(int userId, int medicineId)
         {
             var cart = await _cartRepository.RemoveItemAsync(userId, medicineId);
@@ -64,8 +72,11 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 }).ToList()
             };
         }
+
+        // Places an order with items from the user's cart, creates a transaction, and clears the cart
         public async Task<bool> PlaceOrderFromCartAsync(int userId, string shippingAddress)
         {
+            //taking the cart items based on the user id
             var cart = await _cartRepository.GetCartByUserIdAsync(userId);
             if (cart == null || !cart.Items.Any()) return false;
 
@@ -85,7 +96,7 @@ namespace OnlineMedicineBookingApplication.Application.Services
 
             var orderResult = await _orderService.AddOrderAsync(orderDto);
 
-            // Assume you collect payment now
+            // Assume payment is processed here after order is placed
             var txnDto = new TransactionDto
             {
                 OrderId = orderResult.OrderId,
@@ -93,9 +104,9 @@ namespace OnlineMedicineBookingApplication.Application.Services
             };
             await _transactionService.AddTransactionAsync(txnDto);
 
+            // Empty the cart after successful order and payment
             await _cartRepository.ClearCartAsync(userId);
             return true;
         }
-
     }
 }
