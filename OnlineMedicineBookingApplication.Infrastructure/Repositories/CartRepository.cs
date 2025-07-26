@@ -12,10 +12,13 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
         private readonly MedicineAppContext _context;
         private readonly UserRepository _userRepository;
 
+        // Constructor to inject the DB context
         public CartRepository(MedicineAppContext context)
         {
             _context = context;
         }
+
+        // Adds a new cart to the database
         public async Task DefaultCart(Cart cart)
         {
             if (cart == null)
@@ -26,6 +29,7 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        // Retrieves a user's cart by user ID and includes the items in the cart
         public async Task<Cart> GetCartByUserIdAsync(int userId)
         {
             var user = await _context.Users.FindAsync(userId);
@@ -33,38 +37,44 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
             {
                 throw new ArgumentException($"No user found with ID {userId}", nameof(userId));
             }
+
             var cart = await _context.Carts
                 .Include(c => c.Items)
                 .FirstOrDefaultAsync(c => c.UserId == userId);
             return cart;
         }
 
+        // Adds a new item to the cart or updates the quantity if it already exists
         public async Task AddOrUpdateItemAsync(int userId, int medicineId, int quantity)
         {
             var cart = await GetCartByUserIdAsync(userId);
 
+            // Check if item already exists in cart
             var existingItem = cart.Items.FirstOrDefault(i => i.MedicineId == medicineId);
             if (existingItem != null)
             {
-                existingItem.Quantity += quantity;
+                existingItem.Quantity += quantity; // Update quantity
             }
             else
             {
+                // Add new item to the cart
                 cart.Items.Add(new CartItem
                 {
-                    CartId = cart.CartId, 
+                    CartId = cart.CartId,
                     MedicineId = medicineId,
                     Quantity = quantity,
                     Price = _context.Medicines.FirstOrDefault(m => m.MedicineId == medicineId)?.Price ?? 0
                 });
             }
 
+            // Update total price of the cart
             cart.TotalPrice = cart.Items.Sum(i =>
                 i.Quantity * (_context.Medicines.FirstOrDefault(m => m.MedicineId == i.MedicineId)?.Price ?? 0));
 
             await _context.SaveChangesAsync();
         }
 
+        // Removes a specific item from the cart and updates the total price
         public async Task<Cart> RemoveItemAsync(int userId, int medicineId)
         {
             var cart = await GetCartByUserIdAsync(userId);
@@ -72,6 +82,8 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
             if (itemToRemove != null)
             {
                 cart.Items.Remove(itemToRemove);
+
+                // Recalculate total price
                 cart.TotalPrice = cart.Items.Sum(i =>
                     i.Quantity * (_context.Medicines.FirstOrDefault(m => m.MedicineId == i.MedicineId)?.Price ?? 0));
 
@@ -80,6 +92,7 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
             return cart;
         }
 
+        // Clears all items in the user's cart
         public async Task ClearCartAsync(int userId)
         {
             var cart = await GetCartByUserIdAsync(userId);
@@ -88,6 +101,7 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        // Saves changes to the database context
         public async Task SaveChangesAsync()
         {
             await _context.SaveChangesAsync();

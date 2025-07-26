@@ -10,28 +10,37 @@ namespace OnlineMedicineBookingApplication.Application.Services
     {
         private readonly ITransactionContract _transactionRepository;
         private readonly IOrderContract _orderRepository;
+
+        // Constructor injecting repositories needed to manage transactions and orders
         public TransactionService(ITransactionContract repository, IOrderContract orderRepository)
         {
             _transactionRepository = repository;
             _orderRepository = orderRepository;
         }
 
+        // Add a new transaction for an order
         public async Task<TransactionResponseDto> AddTransactionAsync(TransactionDto dto)
         {
+            // Validate input DTO
             if (dto == null)
             {
                 throw new ArgumentNullException(nameof(dto), "Transaction data cannot be null.");
             }
 
+            // Check if the order exists
             var order = await _orderRepository.GetOrderByIdAsync(dto.OrderId);
-            if(order == null)
+            if (order == null)
             {
                 throw new ArgumentException("Order not found", nameof(dto.OrderId));
             }
-            else if(order.PaymentStatus == "Completed")
+
+            // Prevent duplicate payments
+            else if (order.PaymentStatus == "Completed")
             {
                 throw new InvalidOperationException("Order payment already completed.");
             }
+
+            // Create a new transaction object using the order's total amount
             var transaction = new Transaction
             {
                 OrderId = dto.OrderId,
@@ -39,11 +48,16 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 Amount = order.TotalAmount,
             };
 
+            // Save the transaction
             var result = await _transactionRepository.AddTransactionAsync(transaction);
+
+            // Return null if transaction failed
             if (result == null)
             {
-                return null; // Transaction failed, order not placed
+                return null;
             }
+
+            // Return transaction details in DTO format
             return new TransactionResponseDto
             {
                 TransactionId = result.TransactionId,
@@ -54,13 +68,19 @@ namespace OnlineMedicineBookingApplication.Application.Services
             };
         }
 
+        // Get all transactions recorded in the system
         public async Task<List<TransactionResponseDto>> GetAllTransactionsAsync()
         {
+            // Retrieve all transactions from the repository
             var transactions = await _transactionRepository.GetAllTransactionsAsync();
+
+            // Return null if no transactions exist
             if (transactions.Count == 0)
             {
                 return null;
             }
+
+            // Convert transaction entities to DTOs
             return transactions.Select(txn => new TransactionResponseDto
             {
                 TransactionId = txn.TransactionId,
