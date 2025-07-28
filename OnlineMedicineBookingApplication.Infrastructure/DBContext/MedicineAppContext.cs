@@ -30,6 +30,39 @@ namespace OnlineMedicineBookingApplication.Infrastructure.DBContext
         {
             base.OnModelCreating(modelBuilder);
 
+            // Configuring the primary keys and relationships for each entity
+            modelBuilder.Entity<User>()
+                 .HasOne(u => u.Cart)
+                 .WithOne(c => c.User)
+                 .HasForeignKey<Cart>(c => c.UserId)
+                 .IsRequired();
+
+            modelBuilder.Entity<Cart>()
+                .HasMany(c => c.Items)
+                .WithOne(i => i.Cart)
+                .HasForeignKey(i => i.CartId);
+
+            // 1:N User → Orders
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.User)
+                .WithMany()
+                .HasForeignKey(o => o.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // 1:N Order → OrderItems
+            modelBuilder.Entity<OrderItem>()
+                .HasOne(oi => oi.Order)
+                .WithMany(o => o.OrderItems)
+                .HasForeignKey(oi => oi.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // 1:1 Order → Transaction
+            modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.Order)
+                .WithOne(o => o.Transaction)
+                .HasForeignKey<Transaction>(t => t.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             modelBuilder.Entity<User>().HasData(
                 new User
                 {

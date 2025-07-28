@@ -10,12 +10,14 @@ namespace OnlineMedicineBookingApplication.Application.Services
     {
         private readonly ITransactionContract _transactionRepository;
         private readonly IOrderContract _orderRepository;
+        private readonly ICartContract _cartRepository;
 
         // Constructor injecting repositories needed to manage transactions and orders
-        public TransactionService(ITransactionContract repository, IOrderContract orderRepository)
+        public TransactionService(ITransactionContract repository, IOrderContract orderRepository, ICartContract cartRepository)
         {
             _transactionRepository = repository;
             _orderRepository = orderRepository;
+            _cartRepository = cartRepository;
         }
 
         // Add a new transaction for an order
@@ -56,7 +58,7 @@ namespace OnlineMedicineBookingApplication.Application.Services
             {
                 return null;
             }
-
+            await _cartRepository.ClearCartAsync(order.UserId); // Clear the user's cart after successful transaction
             // Return transaction details in DTO format
             return new TransactionResponseDto
             {

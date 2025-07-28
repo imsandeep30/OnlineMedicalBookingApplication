@@ -21,8 +21,5 @@ namespace OnlineMedicineBookingApplication.Application.Interfaces
 
         // Clears all items from the user's cart
         Task ClearCartAsync(int userId);
-
-        // Places an order from the items currently in the cart
-        Task<bool> PlaceOrderFromCartAsync(int userId, string shippingAddress);
     }
 }

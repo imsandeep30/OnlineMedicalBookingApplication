@@ -49,6 +49,22 @@ namespace OnlineMedicineBookingApplication.API.Controllers
             return Ok("Item added/updated successfully.");
         }
 
+        // Remove a specific item from the user's cart
+        // Only accessible to users with the 'User' role
+        [HttpDelete("remove-item/{userId}/{medicineId}")]
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> RemoveItemAsync(int userId, int medicineId)
+        {
+            var updatedCart = await _cartService.RemoveItemAsync(userId, medicineId);
+            // If cart is null after removal, return 404
+            if (updatedCart == null)
+            {
+                return NotFound("Item not found in cart.");
+            }
+            // Return updated cart details
+            return Ok(updatedCart);
+        }
+
         // Clear all items from the user's cart
         // Only accessible to users with the 'User' role
         [HttpDelete("clear-cart/{userId}")]

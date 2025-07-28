@@ -24,8 +24,16 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
         public async Task<Order> AddOrderAsync(Order order)
         {
             await _context.Orders.AddAsync(order);
-            int k = await _context.SaveChangesAsync();
-            return k > 0 ? order : null; // Return the added order if successful
+            await _context.SaveChangesAsync();
+            var res = await _context.Orders.FirstOrDefaultAsync(o => o.UserId == order.UserId && o.OrderStatus == "Pending");
+            if (res != null)
+            {
+                return res; // Return the newly added order
+            }
+            else
+            {
+                throw new InvalidOperationException("Failed to add order. Please try again.");
+            }
         }
 
         // Retrieves all orders for a specific user

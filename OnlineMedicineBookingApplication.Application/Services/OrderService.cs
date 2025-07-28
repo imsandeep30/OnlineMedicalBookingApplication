@@ -45,12 +45,11 @@ namespace OnlineMedicineBookingApplication.Application.Services
             };
 
             var orderResult = await _orderRepository.AddOrderAsync(order);
-            if (orderResult == null)
+            if (orderResult.PaymentStatus == "Completed")
             {
-                throw new InvalidOperationException("Failed to place order.");
+                //Clear the cart after placing the order
+                await _cartRepository.ClearCartAsync(dto.UserId);
             }
-            // Clear the cart after placing the order
-            await _cartRepository.ClearCartAsync(dto.UserId);
             return new OrderResponseDTO
             {
                 OrderId = orderResult.OrderId,

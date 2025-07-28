@@ -43,5 +43,7 @@ namespace OnlineMedicineBookingApplication.Domain.Entities
         public decimal TotalAmount { get; set; }
 
         public List<OrderItem> OrderItems { get; set; }
+        
+        public Transaction Transaction { get; set; }
     }
 }

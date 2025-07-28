@@ -10,6 +10,5 @@ namespace OnlineMedicineBookingApplication.Application.Models.OrderDTOS
     {
         public int UserId { get; set; }
         public string ShippingAddress { get; set; }
-        public int OrderId { get; set; }
     }
 }

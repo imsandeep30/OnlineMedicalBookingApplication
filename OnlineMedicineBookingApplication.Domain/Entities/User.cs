@@ -45,5 +45,7 @@ namespace OnlineMedicineBookingApplication.Domain.Entities
 
         [Required]
         public string Role { get; set; } = "User";
+
+        public Cart? Cart { get; set; }
     }
 }

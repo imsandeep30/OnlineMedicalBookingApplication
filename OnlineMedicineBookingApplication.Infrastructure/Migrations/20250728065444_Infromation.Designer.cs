@@ -12,8 +12,8 @@ using OnlineMedicineBookingApplication.Infrastructure.DBContext;
 namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
 {
     [DbContext(typeof(MedicineAppContext))]
-    [Migration("20250724123047_Changes")]
-    partial class Changes
+    [Migration("20250728065444_Infromation")]
+    partial class Infromation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,6 +41,9 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
 
                     b.HasKey("CartId");
 
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
                     b.ToTable("Carts");
                 });
 
@@ -64,14 +67,9 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("CartItemId");
 
                     b.HasIndex("CartId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("CartItems");
                 });
@@ -330,7 +328,8 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
 
                     b.HasKey("TransactionId");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("OrderId")
+                        .IsUnique();
 
                     b.ToTable("Transactions");
                 });
@@ -390,17 +389,24 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                         });
                 });
 
-            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.CartItem", b =>
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Cart", b =>
                 {
-                    b.HasOne("OnlineMedicineBookingApplication.Domain.Entities.Cart", "Cart")
-                        .WithMany()
-                        .HasForeignKey("CartId")
+                    b.HasOne("OnlineMedicineBookingApplication.Domain.Entities.User", "User")
+                        .WithOne("Cart")
+                        .HasForeignKey("OnlineMedicineBookingApplication.Domain.Entities.Cart", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OnlineMedicineBookingApplication.Domain.Entities.Cart", null)
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.CartItem", b =>
+                {
+                    b.HasOne("OnlineMedicineBookingApplication.Domain.Entities.Cart", "Cart")
                         .WithMany("Items")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("CartId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Cart");
                 });
@@ -430,8 +436,8 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
             modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Transaction", b =>
                 {
                     b.HasOne("OnlineMedicineBookingApplication.Domain.Entities.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId")
+                        .WithOne("Transaction")
+                        .HasForeignKey("OnlineMedicineBookingApplication.Domain.Entities.Transaction", "OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -446,6 +452,14 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
             modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Order", b =>
                 {
                     b.Navigation("OrderItems");
+
+                    b.Navigation("Transaction")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.User", b =>
+                {
+                    b.Navigation("Cart");
                 });
 #pragma warning restore 612, 618
         }

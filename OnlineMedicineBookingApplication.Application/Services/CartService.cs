@@ -72,41 +72,5 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 }).ToList()
             };
         }
-
-        // Places an order with items from the user's cart, creates a transaction, and clears the cart
-        public async Task<bool> PlaceOrderFromCartAsync(int userId, string shippingAddress)
-        {
-            //taking the cart items based on the user id
-            var cart = await _cartRepository.GetCartByUserIdAsync(userId);
-            if (cart == null || !cart.Items.Any()) return false;
-
-            var orderItems = cart.Items.Select(item => new OrderItemDTO
-            {
-                MedicineId = item.MedicineId,
-                Quantity = item.Quantity,
-                Price = item.Price,
-            }).ToList();
-
-            var orderDto = new OrderUserRequestDTO
-            {
-                UserId = userId,
-                ShippingAddress = shippingAddress,
-                OrderId = 0, // This will be set by the order service
-            };
-
-            var orderResult = await _orderService.AddOrderAsync(orderDto);
-
-            // Assume payment is processed here after order is placed
-            var txnDto = new TransactionDto
-            {
-                OrderId = orderResult.OrderId,
-                PaymentMethod = "UPI"
-            };
-            await _transactionService.AddTransactionAsync(txnDto);
-
-            // Empty the cart after successful order and payment
-            await _cartRepository.ClearCartAsync(userId);
-            return true;
-        }
     }
 }

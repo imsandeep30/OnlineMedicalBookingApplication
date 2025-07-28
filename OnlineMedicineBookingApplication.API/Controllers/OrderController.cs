@@ -35,7 +35,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
             var orderId = await _orderService.AddOrderAsync(orderDto);
 
             // Return placed order details
-            return Ok(orderDto);
+            return Ok(orderId);
         }
 
         // Get all orders for a specific user (User and Admin roles)
