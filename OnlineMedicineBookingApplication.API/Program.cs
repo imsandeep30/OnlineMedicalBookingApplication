@@ -1,15 +1,16 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using OnlineMedicineBookingApplication.API.Controllers;
+using OnlineMedicineBookingApplication.API.Middleware;
 using OnlineMedicineBookingApplication.Application.Interfaces;
 using OnlineMedicineBookingApplication.Application.Services;
 using OnlineMedicineBookingApplication.Infrastructure.Contracts;
 using OnlineMedicineBookingApplication.Infrastructure.DBContext;
 using OnlineMedicineBookingApplication.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using System.Text;
 namespace OnlineMedicineBookingApplication.API
 {
@@ -95,6 +96,8 @@ namespace OnlineMedicineBookingApplication.API
              }
             });
             });
+              
+
             #endregion
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -107,8 +110,11 @@ namespace OnlineMedicineBookingApplication.API
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseAuthentication(); //Enable Authentication middleware
             app.UseAuthorization();
+            
+
 
             app.MapControllers();
 
