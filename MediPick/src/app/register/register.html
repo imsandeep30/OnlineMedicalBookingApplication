@@ -1,0 +1,61 @@
+<div class="register-container">
+  <div class="left-section">
+    <!-- <div class="logo-circle">
+      <img src="assets/hospital-icon.png" alt="MediPick" />
+    </div> -->
+    <h2>Welcome to MediPick</h2>
+    <p>Your trusted partner for online medicine booking and healthcare services. Join thousands of satisfied customers.</p>
+    <div class="stats">
+      <div><strong>50K+</strong><br>Happy Customers</div>
+      <div><strong>24/7</strong><br>Support</div>
+      <div><strong>1000+</strong><br>Medicines</div>
+    </div>
+  </div>
+
+  <div class="right-section">
+    <h3>Create Your Account</h3>
+    <form id="registerForm">
+        <table>
+          <tr>
+            <td><label for="name">Name:</label></td>
+            <td><input type="text" id="name" name="name" [(ngModel)]="user.userName" required /></td>
+          </tr>
+          <tr>
+            <td><label for="email">Email:</label></td>
+            <td><input type="email" id="email" name="email" [(ngModel)]="user.userEmail" required /></td>
+          </tr>
+          <tr>
+            <td><label for="mobile">Mobile:</label></td>
+            <td><input type="text" id="mobile" name="mobile" [(ngModel)]="user.userPhone" required /></td>
+          </tr>
+          <tr>
+            <td><label for="address">Address:</label></td>
+            <td><input type="text" id="address" name="address" [(ngModel)]="user.userAddress" required /></td>
+          </tr>
+          <tr>
+            <td><label for="password">Password:</label></td>
+            <td><input type="password" id="password" name="password" [(ngModel)]="user.userPassword" required /></td>
+          </tr>
+          <tr>
+            <td><label for="confirmPassword">Confirm Password:</label></td>
+            <td><input type="password" id="confirmPassword" name="confirmPassword" [(ngModel)]="user.userPassword" required /></td>
+          </tr>
+          <tr>
+            <td><label for="accountType">Account Type:</label></td>
+            <td>
+              <select id="accountType" name="accountType" [(ngModel)]="user.role" required>
+                <option value="User">Customer</option>
+                <option value="Admin">Admin</option>
+              </select>
+            </td>
+          </tr>
+          <tr colspan="2">
+            <td>
+                <button type="submit" (click)="registerUser()">Register</button>
+            </td>
+          </tr>
+        </table>
+    </form>
+    <p>Already have an account? <a routerLink="/login">Sign In</a></p>
+  </div>
+</div>
