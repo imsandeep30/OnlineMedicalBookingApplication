@@ -44,6 +44,13 @@ namespace OnlineMedicineBookingApplication.API
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IOrderContract, OrderRepository>();
             builder.Services.AddControllers();
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder => builder.AllowAnyOrigin()  //accept all the client servers
+                                      .AllowAnyMethod() //accept all the HTTP methods like GET, POST, PUT, DELETE etc.
+                                      .AllowAnyHeader()); //accept all the headers in the request
+            });
             #region Configure Authentication Schema to validate Token
             builder.Services.AddAuthentication(options =>
             {
@@ -112,6 +119,7 @@ namespace OnlineMedicineBookingApplication.API
             }
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseAuthentication(); //Enable Authentication middleware
+            app.UseCors("AllowAllOrigins"); //Enable CORS middleware to allow all origins
             app.UseAuthorization();
             
 
