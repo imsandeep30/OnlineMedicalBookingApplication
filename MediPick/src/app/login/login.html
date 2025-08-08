@@ -1,0 +1,71 @@
+<div class="d-flex justify-content-center align-items-center vh-100">
+  <div class="p-4 rounded shadow" style="width: 360px;">
+    <!-- App Logo -->
+    <!-- <div class="text-center mb-3">
+      <img src="assets/logo-placeholder.png" alt="MediCare Logo" style="width: 50px;" />
+    </div> -->
+
+    <!-- App Title -->
+    <h4 class="text-center fw-bold">MediPick</h4>
+    <p class="text-center text-muted mb-4">Your trusted online pharmacy</p>
+
+    <!-- Login Form -->
+    <form (ngSubmit)="loginUser()">
+      <!-- Email -->
+      <div class="mb-3">
+        <label for="userEmail" class="form-label">Email Address</label>
+        <input
+          type="email"
+          class="form-control"
+          id="userEmail"
+          name="userEmail"
+          placeholder="Enter your email"
+          [(ngModel)]="login.userEmail"
+          required
+          ngModel
+        />
+      </div>
+
+      <!-- Password -->
+      <div class="mb-3">
+        <label for="userPassword" class="form-label">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="userPassword"
+          name="userPassword"
+          placeholder="Enter your password"
+          [(ngModel)]="login.userPassword"
+          required
+          ngModel
+        />
+      </div>
+
+      <!-- Sign In Button -->
+      <div class="mb-3">
+        <button type="submit" class="btn w-100 text-white" style="background-color: #ff6b35;">
+          Sign In
+        </button>
+      </div>
+    </form>
+
+    <!-- Forgot Password -->
+    <p class="text-center">
+      <a href="#" class="text-primary text-decoration-none">Forgot your password?</a>
+    </p>
+
+    <!-- Sign Up -->
+    <p class="text-center">
+      Don't have an account?
+      <a routerLink="/register" class="text-primary text-decoration-none">Sign up</a>
+    </p>
+
+    <!-- Error Message -->
+    <div class="text-danger text-center mt-2" *ngIf="errMessage">
+      {{ errMessage }}
+    </div>
+
+    <!-- Demo Info -->
+    <hr />
+  </div>
+</div>

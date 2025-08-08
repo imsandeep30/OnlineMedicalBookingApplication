@@ -39,7 +39,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
         }
 
         // Get all orders for a specific user (User and Admin roles)
-        [HttpGet("user/{userId}")]
+        [HttpGet("update-order/{userId}")]
         [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> GetOrdersByUserId(int userId)
         {
