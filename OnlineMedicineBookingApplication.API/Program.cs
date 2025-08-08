@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using OnlineMedicineBookingApplication.API.Controllers;
@@ -44,6 +43,7 @@ namespace OnlineMedicineBookingApplication.API
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IOrderContract, OrderRepository>();
             builder.Services.AddControllers();
+
             #region Configure Authentication Schema to validate Token
             builder.Services.AddAuthentication(options =>
             {
