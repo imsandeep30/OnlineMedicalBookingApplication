@@ -18,19 +18,22 @@ namespace OnlineMedicineBookingApplication.Application.Services
         private readonly ICartContract _cartRepository;
         private readonly IOrderService _orderService;
         private readonly ITransactionService _transactionService;
+        private readonly IMedicineService _medicineService;
 
         // Constructor injecting necessary dependencies
-        public CartService(ICartContract cartRepository, IOrderService orderService, ITransactionService transactionService)
+        public CartService(ICartContract cartRepository, IOrderService orderService, ITransactionService transactionService, IMedicineService medicineService)
         {
             _cartRepository = cartRepository;
             _orderService = orderService;
             _transactionService = transactionService;
+            _medicineService = medicineService;
         }
 
         // Retrieves the user's cart with all items
         public async Task<CartDTO> GetCartAsync(int userId)
         {
             var cart = await _cartRepository.GetCartByUserIdAsync(userId);
+
             return new CartDTO
             {
                 CartId = cart.CartId,
@@ -38,6 +41,7 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 TotalPrice = cart.TotalPrice,
                 Items = cart.Items.Select(i => new CartItemDTO
                 {
+                    MedicneName = _medicineService.GetMedicineByIdAsync(i.MedicineId).Result.MedicineName,
                     MedicineId = i.MedicineId,
                     Quantity = i.Quantity
                 }).ToList()
