@@ -1,0 +1,154 @@
+<div class="container-fluid py-4">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light px-4">
+    <a class="navbar-brand fw-bold" href="#">MediCare Admin</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="/admin-dashboard">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="/manage-medicines">Manage Medicines</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Orders</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Users</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Reports</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
+      </ul>
+    </div>
+  </nav>
+  
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h5>Manage Medicines</h5>
+    <button class="btn btn-warning text-white" (click)="toggleAddForm()">
+      Add New Medicine
+    </button>
+  </div>
+
+  <!-- Search and Filters -->
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <input [(ngModel)]="searchTerm" type="text" class="form-control" placeholder="Search by name..." />
+    </div>
+    <div class="col-md-3">
+      <select [(ngModel)]="selectedStatus" class="form-select">
+        <option value="">All Status</option>
+        <option *ngFor="let stat of statuses" [value]="stat">{{stat}}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="card p-3">
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <th>Code</th>
+          <th>Medicine</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let med of filteredMedicines">
+          <td>
+             <span class="badge me-2" [style.backgroundColor]="'#'+(Math.random().toString(16).slice(2,8))">{{med.code}}</span>
+          </td>
+          <td>
+            <strong>{{med.name}}</strong><br>
+            <small class="text-muted">{{med.description}}</small>
+          </td>
+          <td>₹{{med.price}}</td>
+          <td>{{med.stock}}</td>
+          <td>
+            <span class="badge"
+                  [ngClass]="{
+                    'bg-success': med.status==='In Stock',
+                    'bg-danger': med.status==='Out of Stock',
+                    'bg-warning text-dark': med.status==='Low Stock'
+                  }">
+              {{med.status}}
+            </span>
+          </td>
+          <td>
+            <button class="btn btn-sm btn-outline-primary me-2" (click)="startEdit(med)">Edit</button>
+            <button class="btn btn-sm btn-outline-danger" (click)="deleteMedicine(med.rawName)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Add Medicine Form -->
+<div *ngIf="showAddForm" class="card p-3 mb-3">
+  <h5>Add New Medicine</h5>
+  <form (ngSubmit)="addMedicine()" #addForm="ngForm">
+    <div class="mb-3">
+      <label class="form-label">Name</label>
+      <input type="text" class="form-control" [(ngModel)]="newMedicine.medicineName" name="medicineName" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Brand</label>
+      <input type="text" class="form-control" [(ngModel)]="newMedicine.brand" name="brand" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Price</label>
+      <input type="number" class="form-control" [(ngModel)]="newMedicine.price" name="price" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Quantity Available</label>
+      <input type="number" class="form-control" [(ngModel)]="newMedicine.quantityAvailable" name="quantityAvailable" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Manufacture Date</label>
+      <input type="date" class="form-control" [(ngModel)]="newMedicine.manufactureDate" name="manufactureDate" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Expiry Date</label>
+      <input type="date" class="form-control" [(ngModel)]="newMedicine.expiryDate" name="expiryDate" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Description</label>
+      <textarea class="form-control" [(ngModel)]="newMedicine.description" name="description"></textarea>
+    </div>
+    <div class="form-check mb-3">
+      <input type="checkbox" class="form-check-input" [(ngModel)]="newMedicine.prescriptionRequired" name="prescriptionRequired">
+      <label class="form-check-label">Prescription Required</label>
+    </div>
+    <button type="submit" class="btn btn-success me-2">Add Medicine</button>
+    <button type="button" class="btn btn-secondary" (click)="toggleAddForm()">Cancel</button>
+  </form>
+</div>
+
+
+    <!-- Edit Form -->
+<div *ngIf="editingMedicine" class="card p-3 mt-3">
+  <h5>Edit Medicine</h5>
+  <form (ngSubmit)="updateMedicine()" #editForm="ngForm">
+    <div class="mb-3">
+      <label class="form-label">Name</label>
+      <input type="text" class="form-control" [(ngModel)]="editFormData.medicineName" name="medicineName" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Brand</label>
+      <input type="text" class="form-control" [(ngModel)]="editFormData.brand" name="brand" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Price</label>
+      <input type="number" class="form-control" [(ngModel)]="editFormData.price" name="price" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Quantity Available</label>
+      <input type="number" class="form-control" [(ngModel)]="editFormData.quantityAvailable" name="quantityAvailable" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Description</label>
+      <textarea class="form-control" [(ngModel)]="editFormData.description" name="description"></textarea>
+    </div>
+    <button type="submit" class="btn btn-success me-2">Save Changes</button>
+    <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+  </form>
+</div>
+
+  </div>
+</div>

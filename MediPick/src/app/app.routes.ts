@@ -9,12 +9,14 @@ import { OrderBoth } from './order-both/order-both';
 import { MedCatlouge } from './med-catlouge/med-catlouge';
 import { HomeComponent } from './home-component/home-component';
 import { CustHome } from './cust-home/cust-home';
+import { ManageMedicines } from './manage-medicines/manage-medicines';
 export const routes: Routes = [
     {path:'register',component:Register},
     {path:'login',component:Login},
     {
         path:'admin-dashboard',component:AdminDashboard,children:[
            {path:'all-orders',component:OrderAdmin},
+           {path:'manage-medicines',component:ManageMedicines},
         ]
    },
     {
