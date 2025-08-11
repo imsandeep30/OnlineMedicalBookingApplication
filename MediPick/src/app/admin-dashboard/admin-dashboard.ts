@@ -12,8 +12,6 @@ import { forkJoin, map, switchMap } from 'rxjs';
   styleUrls: ['./admin-dashboard.css']
 })
 export class AdminDashboard implements OnInit {
-
-
   medicineStock: { category: string; count: number }[] = [];
   recentOrders: any[] = [];
 
