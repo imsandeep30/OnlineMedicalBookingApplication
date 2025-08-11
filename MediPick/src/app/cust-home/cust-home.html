@@ -1,0 +1,43 @@
+<div class="dashboard">
+  <!-- Sidebar -->
+  <!-- Main Content -->
+  <main class="main-content">
+    <h2>Welcome back, {{ userName }}!</h2>
+    <p class="subtitle">Manage your health with ease</p>
+
+    <!-- Stats Cards -->
+    <div class="stats">
+      <div class="card">
+        <h3>{{ totalOrders }}</h3>
+        <p>Total Orders</p>
+      </div>
+      <div class="card">
+        <h3>{{ deliveredOrders }}</h3>
+        <p>Delivered</p>
+      </div>
+      <div class="card">
+        <h3>₹{{ totalSpent }}</h3>
+        <p>Total Spent</p>
+      </div>
+    </div>
+
+    <!-- Status and Activity -->
+    <div class="grid">
+      <div class="status-card">
+        <h4>Order Status</h4>
+        <div class="status pending">Pending Orders: {{ pendingOrders }}</div>
+        <div class="status processing">Processing: {{ processingOrders }}</div>
+        <div class="status delivered">Delivered: {{ deliveredOrders }}</div>
+      </div>
+
+      <div class="activity-card">
+        <h4>Recent Activity</h4>
+        <ul>
+          <li *ngFor="let activity of recentActivity">
+            {{ activity.message }} <span>{{ activity.time }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </main>
+</div>
