@@ -6,6 +6,8 @@ import { CustomerDashboard } from './customer-dashboard/customer-dashboard';
 import { Login } from './login/login';
 import { OrderAdmin } from './order-admin/order-admin';
 import { OrderBoth } from './order-both/order-both';
+import { MedCatlouge } from './med-catlouge/med-catlouge';
+import { HomeComponent } from './home-component/home-component';
 export const routes: Routes = [
     {path:'register',component:Register},
     {path:'login',component:Login},
@@ -19,4 +21,7 @@ export const routes: Routes = [
             {path:'orderby-userid',component:OrderBoth}
         ]
     },
+    {path : 'cart',component:CartComponent},
+    {path : 'medicine-catalogue',component:MedCatlouge},
+    {path : '**' , component:HomeComponent}
 ];
