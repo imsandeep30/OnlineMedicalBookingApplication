@@ -18,6 +18,7 @@ export class Login {
   loginUser(){
     this.http.post<any>('http://localhost:5184/api/User/Login',this.login)
     .subscribe((data)=>{
+      console.log(data);
       if(data!=null){
         console.log("Login successful");
         console.log(data);
@@ -26,6 +27,11 @@ export class Login {
         localStorage.setItem('userName',data.userName);
         localStorage.setItem('role',data.role);
         localStorage.setItem('active',"active")
+        localStorage.setItem('role',data.role);
+        localStorage.setItem('userName',data.userName);
+        localStorage.setItem('userEmail',data.userEmail);
+        localStorage.setItem('role',data.role);
+        localStorage.setItem('active',"active");
         if(data.role==="Admin"){
           this.router.navigate(['/admin-dashboard']);
         }

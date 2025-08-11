@@ -1,0 +1,26 @@
+.card {
+  border-radius: 10px;
+  background: #fff;
+}
+
+.badge {
+  font-size: 0.85rem;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.table thead th {
+  background-color: #f8f9fa;
+}
+
+.btn-link {
+  color: #ff6b6b;
+}
+
+.text-pink {
+  color: #e83e8c;
+}
+
+select.form-select-sm {
+  min-width: 120px;
+}
