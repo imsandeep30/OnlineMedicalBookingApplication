@@ -1,0 +1,28 @@
+<app-top-navbar></app-top-navbar>
+<div class="filters">
+  <input type="text" placeholder="Search medicines, categories, or manufacturers..." class="search-bar">
+
+  <select >
+    <option value="name">Sort by Name</option>
+    <option value="price">Sort by Price</option>
+    <option value="rating">Sort by Rating</option>
+  </select>
+</div>
+
+<div class="medicine-grid">
+    <div class="medicine-card" *ngFor="let m of medicines" >
+    <img src="./Citrizen.jpg" alt="Medicine Image" class="medicine-image">
+    <div class="medicine-header">
+      <span class="medicine-title">{{m.medicineName}}</span>
+      <span class="rating">⭐ </span>
+    </div>
+    <span class="badge"></span>
+    <h3></h3>
+    <p class="price">₹{{m.price}}</p>
+    <p class="reviews"> reviews 20k+</p>
+    <button [class.out-of-stock]="m.quantityAvailable === 0" 
+            (click)="m.quantityAvailable > 0 && addToCart(m)">
+      {{m.quantityAvailable > 0 ? 'Add to Cart' : 'Out of Stock'}}
+    </button>
+  </div>
+</div>

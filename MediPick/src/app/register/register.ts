@@ -3,7 +3,7 @@ import {  FormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { User } from '../user';
-import { RouterModule } from '@angular/router';
+import { RouterModule,Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -22,7 +22,7 @@ export class Register {
     role: ''
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   registerUser() {
     this.http.post('http://localhost:5184/api/User/Register', this.user, { responseType: 'text' })
@@ -38,6 +38,8 @@ export class Register {
             userAddress: '',
             role: ''
           };
+          // Optionally, redirect to login or another page
+          this.router.navigate(['/login']);
         },
         error: (err) => {
           console.error('Registration failed:', err);

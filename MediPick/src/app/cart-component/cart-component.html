@@ -1,0 +1,52 @@
+<app-top-navbar></app-top-navbar>
+<div class="cart-page">
+  <!-- Left: Cart Items -->
+  <div class="cart-items-section">
+    <h2 > Hello {{ userName }}, Your Cart</h2>
+    <p>Review your items and complete your order</p>
+    <div *ngIf="cartItems.length === 0" class="empty-cart">
+      <img src="./duckPng.png" alt="Empty Cart" class="empty-cart-img" />
+      <p>Your cart is empty</p>
+      <a routerLink="/browse-medicines" class="shop-now-btn">🛒 Shop Now</a>
+    </div>
+    <div class="cart-grid">
+      <app-medicine-card
+        *ngFor="let item of cartItems"
+        [medicine]="item"
+        (remove)="removeItem(item)">
+      </app-medicine-card>
+    </div>
+
+    <div class="subtotal-card">
+      <span>Subtotal:</span>
+      <strong>₹{{ cartTotal }}</strong>
+    </div>
+  </div>
+
+  <!-- Right: Checkout Summary -->
+  <div class="checkout-summary">
+    <h3>Checkout Summary</h3>
+
+    <label>Delivery Address</label>
+    <textarea rows="3" placeholder="Enter your address"></textarea>
+
+    <label>Apply Coupon</label>
+    <div class="coupon">
+      <input type="text" placeholder="Enter coupon code" />
+      <button>Apply</button>
+    </div>
+
+    <label>Payment Method</label>
+    <button class="payment upi">UPI Payment</button>
+    <button class="payment card">Credit/Debit Card</button>
+    <button class="payment wallet">Digital Wallet</button>
+
+    <div class="price-summary">
+      <p>Subtotal: ₹{{ cartTotal }}</p>
+      <p>Delivery: Free</p>
+      <p class="total">Total: ₹{{ cartTotal }}</p>
+    </div>
+
+    <button class="proceed-btn">Proceed to Payment</button>
+  </div>
+</div>
