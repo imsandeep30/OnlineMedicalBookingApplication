@@ -13,6 +13,7 @@ export class OrderBoth implements OnInit {
   ordersbyuserid: any[] = [];
   userId: number = Number(localStorage.getItem('userId')) || 0;
   token: string | null = localStorage.getItem('jwt');
+  cart:any=null;
 
   constructor(private http: HttpClient) {}
 
@@ -43,6 +44,7 @@ export class OrderBoth implements OnInit {
       }
     });
   }
+  
   cancelOrder(orderId: number):void{
     if(!this.token){
       console.error("No token found");
