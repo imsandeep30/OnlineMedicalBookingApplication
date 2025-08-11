@@ -1,16 +1,16 @@
 <nav class="top-navbar">
   <ul>
-    <li [routerLink]="homeRoute" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+    <li [routerLink]="['/customer-dashboard/']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <i class="icon">🏠</i> Home
     </li>
-    <li routerLinkActive="active">
+    <li routerLinkActive="active" [routerLink]="['/customer-dashboard/orderby-userid']">
       <i class="icon">📦</i> My Orders
     </li>
-    <li routerLink="/medicine-catalogue" routerLinkActive="active">
+    <li [routerLink]="['/customer-dashboard/medicine-catalogue']" routerLinkActive="active">
       <i class="icon">💊</i> Browse Medicines
     </li>
 
-    <li class="cart" routerLink="/cart" routerLinkActive="active">
+    <li class="cart" [routerLink]="['/customer-dashboard/cart']" routerLinkActive="active">
       <i class="icon">🛒</i> Cart
     </li>
 

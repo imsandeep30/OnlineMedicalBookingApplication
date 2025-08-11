@@ -1,10 +1,9 @@
-<div class="container mt-4">
+<div class="container">
   <!-- Filters Row -->
-  <div class="row g-3 align-items-end mb-3">
-    <!-- Date Range -->
-    <div class="col-md-3">
-      <label class="form-label">Date Range</label>
-      <select class="form-select" [(ngModel)]="selectedDateRange" (change)="applyFilters()">
+  <div class="filters-row">
+    <div class="filter-item">
+      <label>Date Range</label>
+      <select [(ngModel)]="selectedDateRange" (change)="applyFilters()">
         <option value="today">Today</option>
         <option value="thisWeek">This Week</option>
         <option value="thisMonth">This Month</option>
@@ -12,10 +11,9 @@
       </select>
     </div>
 
-    <!-- Status Filter -->
-    <div class="col-md-3">
-      <label class="form-label">Status Filter</label>
-      <select class="form-select" [(ngModel)]="selectedStatus" (change)="applyFilters()">
+    <div class="filter-item">
+      <label>Status Filter</label>
+      <select [(ngModel)]="selectedStatus" (change)="applyFilters()">
         <option value="">All Orders</option>
         <option value="Pending">Pending</option>
         <option value="Processing">Processing</option>
@@ -25,27 +23,18 @@
       </select>
     </div>
 
-    <!-- Search Orders -->
-    <div class="col-md-4">
-      <label class="form-label">Search Orders</label>
-      <input type="text" id="search" class="form-control" placeholder="Search by Order ID"
+    <div class="filter-item search-box">
+      <label>Search Orders</label>
+      <input type="text" id="search" placeholder="Search by Order ID"
         [(ngModel)]="searchQuery" (input)="applyFilters()">
     </div>
-
-    <!-- Export Button -->
-    <!-- <div class="col-md-2">
-      <label class="form-label d-block">&nbsp;</label>
-      <button class="btn btn-warning w-100">
-        <i class="bi bi-download"></i> Export
-      </button>
-    </div>
-  </div> -->
+  </div>
 
   <!-- Orders Table -->
-  <div class="table-responsive">
+  <div class="card">
     <h2>Manage Orders</h2>
-    <table class="table table-hover align-middle">
-      <thead class="table-light">
+    <table>
+      <thead>
         <tr>
           <th>Order ID</th>
           <th>User ID</th>
@@ -66,21 +55,17 @@
           <td>{{ order.paymentStatus }}</td>
           <td>
             <span class="badge" [ngClass]="{
-              'bg-secondary': order.orderStatus === 'Pending',
-              'bg-primary': order.orderStatus === 'Processing',
-              'bg-info': order.orderStatus === 'Shipped',
-              'bg-success': order.orderStatus === 'Delivered',
-              'bg-danger': order.orderStatus === 'Cancelled'
-            }">
-              {{ order.orderStatus }}
-            </span>
+              'pending': order.orderStatus === 'Pending',
+              'processing': order.orderStatus === 'Processing',
+              'shipped': order.orderStatus === 'Shipped',
+              'delivered': order.orderStatus === 'Delivered',
+              'cancelled': order.orderStatus === 'Cancelled'
+            }">{{ order.orderStatus }}</span>
           </td>
           <td>{{ order.totalAmount | currency:'INR' }}</td>
           <td>
-            <div class="d-flex flex-column flex-sm-row gap-1">
-              <select class="form-select form-select-sm"
-                      [(ngModel)]="orderstatus.newStatus"
-                      name="status{{order.orderId}}">
+            <div class="actions">
+              <select [(ngModel)]="orderstatus.newStatus" name="status{{order.orderId}}">
                 <option value="">Select Status</option>
                 <option value="Pending">Pending</option>
                 <option value="Processing">Processing</option>
@@ -88,8 +73,7 @@
                 <option value="Delivered">Delivered</option>
                 <option value="Cancelled">Cancelled</option>
               </select>
-              <button class="btn btn-primary btn-sm"
-                      (click)="orderstatus.orderId = order.orderId; UpdateStatus(order.orderId)">
+              <button (click)="orderstatus.orderId = order.orderId; UpdateStatus(order.orderId)">
                 Update
               </button>
             </div>
@@ -100,7 +84,7 @@
   </div>
 
   <!-- Show update response -->
-  <div *ngIf="message" class="mt-3 alert alert-info">
+  <div *ngIf="message" class="message-box">
     {{ message }}
   </div>
 </div>
