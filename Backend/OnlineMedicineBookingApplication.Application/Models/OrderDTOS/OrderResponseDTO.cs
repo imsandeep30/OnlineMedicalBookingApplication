@@ -15,5 +15,7 @@ namespace OnlineMedicineBookingApplication.Application.Models.OrderDTOS
         public string PaymentStatus { get; set; }
         public string OrderStatus { get; set; }
         public decimal TotalAmount { get; set; }
+        //order items
+        public List<OrderItemDTO> OrderItems { get; set; } = new List<OrderItemDTO>();
     }
 }

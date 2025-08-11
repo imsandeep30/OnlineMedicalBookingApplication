@@ -58,7 +58,13 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 ShippingAddress = orderResult.ShippingAddress,
                 PaymentStatus = orderResult.PaymentStatus,
                 OrderStatus = orderResult.OrderStatus,
-                TotalAmount = orderResult.TotalAmount
+                TotalAmount = orderResult.TotalAmount,
+                OrderItems = orderResult.OrderItems.Select(oi => new OrderItemDTO
+                {
+                    MedicineId = oi.MedicineId,
+                    Quantity = oi.Quantity,
+                    Price = oi.Price
+                }).ToList()
             };
         }
 
@@ -74,7 +80,13 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 ShippingAddress = o.ShippingAddress,
                 PaymentStatus = o.PaymentStatus,
                 OrderStatus = o.OrderStatus,
-                TotalAmount = o.TotalAmount
+                TotalAmount = o.TotalAmount,
+                OrderItems = o.OrderItems.Select(oi => new OrderItemDTO
+                {
+                    MedicineId = oi.MedicineId,
+                    Quantity = oi.Quantity,
+                    Price = oi.Price
+                }).ToList()
             });
         }
         // Get all orders by the admin
@@ -89,7 +101,13 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 ShippingAddress = o.ShippingAddress,
                 PaymentStatus = o.PaymentStatus,
                 OrderStatus = o.OrderStatus,
-                TotalAmount = o.TotalAmount
+                TotalAmount = o.TotalAmount,
+                OrderItems = o.OrderItems.Select(oi => new OrderItemDTO
+                {
+                    MedicineId = oi.MedicineId,
+                    Quantity = oi.Quantity,
+                    Price = oi.Price
+                }).ToList()
             });
         }
         // Get a specific order by its ID
@@ -105,7 +123,13 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 ShippingAddress = order.ShippingAddress,
                 PaymentStatus = order.PaymentStatus,
                 OrderStatus = order.OrderStatus,
-                TotalAmount = order.TotalAmount
+                TotalAmount = order.TotalAmount,
+                OrderItems = order.OrderItems.Select(oi => new OrderItemDTO
+                {
+                    MedicineId = oi.MedicineId,
+                    Quantity = oi.Quantity,
+                    Price = oi.Price
+                }).ToList()
             };
         }
         // Update the status of an existing order

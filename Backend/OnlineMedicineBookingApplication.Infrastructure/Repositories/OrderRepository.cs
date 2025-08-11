@@ -40,25 +40,28 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
         public async Task<IEnumerable<Order>> GetOrdersByUserIdAsync(int userId)
         {
             return await _context.Orders
+                .Include(o => o.OrderItems)   // Add this line to eagerly load order items
                 .Where(o => o.UserId == userId)
                 .ToListAsync();
         }
+
 
         // Gets a specific order by its ID, including related user data
         public async Task<Order> GetOrderByIdAsync(int orderId)
         {
             return await _context.Orders
                 .Include(o => o.User)
+                .Include(o => o.OrderItems)  // Include order items
                 .FirstOrDefaultAsync(o => o.OrderId == orderId);
         }
-
         // Retrieves all orders, including user data, ordered by recent first
         public async Task<IEnumerable<Order>> GetAllOrdersAsync()
         {
             return await _context.Orders
-                .Include(o => o.User)
-                .OrderByDescending(o => o.OrderDate)
-                .ToListAsync();
+            .Include(o => o.User)
+            .Include(o => o.OrderItems)   // <-- Include Order Items collection
+            .OrderByDescending(o => o.OrderDate)
+            .ToListAsync();
         }
 
         // Updates the status of a specific order
