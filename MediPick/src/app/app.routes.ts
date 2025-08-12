@@ -17,6 +17,8 @@ import { AdminHome } from './admin-home/admin-home';
 import { PaymentComponent } from './payment-component/payment-component';
 
 import { UsersSettings } from './users-settings/users-settings';
+import { AdminReports } from './admin-reports/admin-reports';
+import { AdminManageUsers } from './admin-manageusers/admin-manageusers';
 
 export const routes: Routes = [
     {path:'register',component:Register},
@@ -30,6 +32,8 @@ export const routes: Routes = [
              { path: '', component: AdminHome },
            {path:'all-orders',component:OrderAdmin},
            {path:'manage-medicines',component:ManageMedicines},
+           {path:'admin-reports',component:AdminReports},
+           {path:'admin-manageusers',component:AdminManageUsers}
         ]
    },
     {

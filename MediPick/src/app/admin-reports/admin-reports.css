@@ -1,0 +1,156 @@
+.admin-reports-container {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 0 20px 40px 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgb(0 0 0 / 0.08);
+}
+
+.admin-reports-container h2 {
+  font-weight: 700;
+  font-size: 2.2rem;
+  margin-bottom: 25px;
+  color: #222;
+  border-bottom: 3px solid #ff6b35;
+  padding-bottom: 8px;
+  user-select: none;
+}
+
+/* Filters section */
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.filters label {
+  font-weight: 600;
+  color: #555;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.filters select {
+  margin-left: 10px;
+  padding: 8px 14px;
+  font-size: 1rem;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  background-color: #fafafa;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.filters select:hover,
+.filters select:focus {
+  border-color: #ff6b35;
+  background-color: #fff;
+  outline: none;
+}
+
+/* Stats boxes container */
+.stats {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 35px;
+}
+
+/* Each stat box */
+.stat-box {
+  flex: 1 1 220px;
+  background: white;
+  padding: 25px 35px;
+  border-radius: 16px;
+  box-shadow: 0 6px 18px rgb(0 0 0 / 0.12);
+  text-align: center;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  cursor: default;
+  user-select: none;
+}
+
+.stat-box:hover {
+  box-shadow: 0 12px 30px rgb(0 0 0 / 0.18);
+  transform: translateY(-6px);
+}
+
+.stat-box h4 {
+  font-weight: 700;
+  font-size: 1.5rem;
+  margin-bottom: 14px;
+  color: #ff6b35;
+  letter-spacing: 0.05em;
+}
+
+.stat-box p {
+  font-size: 3rem;
+  font-weight: 900;
+  color: #222;
+  margin: 0;
+  font-family: 'Segoe UI Black', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Export buttons container */
+.export-buttons {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.export-buttons button {
+  font-weight: 700;
+  padding: 14px 32px;
+  font-size: 1.15rem;
+  border-radius: 10px;
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
+  user-select: none;
+  cursor: pointer;
+  border: none;
+  margin: 0 12px;
+  min-width: 140px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.1);
+}
+
+.export-buttons button.btn-primary {
+  background-color: #ff6b35;
+  color: white;
+}
+
+.export-buttons button.btn-primary:hover {
+  background-color: #e55a27;
+  box-shadow: 0 6px 22px rgb(229 90 39 / 0.5);
+}
+
+.export-buttons button.btn-success {
+  background-color: #28a745;
+  color: white;
+}
+
+.export-buttons button.btn-success:hover {
+  background-color: #218838;
+  box-shadow: 0 6px 22px rgb(33 136 56 / 0.5);
+}
+
+/* Error message */
+.text-danger {
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin-top: 25px;
+  text-align: center;
+  color: #dc3545;
+  user-select: none;
+}
+
+/* Loading text */
+.loading-text {
+  text-align: center;
+  font-size: 1.25rem;
+  color: #666;
+  margin-top: 40px;
+  user-select: none;
+}
