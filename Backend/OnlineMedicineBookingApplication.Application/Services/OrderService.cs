@@ -24,6 +24,7 @@ namespace OnlineMedicineBookingApplication.Application.Services
         public async Task<OrderResponseDTO> AddOrderAsync(OrderUserRequestDTO dto)
         {
             var cart = await _cartRepository.GetCartByUserIdAsync(dto.UserId);
+            Console.WriteLine($"Cart retrieved for user {dto.UserId}: {cart?.CartId} with total price {cart}");
             if (cart == null || !cart.Items.Any())
             {
                 throw new InvalidOperationException("Cart is empty or does not exist.");
@@ -49,7 +50,7 @@ namespace OnlineMedicineBookingApplication.Application.Services
             if (orderResult.PaymentStatus == "Completed")
             {
                 //Clear the cart after placing the order
-                await _cartRepository.ClearCartAsync(dto.UserId);
+                //await _cartRepository.ClearCartAsync(dto.UserId);
             }
             return new OrderResponseDTO
             {

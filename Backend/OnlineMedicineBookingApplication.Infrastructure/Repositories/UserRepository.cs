@@ -36,7 +36,10 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
         // Retrieves a user by their unique ID
         public async Task<User> GetUserByIdAsync(int id)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
+            var user = await _context.Users
+                .Include(u => u.Address)   // Eagerly load the Address
+                .FirstOrDefaultAsync(u => u.UserId == id);
+
             if (user == null)
             {
                 throw new ArgumentException("User not found.");
@@ -47,7 +50,9 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
         // Gets all users from the Users table
         public async Task<List<User>> GetAllUsersAsync()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users
+                .Include(u => u.Address)  // Eager load Address for each user
+                .ToListAsync();
         }
 
         // Deletes a user by ID if they exist
@@ -64,19 +69,41 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
         // Updates user fields (name and phone) if user exists
         public async Task<User> UpdateUserAsync(User user)
         {
-            var existingUser = await _context.Users.FindAsync(user.UserId);
+            var existingUser = await _context.Users
+                .Include(u => u.Address) // Include Address navigation property
+                .FirstOrDefaultAsync(u => u.UserId == user.UserId);
+
             if (existingUser == null)
             {
                 throw new ArgumentException("User not found.");
             }
-            else
+
+            // Update user fields
+            existingUser.UserName = user.UserName;
+            existingUser.UserPhone = user.UserPhone;
+
+            // Update address fields if provided
+            if (user.Address != null)
             {
-                existingUser.UserName = user.UserName;
-                existingUser.UserPhone = user.UserPhone;
-                await _context.SaveChangesAsync();
-                return existingUser;
+                if (existingUser.Address == null)
+                {
+                    // If no address exists, add new one
+                    existingUser.Address = user.Address;
+                }
+                else
+                {
+                    existingUser.Address.Street = user.Address.Street;
+                    existingUser.Address.City = user.Address.City;
+                    existingUser.Address.State = user.Address.State;
+                    existingUser.Address.ZipCode = user.Address.ZipCode;
+                    existingUser.Address.Country = user.Address.Country;
+                }
             }
+
+            await _context.SaveChangesAsync();
+            return existingUser;
         }
+
 
         // Resets the user's password
         public async Task ResetPasswordAsync(int userId, string oldPassword,string newPassword)
