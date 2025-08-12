@@ -11,16 +11,22 @@ export class UserSettings {
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('jwt') || '';
     return new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
     });
   }
 
   getUserProfile(userId: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/profile/${userId}`, { headers: this.getAuthHeaders() });
   }
-  updateUser(userData: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/Update`, userData, {
-      headers: this.getAuthHeaders()
+  
+  deleteUserProfile(userId: number): Observable<string> {
+    return this.http.delete(`${this.apiUrl}/delete/${userId}`, { headers: this.getAuthHeaders(),responseType: 'text' });
+  }
+  updateUserProfile(userData: any): Observable<string> {
+    return this.http.put(`${this.apiUrl}/Update`, userData, {
+      headers: this.getAuthHeaders(),
+      responseType: 'text'
     });
   }
 
