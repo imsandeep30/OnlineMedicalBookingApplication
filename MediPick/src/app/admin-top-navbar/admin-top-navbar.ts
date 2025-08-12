@@ -3,14 +3,15 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterLinkActive } from '@angular/router';
 import { RouterLink } from '@angular/router';
+
 @Component({
-  selector: 'app-top-navbar',
+  selector: 'app-admin-top-navbar',
   standalone: true,
   imports: [CommonModule, RouterLinkActive, RouterLink],
-  templateUrl: './top-navbar.html',
-  styleUrls: ['./top-navbar.css']
+  templateUrl: './admin-top-navbar.html',
+  styleUrl: './admin-top-navbar.css'
 })
-export class TopNavbar {   
+export class AdminTopNavbar {
   get userRole(): string | null {  
     return localStorage.getItem('role');
   }

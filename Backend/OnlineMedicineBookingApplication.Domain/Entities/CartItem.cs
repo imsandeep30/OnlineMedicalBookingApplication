@@ -18,6 +18,7 @@ namespace OnlineMedicineBookingApplication.Domain.Entities
         public Cart? Cart { get; set; }
 
         public int MedicineId { get; set; }
+        public string MedicineName { get; set; } // Assuming you want to store the medicine name as well
         public int Quantity { get; set; }
 
         public decimal Price { get; set; }

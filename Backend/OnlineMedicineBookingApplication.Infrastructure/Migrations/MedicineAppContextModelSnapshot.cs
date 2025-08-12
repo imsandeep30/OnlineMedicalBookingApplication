@@ -22,6 +22,62 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Adress", b =>
+                {
+                    b.Property<int>("AdressId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdressId"));
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Country")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("State")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Street")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ZipCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AdressId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Adress");
+
+                    b.HasData(
+                        new
+                        {
+                            AdressId = 1,
+                            City = "Hyderabad",
+                            Country = "India",
+                            State = "Telangana",
+                            Street = "123 Main St",
+                            UserId = 1,
+                            ZipCode = "500001"
+                        },
+                        new
+                        {
+                            AdressId = 2,
+                            City = "Hyderabad",
+                            Country = "India",
+                            State = "Telangana",
+                            Street = "345 Main St",
+                            UserId = 2,
+                            ZipCode = "500006"
+                        });
+                });
+
             modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Cart", b =>
                 {
                     b.Property<int>("CartId")
@@ -57,6 +113,10 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
 
                     b.Property<int>("MedicineId")
                         .HasColumnType("int");
+
+                    b.Property<string>("MedicineName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -286,6 +346,10 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                     b.Property<int>("MedicineId")
                         .HasColumnType("int");
 
+                    b.Property<string>("MedicineName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
@@ -339,6 +403,9 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -369,6 +436,7 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                         new
                         {
                             UserId = 1,
+                            CreatedAt = new DateTime(2025, 7, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Role = "User",
                             UserEmail = "User@gmail.com",
                             UserName = "user",
@@ -378,12 +446,24 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                         new
                         {
                             UserId = 2,
+                            CreatedAt = new DateTime(2025, 7, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Role = "Admin",
                             UserEmail = "admin@gmial.com",
                             UserName = "admin",
                             UserPassword = "Admin@123",
                             UserPhone = "7093454577"
                         });
+                });
+
+            modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Adress", b =>
+                {
+                    b.HasOne("OnlineMedicineBookingApplication.Domain.Entities.User", "User")
+                        .WithOne("Address")
+                        .HasForeignKey("OnlineMedicineBookingApplication.Domain.Entities.Adress", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.Cart", b =>
@@ -456,6 +536,8 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
 
             modelBuilder.Entity("OnlineMedicineBookingApplication.Domain.Entities.User", b =>
                 {
+                    b.Navigation("Address");
+
                     b.Navigation("Cart");
                 });
 #pragma warning restore 612, 618

@@ -41,7 +41,7 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 TotalPrice = cart.TotalPrice,
                 Items = cart.Items.Select(i => new CartItemDTO
                 {
-                    MedicneName = _medicineService.GetMedicineByIdAsync(i.MedicineId).Result.MedicineName,
+                    MedicneName = i.MedicineName,
                     MedicineId = i.MedicineId,
                     Quantity = i.Quantity
                 }).ToList()

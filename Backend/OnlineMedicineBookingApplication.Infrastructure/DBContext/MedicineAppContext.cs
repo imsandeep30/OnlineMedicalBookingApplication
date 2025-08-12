@@ -36,6 +36,11 @@ namespace OnlineMedicineBookingApplication.Infrastructure.DBContext
                  .WithOne(c => c.User)
                  .HasForeignKey<Cart>(c => c.UserId)
                  .IsRequired();
+            modelBuilder.Entity<User>()
+            .HasOne(u => u.Address)
+            .WithOne(a => a.User)
+            .HasForeignKey<Adress>(a => a.UserId)
+            .IsRequired();
 
             modelBuilder.Entity<Cart>()
                 .HasMany(c => c.Items)
@@ -70,8 +75,9 @@ namespace OnlineMedicineBookingApplication.Infrastructure.DBContext
                     UserName = "user",
                     UserPhone = "7093454577",
                     UserEmail = "User@gmail.com",
-                    UserPassword = "Test@123",
+                    UserPassword = "Test@123",  // Ideally, hashed
                     Role = "User",
+                    CreatedAt = new DateTime(2025, 7, 12)
                 },
                 new User
                 {
@@ -81,7 +87,30 @@ namespace OnlineMedicineBookingApplication.Infrastructure.DBContext
                     UserEmail = "admin@gmial.com",
                     UserPassword = "Admin@123",
                     Role = "Admin",
+                    CreatedAt = new DateTime(2025, 7, 12)
                 }
+            );
+            modelBuilder.Entity<Adress>().HasData(
+                new Adress
+                {
+                    AdressId = 1,
+                    Street = "123 Main St",
+                    City = "Hyderabad",
+                    State = "Telangana",
+                    ZipCode = "500001",
+                    Country = "India",
+                    UserId = 1  // FK to the user
+                },
+                 new Adress
+                 {
+                     AdressId = 2,
+                     Street = "345 Main St",
+                     City = "Hyderabad",
+                     State = "Telangana",
+                     ZipCode = "500006",
+                     Country = "India",
+                     UserId = 2  // FK to the user
+                 }
             );
 
             //modelBuilder.Entity<Pharmacist>().HasData(

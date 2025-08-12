@@ -62,6 +62,7 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
                 {
                     CartId = cart.CartId,
                     MedicineId = medicineId,
+                    MedicineName = _context.Medicines.FirstOrDefault(m => m.MedicineId == medicineId)?.MedicineName ?? "Unknown",
                     Quantity = quantity,
                     Price = _context.Medicines.FirstOrDefault(m => m.MedicineId == medicineId)?.Price ?? 0
                 });

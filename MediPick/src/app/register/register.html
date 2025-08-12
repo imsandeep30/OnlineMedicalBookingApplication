@@ -18,7 +18,7 @@
   <div class="right-section">
     <div class="form-card">
       <h3>Create Your Account</h3>
-      <form id="registerForm">
+      <form id="registerForm" (submit)="registerUser(); $event.preventDefault()">
         <div class="form-group">
           <label>Name</label>
           <input type="text" [(ngModel)]="user.userName" name="name" required />
@@ -31,10 +31,28 @@
           <label>Mobile</label>
           <input type="text" [(ngModel)]="user.userPhone" name="mobile" required />
         </div>
+
         <div class="form-group">
-          <label>Address</label>
-          <input type="text" [(ngModel)]="user.userAddress" name="address" required />
+          <label>Street</label>
+          <input type="text" [(ngModel)]="user.userAddress.userStreet" name="street" required />
         </div>
+        <div class="form-group">
+          <label>City</label>
+          <input type="text" [(ngModel)]="user.userAddress.userCity" name="city" required />
+        </div>
+        <div class="form-group">
+          <label>State</label>
+          <input type="text" [(ngModel)]="user.userAddress.userState" name="state" required />
+        </div>
+        <div class="form-group">
+          <label>Zip Code</label>
+          <input type="text" [(ngModel)]="user.userAddress.userZipCode" name="zipCode" required />
+        </div>
+        <div class="form-group">
+          <label>Country</label>
+          <input type="text" [(ngModel)]="user.userAddress.userCountry" name="country" required />
+        </div>
+
         <div class="form-group">
           <label>Password</label>
           <input type="password" [(ngModel)]="user.userPassword" name="password" required />
@@ -51,7 +69,7 @@
           </select>
         </div>
 
-        <button type="submit" (click)="registerUser()">Register</button>
+        <button type="submit">Register</button>
       </form>
       <p class="switch-link">Already have an account? <a routerLink="/login">Sign In</a></p>
     </div>

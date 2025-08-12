@@ -11,5 +11,6 @@ namespace OnlineMedicineBookingApplication.Application.Models.UserDTOS
         public int UserId { get; set; }
         public string? Name { get; set; }
         public string? PhoneNumber { get; set; }
+        public AdressDTO UserAddress { get; set; } = new AdressDTO();
     }
 }

@@ -64,7 +64,7 @@ export class MedCatlouge implements OnInit {
       keywords: null
     };
 
-    this.http.post<Medicine[]>('http://localhost:5184/api/Medicine/filter', filterPayload, {
+    this.http.post<Medicine[]>('http://localhost:5184/api/Medicine/filter-medicines', filterPayload, {
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('jwt') }
     })
     .subscribe({
