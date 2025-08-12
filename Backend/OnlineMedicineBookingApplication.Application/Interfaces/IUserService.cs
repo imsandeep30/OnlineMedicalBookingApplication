@@ -18,7 +18,7 @@ namespace OnlineMedicineBookingApplication.Application.Interfaces
         Task RegisterAsync(UserRegisterDTO userRegisterDTO);
 
         // Retrieves a specific user's profile based on user ID
-        Task<User> GetUserProfileAsync(int id);
+        Task<UserResponseDTO> GetUserProfileAsync(int id);
 
         // Returns a list of all users (typically for admin use)
         Task<List<User>> GetAllUsersAsync();

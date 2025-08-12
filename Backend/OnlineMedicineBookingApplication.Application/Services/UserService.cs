@@ -65,7 +65,34 @@ namespace OnlineMedicineBookingApplication.Application.Services
         }
 
         // Get user profile details by user ID
-        public Task<User> GetUserProfileAsync(int id) => _userRepository.GetUserByIdAsync(id);
+        public async Task<UserResponseDTO> GetUserProfileAsync(int id)
+        {
+            var user = await _userRepository.GetUserByIdAsync(id);
+
+            if (user == null)
+            {
+                throw new ArgumentException("User not found.");
+            }
+
+            var userDTO = new UserResponseDTO()
+            {
+                userId = user.UserId,
+                userEmail = user.UserEmail,
+                UserAddress = new AdressDTO
+                {
+                    UserStreet = user.Address.Street,
+                    UserCity = user.Address.City,
+                    UserState = user.Address.State,
+                    UserZipCode = user.Address.ZipCode,
+                    UserCountry = user.Address.Country
+                },
+                userName = user.UserName,
+                userPhone = user.UserPhone
+            };
+
+            return userDTO;
+        }
+
 
         // Get all registered users
         public Task<List<User>> GetAllUsersAsync() => _userRepository.GetAllUsersAsync();

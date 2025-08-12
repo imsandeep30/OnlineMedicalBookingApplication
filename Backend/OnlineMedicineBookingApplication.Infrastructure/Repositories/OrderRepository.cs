@@ -25,7 +25,9 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
         {
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
-            var res = await _context.Orders.FirstOrDefaultAsync(o => o.UserId == order.UserId && o.OrderStatus == "Pending");
+            var res = await _context.Orders
+                .Include(o => o.OrderItems) // load related order items
+                .FirstOrDefaultAsync(o => o.UserId == order.UserId && o.OrderStatus=="Pending");
             if (res != null)
             {
                 return res; // Return the newly added order
@@ -40,7 +42,9 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
         public async Task<IEnumerable<Order>> GetOrdersByUserIdAsync(int userId)
         {
             return await _context.Orders
-                .Include(o => o.OrderItems)   // Add this line to eagerly load order items
+                .Include(o => o.OrderItems)              // Load order items
+                .Include(o => o.User)                    // Include User entity
+                    .ThenInclude(u => u.Address)        // Then include the Address of the User
                 .Where(o => o.UserId == userId)
                 .ToListAsync();
         }
