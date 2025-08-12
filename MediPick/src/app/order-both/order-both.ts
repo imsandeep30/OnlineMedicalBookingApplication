@@ -36,6 +36,19 @@ export class OrderBoth implements OnInit {
     this.http.get<any[]>(url, { headers }).subscribe({
       next: (response) => {
         this.ordersbyuserid = response;
+        this.ordersbyuserid.forEach(order => {
+        order.orderItems.forEach((item: any) => {
+          this.getMedicineName(item.medicineId).subscribe({
+            next: (medicine: any) => {
+              item.medicineName = medicine.medicineName; // Store name
+            },
+            error: (err) => {
+              console.error(`Error fetching medicine ${item.medicineId}:`, err);
+              item.medicineName = 'Unknown'; // fallback
+            }
+          });
+        });
+      });
         console.log('Orders loaded:', response);
       },
       error: (err) => {
@@ -44,6 +57,14 @@ export class OrderBoth implements OnInit {
       }
     });
   }
+  getMedicineName(medicineId: number) {
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${this.token}`
+  });
+
+  const url = `http://localhost:5184/api/Medicine/${medicineId}`;
+  return this.http.get(url, { headers });
+}
   
   cancelOrder(orderId: number):void{
     if(!this.token){

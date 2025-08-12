@@ -127,6 +127,10 @@ button:hover {
   color: #ff6b35;
   font-weight: bold;
 }
+.error small {
+    color: red;
+    font-size: 12px;
+  }
 
 @media (max-width: 768px) {
   .register-container {

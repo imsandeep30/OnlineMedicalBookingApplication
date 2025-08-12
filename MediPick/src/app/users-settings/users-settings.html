@@ -1,18 +1,31 @@
-<div class="container mt-4">
-  <div class="settings-card">
-    <h2>Profile Settings</h2>
+<div class="settings-container">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <ul>
+      <li class="active">Profile Settings</li>
+      <li>Change Password</li>
+      <li>Notifications</li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <h2 class="settings-title">Profile Settings</h2>
+
+    <!-- Profile Header -->
     <div class="profile-header">
       <div class="avatar">{{ userProfile?.userName?.[0]?.toUpperCase() }}</div>
-      <div>
+      <div class="profile-info">
         <h4>{{ userProfile.userName }}</h4>
         <p>{{ userProfile.role }}</p>
       </div>
     </div>
 
+    <!-- Profile Form -->
     <div class="profile-form">
       <div class="form-group">
         <label>Full Name</label>
-        <input type="text" [(ngModel)]="userProfile.userName" readonly>
+        <input type="text" [(ngModel)]="userProfile.userName">
       </div>
       <div class="form-group">
         <label>Email Address</label>
@@ -20,7 +33,7 @@
       </div>
       <div class="form-group">
         <label>Phone Number</label>
-        <input type="text" [(ngModel)]="userProfile.userPhone" readonly>
+        <input type="text" [(ngModel)]="userProfile.userPhone">
       </div>
       <div class="form-group">
         <label>Role</label>
@@ -36,8 +49,9 @@
       </div>
     </div>
 
+    <!-- Action Buttons -->
     <div class="buttons">
-      <button class="save-btn">Save Changes</button>
+      <button class="save-btn" (click)="updateProfile()">Save Changes</button>
       <button class="cancel-btn">Cancel</button>
     </div>
   </div>

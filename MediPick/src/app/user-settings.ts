@@ -18,5 +18,10 @@ export class UserSettings {
   getUserProfile(userId: number): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/profile/${userId}`, { headers: this.getAuthHeaders() });
   }
+  updateUser(userData: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/Update`, userData, {
+      headers: this.getAuthHeaders()
+    });
+  }
 
 }

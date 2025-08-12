@@ -43,19 +43,25 @@ export class Register {
       userZipCode: '',
       userCountry: ''
     },
-    role: 'User'
+    role: 'User',
   };
+  confirmPassword: string = '';
 
   constructor(private http: HttpClient, private router: Router) {}
 
   registerUser() {
     // You may want to validate password and confirm password here before sending
-
+    if (this.user.userPassword !== this.confirmPassword) {
+      alert('Password and Confirm Password do not match!');
+      return;
+    }
     this.http.post('http://localhost:5184/api/User/Register', this.user, { responseType: 'text' })
       .subscribe({
         next: (response) => {
           console.log('Server response:', response);
           alert('User registered successfully!');
+          console.log('Password:', this.user.userPassword);
+          console.log('Confirm Password:', this.confirmPassword);
           this.resetForm();
           this.router.navigate(['/login']);
         },
@@ -80,7 +86,9 @@ export class Register {
         userZipCode: '',
         userCountry: ''
       },
-      role: 'User'
+      role: 'User',
     };
+    this.confirmPassword = '';
+
   }
 }

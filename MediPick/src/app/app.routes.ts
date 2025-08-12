@@ -13,7 +13,11 @@ import { ManageMedicines } from './manage-medicines/manage-medicines';
 import { authGuard } from './auth-guard';
 import { AccessDenied } from './access-denied/access-denied';
 import { AdminHome } from './admin-home/admin-home';
+<<<<<<< Updated upstream
 import { PaymentComponent } from './payment-component/payment-component';
+=======
+import { UsersSettings } from './users-settings/users-settings';
+>>>>>>> Stashed changes
 export const routes: Routes = [
     {path:'register',component:Register},
     {
@@ -34,6 +38,7 @@ export const routes: Routes = [
             {path:'orderby-userid',component:OrderBoth},
             {path : 'cart',component:CartComponent},
             {path : 'medicine-catalogue',component:MedCatlouge},
+            {path:'user-settings',component:UsersSettings}
         ]
     },
     { path: 'payment', component: PaymentComponent },

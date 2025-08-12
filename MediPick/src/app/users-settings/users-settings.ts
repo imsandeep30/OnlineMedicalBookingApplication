@@ -30,5 +30,20 @@ export class UsersSettings implements OnInit {
       error:(err)=>console.error('Error fetching Profile', err)
     });
   }
+  updateProfile():void{
+    const updatedData={
+      userId:this.userProfile.userId,
+      userName:this.userProfile.userName,
+      userEmail:this.userProfile.userEmail,
+      userPhone:this.userProfile.userPhone
+    }
+    this.userSettings.updateUser(updatedData).subscribe({
+      next: response => {
+        console.log('Profile updated successfully:', response);
+        this.loadUserProfile(); // Reload the user profile after update
+      },
+      error: err => console.error('Error updating profile', err)
+    });
+  }
 
 }
