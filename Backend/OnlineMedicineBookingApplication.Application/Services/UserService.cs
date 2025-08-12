@@ -39,6 +39,14 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 UserPassword = user.UserPassword,
                 UserPhone = user.UserPhone,
                 Role = user.Role,
+                Address = new Adress
+                {
+                    Street=user.UserAddress.UserStreet,
+                    City=user.UserAddress.UserCity,
+                    State=user.UserAddress.UserState,
+                    ZipCode=user.UserAddress.UserZipCode,
+                    Country=user.UserAddress.UserCountry,
+                }, // Assuming Address is part of UserRegisterDTO
             };
 
             // Add user to database
@@ -79,6 +87,14 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 UserId = userUpdateDTO.UserId,
                 UserName = userUpdateDTO.Name,
                 UserPhone = userUpdateDTO.PhoneNumber,
+                Address = new Adress
+                {
+                    Street = userUpdateDTO.UserAddress.UserStreet,
+                    City = userUpdateDTO.UserAddress.UserCity,
+                    State = userUpdateDTO.UserAddress.UserState,
+                    ZipCode = userUpdateDTO.UserAddress.UserZipCode,
+                    Country = userUpdateDTO.UserAddress.UserCountry,
+                }
             };
 
             // Update user in the database
@@ -90,11 +106,19 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 userEmail = requestedUser.UserEmail,
                 userName = requestedUser.UserName,
                 userPhone = requestedUser.UserPhone,
+                UserAddress = new AdressDTO
+                {
+                    UserStreet = requestedUser.Address.Street,
+                    UserCity = requestedUser.Address.City,
+                    UserState = requestedUser.Address.State,
+                    UserZipCode = requestedUser.Address.ZipCode,
+                    UserCountry = requestedUser.Address.Country
+                },
             };
         }
 
         // Reset user's password
-        public Task ResetUserPasswordAsync(int userId, string newPassword)
-            => _userRepository.ResetPasswordAsync(userId, newPassword);
+        public Task ResetUserPasswordAsync(int userId,string oldPassword,string newPassword)
+            => _userRepository.ResetPasswordAsync(userId,oldPassword, newPassword);
     }
 }

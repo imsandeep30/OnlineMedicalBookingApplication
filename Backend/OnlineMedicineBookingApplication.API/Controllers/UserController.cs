@@ -123,15 +123,15 @@ namespace OnlineMedicineBookingApplication.API.Controllers
         }
 
         // Reset password by userId
-        [HttpGet("ResetPassword/{userId}/{newPassword}")]
+        [HttpGet("ResetPassword/{userId}/{olddPassword}/{newPassword}")]
         [Authorize(Roles = "User,Admin")]
-        public async Task<IActionResult> ResetPassword(int userId, string newPassword)
+        public async Task<IActionResult> ResetPassword(int userId,string oldPassword,string newPassword)
         {
             if (string.IsNullOrEmpty(newPassword))
             {
                 return BadRequest("New password cannot be empty.");
             }
-            await userService.ResetUserPasswordAsync(userId, newPassword);
+            await userService.ResetUserPasswordAsync(userId,oldPassword, newPassword);
             return Ok("User password reset successfully.");
         }
 

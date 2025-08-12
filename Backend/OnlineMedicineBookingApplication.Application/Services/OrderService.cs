@@ -38,6 +38,7 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 OrderStatus = "Pending",
                 OrderItems = cart.Items.Select(item => new OrderItem
                 {
+                    MedicineName = item.MedicineName,
                     MedicineId = item.MedicineId,
                     Quantity = item.Quantity,
                     Price = item.Price
@@ -61,6 +62,7 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 TotalAmount = orderResult.TotalAmount,
                 OrderItems = orderResult.OrderItems.Select(oi => new OrderItemDTO
                 {
+                    MedicineName = oi.MedicineName,
                     MedicineId = oi.MedicineId,
                     Quantity = oi.Quantity,
                     Price = oi.Price
@@ -83,6 +85,7 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 TotalAmount = o.TotalAmount,
                 OrderItems = o.OrderItems.Select(oi => new OrderItemDTO
                 {
+                    MedicineName = oi.MedicineName,
                     MedicineId = oi.MedicineId,
                     Quantity = oi.Quantity,
                     Price = oi.Price
@@ -104,6 +107,7 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 TotalAmount = o.TotalAmount,
                 OrderItems = o.OrderItems.Select(oi => new OrderItemDTO
                 {
+                    MedicineName = oi.MedicineName,
                     MedicineId = oi.MedicineId,
                     Quantity = oi.Quantity,
                     Price = oi.Price
@@ -126,6 +130,7 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 TotalAmount = order.TotalAmount,
                 OrderItems = order.OrderItems.Select(oi => new OrderItemDTO
                 {
+                    MedicineName = oi.MedicineName,
                     MedicineId = oi.MedicineId,
                     Quantity = oi.Quantity,
                     Price = oi.Price

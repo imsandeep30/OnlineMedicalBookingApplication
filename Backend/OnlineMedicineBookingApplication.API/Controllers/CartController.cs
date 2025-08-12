@@ -39,7 +39,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
 
         // Add or update an item in the cart
         // Only accessible to users with the 'User' role
-        [HttpPost("add-or-update-item")]
+        [HttpPost("add-or-update-item/{userId}/{medicineId}/{quantity}")]
         [Authorize(Roles = "User")]
         public async Task<IActionResult> AddOrUpdateItemAsync(int userId, int medicineId, int quantity)
         {

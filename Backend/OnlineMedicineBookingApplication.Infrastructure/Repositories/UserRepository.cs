@@ -79,13 +79,20 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
         }
 
         // Resets the user's password
-        public async Task ResetPasswordAsync(int userId, string newPassword)
+        public async Task ResetPasswordAsync(int userId, string oldPassword,string newPassword)
         {
             var user = await _context.Users.FindAsync(userId);
             if (user != null)
             {
+                if(user.UserPassword != oldPassword)
+                {
+                    throw new ArgumentException("Old password is incorrect.");
+                }
+                else
+                {
+                    user.UserPassword = newPassword;
+                }
                 // In production, you should hash the password here
-                user.UserPassword = newPassword;
                 await _context.SaveChangesAsync();
             }
         }

@@ -14,5 +14,7 @@ namespace OnlineMedicineBookingApplication.Application.Models.UserDTOS
         public string userEmail { get; set; }
         public string Role { get; set; }
         public string Token { get; set; } // JWT token for authentication
+        public DateTime CreatedAt { get; set; }// Timestamp of user creation
+        public AdressDTO UserAddress { get; set; } // Address details of the user
     }
 }

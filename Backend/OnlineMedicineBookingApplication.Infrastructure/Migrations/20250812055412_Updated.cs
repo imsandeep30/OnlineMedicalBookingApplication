@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Infromation : Migration
+    public partial class Updated : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -43,11 +43,36 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                     UserPhone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserPassword = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.UserId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Adress",
+                columns: table => new
+                {
+                    AdressId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Street = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    State = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ZipCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Country = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Adress", x => x.AdressId);
+                    table.ForeignKey(
+                        name: "FK_Adress_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -102,6 +127,7 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CartId = table.Column<int>(type: "int", nullable: false),
                     MedicineId = table.Column<int>(type: "int", nullable: false),
+                    MedicineName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
@@ -124,6 +150,7 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderId = table.Column<int>(type: "int", nullable: false),
                     MedicineId = table.Column<int>(type: "int", nullable: false),
+                    MedicineName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
@@ -179,12 +206,27 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "UserId", "Role", "UserEmail", "UserName", "UserPassword", "UserPhone" },
+                columns: new[] { "UserId", "CreatedAt", "Role", "UserEmail", "UserName", "UserPassword", "UserPhone" },
                 values: new object[,]
                 {
-                    { 1, "User", "User@gmail.com", "user", "Test@123", "7093454577" },
-                    { 2, "Admin", "admin@gmial.com", "admin", "Admin@123", "7093454577" }
+                    { 1, new DateTime(2025, 7, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "User", "User@gmail.com", "user", "Test@123", "7093454577" },
+                    { 2, new DateTime(2025, 7, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "Admin", "admin@gmial.com", "admin", "Admin@123", "7093454577" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "Adress",
+                columns: new[] { "AdressId", "City", "Country", "State", "Street", "UserId", "ZipCode" },
+                values: new object[,]
+                {
+                    { 1, "Hyderabad", "India", "Telangana", "123 Main St", 1, "500001" },
+                    { 2, "Hyderabad", "India", "Telangana", "345 Main St", 2, "500006" }
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Adress_UserId",
+                table: "Adress",
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_CartItems_CartId",
@@ -217,6 +259,9 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Adress");
+
             migrationBuilder.DropTable(
                 name: "CartItems");
 
