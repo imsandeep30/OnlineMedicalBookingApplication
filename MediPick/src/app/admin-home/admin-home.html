@@ -1,0 +1,65 @@
+<div class="container-fluid p-0">
+    
+  <!-- Main Content -->
+  <div class="container-fluid py-4">
+    <div class="row mb-4">
+
+      <!-- Medicine Stock -->
+      <div class="col-md-6">
+        <div class="card p-3">
+          <h6>Medicine Stock</h6>
+          <div *ngFor="let stock of medicineStock" class="mb-2">
+            <div class="d-flex justify-content-between">
+              <small>{{stock.category}}</small>
+              <small>{{stock.count}}</small>
+            </div>
+            <div class="progress">
+              <div class="progress-bar bg-success" role="progressbar"
+                [style.width.%]="(stock.count / 340) * 100">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Orders -->
+    <div class="card p-3">
+      <div class="d-flex justify-content-between">
+        <h6>Recent Orders</h6>
+        <a routerLink="/all-orders" class="small">View All</a>
+      </div>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Customer</th>
+            <th>Status</th>
+            <th>Amount</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of recentOrders">
+            <td>{{order.id}}</td>
+            <td>{{order.customer}}</td>
+            <td>
+              <span class="badge"
+                    [ngClass]="{
+                      'bg-success': order.status==='Delivered',
+                      'bg-warning': order.status==='Pending',
+                      'bg-info': order.status==='Shipped',
+                      'bg-primary': order.status==='Processing',
+                      'bg-danger': order.status==='Cancelled'
+                    }">
+                {{order.status}}
+              </span>
+            </td>
+            <td>₹{{order.amount}}</td>
+            <td>{{order.date}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
