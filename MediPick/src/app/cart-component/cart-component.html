@@ -27,7 +27,23 @@
     <h3>Checkout Summary</h3>
 
     <label>Delivery Address</label>
-    <textarea rows="3" placeholder="Enter your address"></textarea>
+    <div class="address-box">
+      <ng-container *ngIf="userAddress; else noAddress">
+        <p>
+          {{ userAddress.userStreet }},
+          {{ userAddress.userCity }}, 
+          {{ userAddress.userState }}, 
+          {{ userAddress.userZipCode }}, 
+          {{ userAddress.userCountry }}, 
+        </p>
+      </ng-container>
+
+      <ng-template #noAddress>
+        <p class="no-address">No address found. Please add one.</p>
+      </ng-template>
+
+      <button class="change-address-btn">Change Address</button>
+    </div>
 
     <label>Apply Coupon</label>
     <div class="coupon">
@@ -36,9 +52,28 @@
     </div>
 
     <label>Payment Method</label>
-    <button class="payment upi">UPI Payment</button>
-    <button class="payment card">Credit/Debit Card</button>
-    <button class="payment wallet">Digital Wallet</button>
+    <div class="payment-options">
+      <button 
+        class="payment upi" 
+        [class.selected]="paymentMethod === 'UPI'"
+        (click)="selectPaymentMethod('UPI')">
+        UPI Payment
+      </button>
+
+      <button 
+        class="payment card" 
+        [class.selected]="paymentMethod === 'CARD'"
+        (click)="selectPaymentMethod('CARD')">
+        Credit/Debit Card
+      </button>
+
+      <button 
+        class="payment wallet" 
+        [class.selected]="paymentMethod === 'WALLET'"
+        (click)="selectPaymentMethod('WALLET')">
+        Digital Wallet
+      </button>
+    </div>
 
     <div class="price-summary">
       <p>Subtotal: ₹{{ cartTotal }}</p>
@@ -46,6 +81,9 @@
       <p class="total">Total: ₹{{ cartTotal }}</p>
     </div>
 
-    <button class="proceed-btn">Place Order</button>
+    <button class="proceed-btn" (click)="placeOrder()">Place Order</button>
+
+
   </div>
 </div>
+<router-outlet></router-outlet>

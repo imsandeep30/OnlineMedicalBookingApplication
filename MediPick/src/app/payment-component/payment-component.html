@@ -1,0 +1,40 @@
+<!-- payment.component.html -->
+<div class="payment-container">
+  <h2>Payment - {{ paymentMethod }}</h2>
+
+  <!-- UPI -->
+  <div *ngIf="paymentMethod === 'UPI'">
+    <h3>Select UPI App</h3>
+    <div class="payment-icons">
+      <img src="/phonepay.png" alt="PhonePe">
+      <img src="/Gpay.png" alt="Google Pay">
+      <img src="/paytm.webp" alt="Paytm">
+      <img src="/razorpay.jpg" alt="Razorpay">
+      <img src="/paypal.png" alt="PayPal">
+    </div>
+  </div>
+
+  <!-- Card -->
+  <div *ngIf="paymentMethod === 'CARD'">
+    <h3>Enter Card Details</h3>
+    <form>
+      <input type="text" placeholder="Card Number">
+      <input type="text" placeholder="MM/YY">
+      <input type="text" placeholder="CVV">
+      <button type="submit">Pay Now</button>
+    </form>
+  </div>
+
+  <!-- Wallet -->
+  <div *ngIf="paymentMethod === 'WALLET'">
+    <h3>Select Wallet</h3>
+    <div class="payment-icons">
+      <img src="/amazonPay.jpg" alt="Amazon Pay">
+      <img src="/freechargepay.png" alt="Freecharge">
+      <img src="/mobikwik.png" alt="Mobikwik">
+    </div>
+  </div>
+  <div>
+    <button (click)="goBack()" id="goBackButton">Go Back</button>
+  </div>
+</div>
