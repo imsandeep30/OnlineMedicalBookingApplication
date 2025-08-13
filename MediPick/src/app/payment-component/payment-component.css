@@ -2,7 +2,7 @@
   max-width: 800px;
   margin: 40px auto;
   padding: 30px;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(244, 242, 242, 0.9);
   border-radius: 16px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   backdrop-filter: blur(8px);
@@ -138,4 +138,42 @@ form button:hover {
   font-size: 1rem;
   cursor: pointer;
   transition: transform 0.2s ease;
+}
+.processing-message, .success-message {
+  text-align: center;
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin: 20px 0;
+  color: #333;
+}
+
+.success-message {
+  color: #28a745; /* green */
+}
+
+.book-more-btn {
+  display: block;
+  margin: 15px auto 0;
+  padding: 10px 20px;
+  background-color: #dc3545; /* red */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.book-more-btn:hover {
+  background-color: #a52834;
+}
+#payGo{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+img{
+    width: 200px;
+    height: 200px;
 }

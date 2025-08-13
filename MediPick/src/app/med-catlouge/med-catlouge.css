@@ -158,3 +158,44 @@ button.out-of-stock {
   padding: 4px 8px;
   border-radius: 8px;
 }
+#quantity-controls{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+#increase-quantity{
+  padding: 10px;
+  width: 50%;
+  background: #4caf50;
+}
+#decrease-quantity{
+  width: 50%;
+  padding: 10px;
+  background: #f44336;
+}
+.medicine-color-block {
+  width: 100%;
+  height: 180px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* fallback color */
+  background-color: #ccc;
+  color: white;
+  font-weight: 700;
+  font-size: 1.8rem;
+  user-select: none;
+  text-transform: capitalize;
+  transition: transform 0.3s ease;
+}
+
+.medicine-color-block:hover {
+  transform: scale(1.05);
+}
+
+.medicine-name-text {
+  padding: 0 12px;
+  text-align: center;
+}

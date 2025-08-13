@@ -37,12 +37,11 @@ export class CartService {
       headers: this.getAuthHeaders()
     });
   }
-  quantity : string = '1';
-  addToCart(userId: string, medicine: Medicine): Observable<any> {
-    const medicineID : string = medicine.medicineId.toString();
-    return this.http.post(`${this.apiUrl}/add-or-update-item/${userId}/${medicineID}/${this.quantity}`, medicine, {
+  addToCart(userId: string, medicine: Medicine, quantity: number): Observable<any> {
+    const medicineID: string = medicine.medicineId.toString();
+    return this.http.post(`${this.apiUrl}/add-or-update-item/${userId}/${medicineID}/${quantity}`, medicine, {
       headers: this.getAuthHeaders(),
-      responseType : 'text'
+      responseType: 'text'
     });
   }
   removeItem(userId: string, medicineId: number): Observable<any> {

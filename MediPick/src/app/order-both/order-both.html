@@ -1,45 +1,114 @@
-<div class="card mb-3 shadow-sm">
-  <div class="card-body bg-light text-left">
-    <h4 class="mb-0 text-dark fw-bold">Order List</h4>
+<div class="container">
+
+  <div class="header">
+    <h2>My Orders</h2>
     <p>Track your current and past medicine orders</p>
   </div>
+
+  <div *ngIf="ordersbyuserid.length > 0; else noOrders">
+    <div class="order-card" *ngFor="let order of ordersbyuserid">
+      
+      <div class="order-header">
+        <div>
+          <strong>{{ order.orderId }}</strong>
+          <div class="order-date">Ordered on {{ order.orderDate | date:'dd MMM yyyy' }}</div>
+        </div>
+        <div class="order-status-badge" [ngClass]="order.orderStatus.toLowerCase()">
+          {{ order.orderStatus }}
+        </div>
+      </div>
+      
+      <div class="medicines">
+        <strong>Medicines:</strong>
+        <span *ngFor="let item of order.orderItems; let i = index">
+          {{ item.medicineName }}
+          <span *ngIf="i < order.orderItems.length - 1">, </span>
+          <span *ngIf="i === 1 && order.orderItems.length > 2"> +{{ order.orderItems.length - 2 }} more</span>
+          <ng-container *ngIf="i > 1"> </ng-container>
+        </span>
+      </div>
+      
+      <div class="delivery-address">
+        <strong>Delivery Address:</strong> {{ order.shippingAddress }}
+      </div>
+
+      <div class="order-progress">
+        <div 
+          class="progress-step" 
+          [class.completed]="isStepCompleted(order.orderStatus, 'Order Placed')"
+          [class.cancelled]="order.orderStatus.toLowerCase() === 'canceled' && isStepCompleted(order.orderStatus, 'Order Placed')"
+        >
+          <span class="step-icon">&#10003;</span>
+          <span>Payment Status</span>
+        </div>
+        <div 
+          class="progress-line" 
+          [class.completed]="isStepCompleted(order.orderStatus, 'Processing')"
+          [class.cancelled]="order.orderStatus.toLowerCase() === 'canceled' && isStepCompleted(order.orderStatus, 'Processing')"
+        ></div>
+        <div 
+          class="progress-step" 
+          [class.completed]="isStepCompleted(order.orderStatus, 'Processing')"
+          [class.cancelled]="order.orderStatus.toLowerCase() === 'canceled' && isStepCompleted(order.orderStatus, 'Processing')"
+        >
+          <span class="step-icon">&#10003;</span>
+          <span>Processing</span>
+        </div>
+        <div 
+          class="progress-line" 
+          [class.completed]="isStepCompleted(order.orderStatus, 'Shipped')"
+          [class.cancelled]="order.orderStatus.toLowerCase() === 'canceled' && isStepCompleted(order.orderStatus, 'Shipped')"
+        ></div>
+        <div 
+          class="progress-step" 
+          [class.completed]="isStepCompleted(order.orderStatus, 'Shipped')"
+          [class.cancelled]="order.orderStatus.toLowerCase() === 'canceled' && isStepCompleted(order.orderStatus, 'Shipped')"
+        >
+          <span class="step-icon">&#10003;</span>
+          <span>Shipped</span>
+        </div>
+        <div 
+          class="progress-line" 
+          [class.completed]="isStepCompleted(order.orderStatus, 'Out for Delivery')"
+          [class.cancelled]="order.orderStatus.toLowerCase() === 'canceled' && isStepCompleted(order.orderStatus, 'Out for Delivery')"
+        ></div>
+        <div 
+          class="progress-step" 
+          [class.completed]="isStepCompleted(order.orderStatus, 'Out for Delivery')"
+          [class.cancelled]="order.orderStatus.toLowerCase() === 'canceled' && isStepCompleted(order.orderStatus, 'Out for Delivery')"
+        >
+          <span class="step-icon">&#10003;</span>
+          <span>Out for Delivery</span>
+        </div>
+        <div 
+          class="progress-line" 
+          [class.completed]="isStepCompleted(order.orderStatus, 'Confirmed')"
+          [class.cancelled]="order.orderStatus.toLowerCase() === 'canceled' && isStepCompleted(order.orderStatus, 'Confirmed')"
+        ></div>
+        <div 
+          class="progress-step" 
+          [class.completed]="isStepCompleted(order.orderStatus, 'Confirmed')"
+          [class.cancelled]="order.orderStatus.toLowerCase() === 'canceled' && isStepCompleted(order.orderStatus, 'Confirmed')"
+        >
+          <span class="step-icon">&#10003;</span>
+          <span>Delivered</span>
+        </div>
+      </div>
+
+
+        <div class="actions">
+          <button class="cancel-btn" 
+                  [disabled]="order.orderStatus.toLowerCase() === 'canceled' || order.orderStatus.toLowerCase() === 'confirmed'"
+                  (click)="cancelOrder(order.orderId)">
+            {{ order.orderStatus.toLowerCase() === 'canceled' ? 'Cancelled' : 'Cancel Order' }}
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  <ng-template #noOrders>
+    <div class="no-orders">No orders found for this user.</div>
+  </ng-template>
+
 </div>
-
-<div *ngIf="ordersbyuserid.length > 0; else noOrders">
-  <div class="card mb-3" *ngFor="let order of ordersbyuserid">
-    <div class="card-header d-flex justify-content-between align-items-center">
-      <strong>Order ID: {{ order.orderId }}</strong>
-      <span>{{ order.orderDate | date: 'medium' }}</span>
-    </div>
-
-    <div class="card-body">
-      <p><strong>User ID:</strong> {{ order.userId }}</p>
-      <p><strong>Shipping Address:</strong> {{ order.shippingAddress }}</p>
-      <p><strong>Payment Status:</strong> {{ order.paymentStatus }}</p>
-      <p><strong>Order Status:</strong> {{ order.orderStatus }}</p>
-      <p><strong>Total Amount:</strong> {{ order.totalAmount | currency }}</p>
-
-      <h6 class="fw-bold">Order Items</h6>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item" *ngFor="let item of order.orderItems">
-          <strong>Medicine:</strong> {{ item.medicineName || 'Loading...' }} |
-          <strong>Quantity:</strong> {{ item.quantity }}
-        </li>
-      </ul>
-    </div>
-
-    <div class="card-footer text-end">
-      <button class="btn btn-danger btn-sm"
-              (click)="cancelOrder(order.orderId)"
-              [disabled]="order.orderStatus === 'Cancelled'">
-        Cancel Order
-      </button>
-    </div>
-  </div>
-</div>
-
-<ng-template #noOrders>
-  <div class="alert alert-warning mt-3">
-    No orders found for this user.
-  </div>
-</ng-template>

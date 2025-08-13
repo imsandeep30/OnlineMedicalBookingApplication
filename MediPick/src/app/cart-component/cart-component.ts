@@ -18,7 +18,10 @@ interface UserAddress {
   userZipCode: string;
   userCountry: string;
 }
-
+interface OrderPayload {
+  userId: string;
+  shippingAddress: string;
+}
 @Component({
   selector: 'app-cart-component',
   standalone: true,
@@ -26,12 +29,16 @@ interface UserAddress {
   templateUrl: './cart-component.html',
   styleUrls: ['./cart-component.css']
 })
-export class CartComponent implements OnInit, OnDestroy {
 
+export class CartComponent implements OnInit, OnDestroy {
+  OrderPayload: OrderPayload = {
+    userId: localStorage.getItem('userId') || '',
+    shippingAddress: ''
+  };
   userName: string = localStorage.getItem('userName') || 'Guest';
   cartItems: any[] = [];
   cartTotal: number = 0;
-
+  ItemPrice: number = 0;
   userAddress: UserAddress = {
     userStreet: '',
     userCity: '',
@@ -39,7 +46,7 @@ export class CartComponent implements OnInit, OnDestroy {
     userZipCode: '',
     userCountry: ''
   };
-
+  FinalAddress : string = '';
   private routeSub!: Subscription;
   paymentMethod: string = ''; 
   constructor(private http: HttpClient, private router: Router, private cartService: CartService, private route: ActivatedRoute) {}
@@ -52,11 +59,11 @@ export class CartComponent implements OnInit, OnDestroy {
   loadCart(): void {
     const userId = localStorage.getItem('userId');
     if (!userId) return;
-
     this.cartService.getCart(userId).subscribe({
       next: response => {
         this.cartItems = response.items;
         this.cartTotal = response.totalPrice;
+        console.log('Cart items:', this.cartItems);
       },
       error: err => console.error('Error fetching cart', err)
     });
@@ -92,14 +99,30 @@ export class CartComponent implements OnInit, OnDestroy {
   selectPaymentMethod(method: string) {
     this.paymentMethod = method;
   }
-
+  OrderId : number = 0;
   placeOrder() {
     if (!this.paymentMethod) {
       alert('Please select a payment method before placing order');
       return;
     }
-    this.router.navigate(['payment'], {
-      queryParams: { method: this.paymentMethod }
+    const userId = localStorage.getItem('userId');
+    this.FinalAddress = `${this.userAddress.userStreet}, ${this.userAddress.userCity}, ${this.userAddress.userState}, ${this.userAddress.userZipCode}, ${this.userAddress.userCountry}`;
+    this.OrderPayload.shippingAddress = this.FinalAddress;
+    this.OrderPayload.userId = userId || '';
+    console.log('Order Payload:', this.OrderPayload);
+    this.http.post<any>('http://localhost:5184/api/Order/place-order', this.OrderPayload, {
+      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('jwt') }
+        }).subscribe({
+          next: response => {
+            this.OrderId = response.orderId.toString();
+            console.log('Order placed successfully:', response.orderId);
+
+            // Navigate only after we get the orderId
+            this.router.navigate(['payment'], {
+              queryParams: { method: this.paymentMethod, Id: this.OrderId }
+            });
+          },
+      error: err => console.error('Error placing order', err)
     });
 
   }

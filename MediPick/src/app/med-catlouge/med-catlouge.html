@@ -19,10 +19,13 @@
 <!-- Medicine List -->
 <div class="medicine-grid">
   <div class="medicine-card" *ngFor="let m of medicines; let i = index">
-    <img src="./WhiteMedicine1.jpg" alt="Medicine Image" class="medicine-image">
+    <div class="medicine-color-block" [style.background-color]="getMedicineColor(m.medicineName)">
+      <span class="medicine-name-text">{{ m.medicineName }}</span>
+    </div>
+
     <div class="medicine-header">
       <span class="medicine-title">{{ m.medicineName }}</span>
-      <span class="rating">⭐</span>
+      <span class="rating">5⭐</span>
     </div>
 
     <p class="price">₹{{ m.price }}</p>
@@ -33,5 +36,11 @@
       (click)="m.quantityAvailable > 0 && addToCart(m)">
       {{ m.quantityAvailable > 0 ? 'Add to Cart' : 'Out of Stock' }}
     </button>
+
+    <div id="quantity-controls">
+      <button id="decrease-quantity" class="quantity" (click)="decreaseQuantity(m)">-</button>
+      <span class="quantity">{{ m.quantity }}</span>
+      <button id="increase-quantity" class="quantity" (click)="increaseQuantity(m)">+</button>
+    </div>
   </div>
 </div>

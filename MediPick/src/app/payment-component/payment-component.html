@@ -1,40 +1,52 @@
 <!-- payment.component.html -->
 <div class="payment-container">
-  <h2>Payment - {{ paymentMethod }}</h2>
+  <h2 *ngIf="paymentSuccess==false">Payment - {{ paymentMethod }}</h2>
 
   <!-- UPI -->
-  <div *ngIf="paymentMethod === 'UPI'">
+  <div *ngIf="paymentMethod === 'UPI' && paymentSuccess==false">
     <h3>Select UPI App</h3>
     <div class="payment-icons">
-      <img src="/phonepay.png" alt="PhonePe">
-      <img src="/Gpay.png" alt="Google Pay">
-      <img src="/paytm.webp" alt="Paytm">
-      <img src="/razorpay.jpg" alt="Razorpay">
-      <img src="/paypal.png" alt="PayPal">
+        <img src="/phonepay.png" alt="PhonePe" (click)="onPaymentMethodClick('PhonePe')">
+        <img src="/Gpay.png" alt="Google Pay" (click)="onPaymentMethodClick('Google Pay')">
+        <img src="/paytm.webp" alt="Paytm" (click)="onPaymentMethodClick('Paytm')">
+        <img src="/razorpay.jpg" alt="Razorpay" (click)="onPaymentMethodClick('Razorpay')">
+        <img src="/paypal.png" alt="PayPal" (click)="onPaymentMethodClick('PayPal')">
     </div>
-  </div>
+   </div>
 
-  <!-- Card -->
-  <div *ngIf="paymentMethod === 'CARD'">
-    <h3>Enter Card Details</h3>
-    <form>
-      <input type="text" placeholder="Card Number">
-      <input type="text" placeholder="MM/YY">
-      <input type="text" placeholder="CVV">
-      <button type="submit">Pay Now</button>
-    </form>
-  </div>
-
-  <!-- Wallet -->
-  <div *ngIf="paymentMethod === 'WALLET'">
-    <h3>Select Wallet</h3>
-    <div class="payment-icons">
-      <img src="/amazonPay.jpg" alt="Amazon Pay">
-      <img src="/freechargepay.png" alt="Freecharge">
-      <img src="/mobikwik.png" alt="Mobikwik">
+    <!-- Card -->
+    <div *ngIf="paymentMethod === 'CARD' && paymentSuccess==false">
+        <h3>Enter Card Details</h3>
+        <form (submit)="onPaymentMethodClick('Card Payment'); $event.preventDefault()">
+            <input type="text" placeholder="Card Number" required>
+            <input type="text" placeholder="MM/YY" required>
+            <input type="text" placeholder="CVV" required>
+            <button type="submit">Pay Now</button>
+        </form>
     </div>
-  </div>
-  <div>
-    <button (click)="goBack()" id="goBackButton">Go Back</button>
-  </div>
+
+    <!-- Wallet -->
+    <div *ngIf="paymentMethod === 'WALLET' && paymentSuccess==false">
+        <h3>Select Wallet</h3>
+        <div class="payment-icons">
+            <img src="/amazonPay.jpg" alt="Amazon Pay" (click)="onPaymentMethodClick('Amazon Pay')">
+            <img src="/freechargepay.png" alt="Freecharge" (click)="onPaymentMethodClick('Freecharge')">
+            <img src="/mobikwik.png" alt="Mobikwik" (click)="onPaymentMethodClick('Mobikwik')">
+        </div>
+    </div>
+
+    <!-- Processing and Success Messages -->
+    <div *ngIf="processing" class="processing-message">
+        Processing your payment...
+    </div>
+
+    <div *ngIf="paymentSuccess; else showGoBack" id="payGo">
+        <h2>Payment Completed</h2>
+        <img src="/smiley-emoji.gif" alt="ThankYou">
+        <button (click)="bookMore()" class="book-more-btn">Book More</button>
+    </div>
+
+    <ng-template #showGoBack>
+        <button (click)="goBack()" id="goBackButton">Go Back</button>
+    </ng-template>
 </div>

@@ -10,15 +10,29 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./order-both.css']
 })
 export class OrderBoth implements OnInit {
+  orderSteps = [
+    'Pending',
+    'Shipped',
+    'Out for Delivery',
+    'Confirmed'
+  ];
+
   ordersbyuserid: any[] = [];
   userId: number = Number(localStorage.getItem('userId')) || 0;
   token: string | null = localStorage.getItem('jwt');
-  cart:any=null;
+  cart: any = null;
 
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
     this.loadOrders();
+  }
+
+  // Check if a progress step is completed based on order status
+  isStepCompleted(currentStatus: string, step: string): boolean {
+    const currentIndex = this.orderSteps.indexOf(currentStatus);
+    const stepIndex = this.orderSteps.indexOf(step);
+    return stepIndex <= currentIndex;
   }
 
   loadOrders(): void {
@@ -35,58 +49,59 @@ export class OrderBoth implements OnInit {
 
     this.http.get<any[]>(url, { headers }).subscribe({
       next: (response) => {
+        console.log('Orders fetched successfully:', response);
         this.ordersbyuserid = response;
+
         this.ordersbyuserid.forEach(order => {
-        order.orderItems.forEach((item: any) => {
-          this.getMedicineName(item.medicineId).subscribe({
-            next: (medicine: any) => {
-              item.medicineName = medicine.medicineName; // Store name
-            },
-            error: (err) => {
-              console.error(`Error fetching medicine ${item.medicineId}:`, err);
-              item.medicineName = 'Unknown'; // fallback
-            }
+          order.orderItems.forEach((item: any) => {
+            this.getMedicineName(item.medicineId).subscribe({
+              next: (medicine: any) => {
+                item.medicineName = medicine.medicineName;
+              },
+              error: (err) => {
+                console.error(`Error fetching medicine ${item.medicineId}:`, err);
+                item.medicineName = 'Unknown';
+              }
+            });
           });
         });
-      });
-        console.log('Orders loaded:', response);
       },
       error: (err) => {
         console.error('Error fetching orders:', err);
-        this.ordersbyuserid = []; // Clear list on error
+        this.ordersbyuserid = [];
       }
     });
   }
-  getMedicineName(medicineId: number) {
-  const headers = new HttpHeaders({
-    'Authorization': `Bearer ${this.token}`
-  });
 
-  const url = `http://localhost:5184/api/Medicine/${medicineId}`;
-  return this.http.get(url, { headers });
-}
-  
-  cancelOrder(orderId: number):void{
-    if(!this.token){
+  getMedicineName(medicineId: number) {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.token}`
+    });
+
+    const url = `http://localhost:5184/api/Medicine/${medicineId}`;
+    return this.http.get(url, { headers });
+  }
+
+  cancelOrder(orderId: number): void {
+    if (!this.token) {
       console.error("No token found");
       return;
     }
-    if(!confirm('Are you sure you want to cancel this order?')){
+    if (!confirm('Are you sure you want to cancel this order?')) {
       return;
     }
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.token}`
     });
-    const url=`http://localhost:5184/api/Order/${orderId}`;
-    this.http.delete(url,{headers,responseType:'text'})
-    .subscribe({
-      next:(message)=>{
+    const url = `http://localhost:5184/api/Order/Cancel/${orderId}`;
+    this.http.delete(url, { headers, responseType: 'text' }).subscribe({
+      next: (message) => {
         alert(message);
         this.loadOrders();
       },
-      error:(err)=>{
-        console.log("Error cancelling order:",err);
-        alert(err.error || 'Falied to cancel the order');
+      error: (err) => {
+        console.log("Error cancelling order:", err);
+        alert(err.error || 'Failed to cancel the order');
       }
     });
   }
