@@ -14,6 +14,10 @@
       <i class="icon">🛒</i> Cart
     </li>
 
+    <li class="cart" [routerLink]="['/customer-dashboard/user-settings']" routerLinkActive="active">
+      <i class="icon">⚙️</i> User Settings
+    </li>
+
     <!-- Show Login or Logout based on userName -->
     <li *ngIf="userRole === 'Admin' || userRole === 'User'; else loginTpl" class="logout" (click)="logout()">
       <i class="icon">🚪</i> Logout
