@@ -2,14 +2,21 @@
   <!-- Sidebar -->
   <div class="sidebar">
     <ul>
-      <li [class.active]="activeTab === 'profile'" (click)="setActiveTab('profile')">Profile Settings</li>
-      <li [class.active]="activeTab === 'password'" (click)="setActiveTab('password')">Change Password</li>
-      <li>Notifications</li>
+      <li [class.active]="activeTab === 'profile'" (click)="setActiveTab('profile')">
+        Profile Settings
+      </li>
+      <li [class.active]="activeTab === 'password'" (click)="setActiveTab('password')">
+        Change Password
+      </li>
+      <li>
+        Notifications
+      </li>
     </ul>
   </div>
 
   <!-- Main Content -->
   <div class="main-content">
+
     <!-- Profile Settings Section -->
     <div *ngIf="activeTab === 'profile'">
       <h2 class="settings-title">Profile Settings</h2>
@@ -67,7 +74,7 @@
       <!-- Action Buttons -->
       <div class="buttons">
         <button class="save-btn" (click)="saveChanges()">Save Changes</button>
-        <button class="cancel-btn">Cancel</button>
+        <button class="cancel-btn" (click)="loadUserProfile()">Cancel</button>
         <button class="delete-btn" (click)="deleteAccount()">Delete Account</button>
       </div>
     </div>
@@ -76,6 +83,7 @@
     <div *ngIf="activeTab === 'password'">
       <h2 class="settings-title">Change Password</h2>
 
+      <!-- Password Form -->
       <div class="profile-form">
         <div class="form-group">
           <label>Old Password</label>
@@ -96,6 +104,13 @@
         <button class="save-btn" (click)="changePassword()">Reset Password</button>
         <button class="cancel-btn" (click)="oldPassword=''; newPassword=''; confirmPassword=''">Cancel</button>
       </div>
+
+      <!-- Success/Error Message -->
+      <div *ngIf="passwordMessage" 
+           [ngClass]="{'success-msg': passwordMessageType === 'success', 'error-msg': passwordMessageType === 'error'}">
+        {{ passwordMessage }}
+      </div>
     </div>
+
   </div>
 </div>

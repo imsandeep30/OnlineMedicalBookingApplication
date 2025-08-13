@@ -26,6 +26,8 @@ export class UsersSettings implements OnInit {
   oldPassword: string = '';
   newPassword: string = '';
   confirmPassword: string = '';
+  passwordMessage: string = '';
+  passwordMessageType: 'success' | 'error' | '' = '';
   constructor(private userSettings: UserSettings) {}
 
   ngOnInit(): void {
@@ -115,39 +117,49 @@ export class UsersSettings implements OnInit {
     });
   }
   changePassword(): void {
-  const userId = localStorage.getItem('userId');
+    const userId = localStorage.getItem('userId');
   if (!userId) {
-    console.warn('Missing userId in localStorage.');
+    this.passwordMessage = 'Missing user ID.';
+    this.passwordMessageType = 'error';
     return;
   }
 
   if (!this.oldPassword || !this.newPassword || !this.confirmPassword) {
-    alert('Please fill all password fields.');
+    this.passwordMessage = 'Please fill all password fields.';
+    this.passwordMessageType = 'error';
     return;
   }
 
   if (this.newPassword !== this.confirmPassword) {
-    alert('New password and confirm password do not match.');
+    this.passwordMessage = 'New password and confirm password do not match.';
+    this.passwordMessageType = 'error';
     return;
   }
 
-  // ✅ Encode passwords
-  const encodedOld = encodeURIComponent(this.oldPassword);
-  const encodedNew = encodeURIComponent(this.newPassword);
+  const passwordReset = {
+    userId: Number(userId),
+    oldPassword: this.oldPassword,
+    newPassword: this.newPassword
+  };
 
-  this.userSettings.resetPassword(Number(userId), encodedOld, encodedNew).subscribe({
+  this.userSettings.resetPassword(passwordReset).subscribe({
     next: (response) => {
-      console.log(response);
-      alert('Password reset successfully.');
+      this.passwordMessage = response.message || 'Password updated successfully.';
+      this.passwordMessageType = 'success';
       this.oldPassword = '';
       this.newPassword = '';
       this.confirmPassword = '';
+
+      // Optional: Hide the message after 5 seconds
+      setTimeout(() => {
+        this.passwordMessage = '';
+        this.passwordMessageType = '';
+      }, 5000);
     },
     error: (err) => {
-      console.error('Error resetting password:', err);
-      alert('Failed to reset password. Please check your old password and try again.');
+      this.passwordMessage = 'Failed to reset password. Please check your old password.';
+      this.passwordMessageType = 'error';
     }
   });
-}
-
+ }
 }

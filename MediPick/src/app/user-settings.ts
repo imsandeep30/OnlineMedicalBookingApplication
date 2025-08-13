@@ -29,9 +29,11 @@ export class UserSettings {
       responseType: 'text'
     });
   }
-  resetPassword(userId: number, oldPassword: string, newPassword: string): Observable<string> {
-    const url = `${this.apiUrl}/ResetPassword/${userId}/${oldPassword}/${newPassword}`;
-    return this.http.get(url, { headers: this.getAuthHeaders(), responseType: 'text' });
-  }
+  resetPassword(passwordReset: { userId: number; oldPassword: string; newPassword: string }): Observable<any> {
+  const url = `${this.apiUrl}/ResetPassword`;
+  return this.http.post<any>(url, passwordReset, {
+    headers: this.getAuthHeaders()
+  });
+}
 
 }

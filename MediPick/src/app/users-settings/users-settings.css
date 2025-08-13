@@ -160,4 +160,27 @@
   gap: 10px;
   margin-top: 20px;
 }
+.success-msg, .error-msg {
+  margin-top: 15px;
+  padding: 10px 15px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  max-width: 400px;
+  text-align: center;
+}
+
+/* Success message style */
+.success-msg {
+  background-color: #e6f7e9; /* Light green background */
+  color: #2e7d32; /* Dark green text */
+  border: 1px solid #a5d6a7;
+}
+
+/* Error message style */
+.error-msg {
+  background-color: #fdecea; /* Light red background */
+  color: #c62828; /* Dark red text */
+  border: 1px solid #f5c6cb;
+}
 
