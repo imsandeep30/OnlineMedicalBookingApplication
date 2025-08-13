@@ -30,6 +30,8 @@ namespace OnlineMedicineBookingApplication.Application.Interfaces
         Task<UserResponseDTO> UpdateUserAsync(UserUpdateDTO user);
 
         // Resets the user's password
-        Task ResetUserPasswordAsync(int userId, string oldPassword, string newPassword);
+        Task ResetUserPasswordAsync(PasswordResetDTO passwordReset);
+
+        Task<EmailSearchingDTO> searchMail(string Gmail);
     }
 }

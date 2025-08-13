@@ -145,7 +145,28 @@ namespace OnlineMedicineBookingApplication.Application.Services
         }
 
         // Reset user's password
-        public Task ResetUserPasswordAsync(int userId,string oldPassword,string newPassword)
-            => _userRepository.ResetPasswordAsync(userId,oldPassword, newPassword);
+        public Task ResetUserPasswordAsync(PasswordResetDTO passwordReset)
+        { 
+            return _userRepository.ResetPasswordAsync(passwordReset.UserId, passwordReset.OldPassword, passwordReset.NewPassword);
+        }
+        //email searching
+        public async Task<EmailSearchingDTO> searchMail(string Gmail)
+        {
+            var user = await _userRepository.SearchMail(Gmail);
+            if (user == null)
+            {
+                return null;
+            }
+            return new EmailSearchingDTO
+            {
+                UserId = user.UserId,
+
+                Name = user.UserName,
+
+                Email = user.UserEmail,
+
+                Password = user.UserPassword,
+            };
+        }
     }
 }

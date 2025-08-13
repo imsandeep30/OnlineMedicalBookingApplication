@@ -122,6 +122,13 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
                 // In production, you should hash the password here
                 await _context.SaveChangesAsync();
             }
+        } 
+        public async Task<User> SearchMail(string mail)
+        {
+            var user = await _context.Users
+                .Include(u => u.Address)
+                .FirstOrDefaultAsync(u => u.UserEmail == mail);
+            return user;
         }
     }
 }

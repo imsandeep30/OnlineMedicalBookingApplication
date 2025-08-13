@@ -131,7 +131,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
         }
 
         // Cancel an order by order ID (User and Admin roles)
-        [HttpDelete("{orderId}")]
+        [HttpDelete("Cancel/{orderId}")]
         [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> CancelOrder(int orderId)
         {

@@ -16,5 +16,7 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Contracts
         Task DeleteUserAsync(int id);                      // delete user
         Task<User> UpdateUserAsync(User user);                   // update user
         Task ResetPasswordAsync(int userId, string oldPassword, string newPassword);  // reset user password
+
+        Task<User> SearchMail(string mail);
     }
 }

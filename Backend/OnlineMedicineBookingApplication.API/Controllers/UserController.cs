@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using OnlineMedicineBookingApplication.Application.Interfaces;
+using OnlineMedicineBookingApplication.Application.Models;
 using OnlineMedicineBookingApplication.Application.Models.UserDTOS;
 using OnlineMedicineBookingApplication.Domain.Entities;
 using System.IdentityModel.Tokens.Jwt;
@@ -123,16 +125,33 @@ namespace OnlineMedicineBookingApplication.API.Controllers
         }
 
         // Reset password by userId
-        [HttpGet("ResetPassword/{userId}/{olddPassword}/{newPassword}")]
-        [Authorize(Roles = "User,Admin")]
-        public async Task<IActionResult> ResetPassword(int userId,string oldPassword,string newPassword)
+        [HttpPost("ResetPassword")]
+        //[Authorize(Roles = "User,Admin")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPassword([FromBody]PasswordResetDTO passwordReset)
         {
-            if (string.IsNullOrEmpty(newPassword))
+            if (passwordReset == null)
             {
-                return BadRequest("New password cannot be empty.");
+                return BadRequest("passwordReset not null");
             }
-            await userService.ResetUserPasswordAsync(userId,oldPassword, newPassword);
-            return Ok("User password reset successfully.");
+            await userService.ResetUserPasswordAsync(passwordReset);
+            return Ok(new { message = "User password reset successfully." });
+        }
+        //email finding method
+        [HttpPost("SearchMail")]
+        [AllowAnonymous]
+        public async Task<IActionResult> EmailSearch(gmailsearchDTO gmailsearch)
+        {
+            if (gmailsearch.gmail.IsNullOrEmpty())
+            {
+                return BadRequest("Email not be null");
+            }
+            var emailresponse = await userService.searchMail(gmailsearch.gmail);
+            if (emailresponse == null)
+            {
+                return NotFound(new { message = "Email not found" });
+            }
+            return Ok(emailresponse);
         }
 
         // Method to generate JWT token for authenticated user
