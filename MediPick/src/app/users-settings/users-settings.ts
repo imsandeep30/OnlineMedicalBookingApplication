@@ -1,14 +1,15 @@
 import { Component,OnInit } from '@angular/core';
 import { UserSettings } from '../user-settings';
 import { FormsModule } from '@angular/forms';
-import { UpperCasePipe } from '@angular/common';
+import { CommonModule, UpperCasePipe } from '@angular/common';
 @Component({
   selector: 'app-users-settings',
-  imports: [FormsModule],
+  imports: [FormsModule,CommonModule],
   templateUrl: './users-settings.html',
   styleUrl: './users-settings.css'
 })
 export class UsersSettings implements OnInit {
+  activeTab: 'profile' | 'password' = 'profile'; // Default tab
   userProfile: any = {
     userName: '',
     userEmail: '',
@@ -22,10 +23,16 @@ export class UsersSettings implements OnInit {
       userZipCode: ''
     }
   };
+  oldPassword: string = '';
+  newPassword: string = '';
+  confirmPassword: string = '';
   constructor(private userSettings: UserSettings) {}
 
   ngOnInit(): void {
     this.loadUserProfile(); // Fetch user profile data on component initialization
+  }
+  setActiveTab(tab: 'profile' | 'password') {
+    this.activeTab = tab;
   }
   loadUserProfile(): void {
     const userId = localStorage.getItem('userId');
@@ -107,4 +114,40 @@ export class UsersSettings implements OnInit {
       }
     });
   }
+  changePassword(): void {
+  const userId = localStorage.getItem('userId');
+  if (!userId) {
+    console.warn('Missing userId in localStorage.');
+    return;
+  }
+
+  if (!this.oldPassword || !this.newPassword || !this.confirmPassword) {
+    alert('Please fill all password fields.');
+    return;
+  }
+
+  if (this.newPassword !== this.confirmPassword) {
+    alert('New password and confirm password do not match.');
+    return;
+  }
+
+  // ✅ Encode passwords
+  const encodedOld = encodeURIComponent(this.oldPassword);
+  const encodedNew = encodeURIComponent(this.newPassword);
+
+  this.userSettings.resetPassword(Number(userId), encodedOld, encodedNew).subscribe({
+    next: (response) => {
+      console.log(response);
+      alert('Password reset successfully.');
+      this.oldPassword = '';
+      this.newPassword = '';
+      this.confirmPassword = '';
+    },
+    error: (err) => {
+      console.error('Error resetting password:', err);
+      alert('Failed to reset password. Please check your old password and try again.');
+    }
+  });
+}
+
 }
