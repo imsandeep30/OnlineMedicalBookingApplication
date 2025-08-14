@@ -31,17 +31,14 @@ public class MedicineService : IMedicineService
     }
 
     // Deletes all medicines that match the given name
-    public async Task DeleteMedicine(string name)
+    public async Task DeleteMedicine(int medicineId)
     {
-        var medicine = await _medicineRepository.FilterAsync(name, null, null, null, null);
-        if (medicine == null || medicine.Count == 0)
+        var medicine = await _medicineRepository.GetByIdAsync(medicineId);
+        if (medicine == null)
             throw new KeyNotFoundException("Medicine not found.");
         else
-        {
-            foreach (var med in medicine)
-            {
-                await _medicineRepository.DeleteMedicine(med.MedicineId);
-            }
+        { 
+                await _medicineRepository.DeleteMedicine(medicineId);
         }
     }
 
@@ -59,9 +56,7 @@ public class MedicineService : IMedicineService
             existingMedicine.QuantityAvailable = medicine.QuantityAvailable;
             existingMedicine.Description = medicine.Description;
 
-            // Replaces the old record by deleting and re-adding it
-            await _medicineRepository.DeleteMedicine(existingMedicine.MedicineId);
-            await _medicineRepository.AddMedicine(existingMedicine);
+            await _medicineRepository.UpdateMedicine(existingMedicine);
             return medicine;
         }
     }

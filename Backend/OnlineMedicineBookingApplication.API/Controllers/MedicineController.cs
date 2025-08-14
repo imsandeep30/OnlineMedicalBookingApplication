@@ -104,20 +104,16 @@ namespace OnlineMedicineBookingApplication.API.Controllers
         }
 
         // Delete a medicine by name (Admin only)
-        [HttpDelete("delete-medicine/{name}")]
+        [HttpDelete("delete-medicine/{medicineId}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteMedicineAsync(string name)
+        public async Task<IActionResult> DeleteMedicineAsync(int medicineId)
         {
-            // Check if medicine name is valid
-            if (string.IsNullOrEmpty(name))
-            {
-                return BadRequest("Invalid medicine name.");
-            }
+           
 
             try
             {
                 // Try to delete the medicine
-                await _medicineService.DeleteMedicine(name);
+                await _medicineService.DeleteMedicine(medicineId);
                 return Ok("Medicine deleted successfully.");
             }
             catch (KeyNotFoundException)
