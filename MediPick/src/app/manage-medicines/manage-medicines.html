@@ -102,7 +102,7 @@
           <!-- Price -->
           <div class="mb-3">
             <label class="form-label">Price*</label>
-            <input type="number" class="form-control" 
+            <input type="number" min="0" class="form-control" 
                    [(ngModel)]="newMedicine.price" 
                    name="price" required #price="ngModel">
             <div class="text-danger" *ngIf="price.invalid && price.touched">
@@ -113,7 +113,7 @@
           <!-- Quantity -->
           <div class="mb-3">
             <label class="form-label">Quantity Available*</label>
-            <input type="number" class="form-control" 
+            <input type="number" min="0" class="form-control" 
                    [(ngModel)]="newMedicine.quantityAvailable" 
                    name="quantityAvailable" required #quantityAvailable="ngModel">
             <div class="text-danger" *ngIf="quantityAvailable.invalid && quantityAvailable.touched">
