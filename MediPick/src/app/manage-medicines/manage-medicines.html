@@ -208,7 +208,7 @@
             <label class="form-label">Price*</label>
             <input type="number" class="form-control" 
                    [(ngModel)]="editFormData.price" 
-                   name="price" required #editPrice="ngModel">
+                   name="price" min="0" required #editPrice="ngModel">
             <div class="text-danger" *ngIf="editPrice.invalid && editPrice.touched">
               Price is required.
             </div>
@@ -217,7 +217,7 @@
           <!-- Quantity -->
           <div class="mb-3">
             <label class="form-label">Quantity Available*</label>
-            <input type="number" class="form-control" 
+            <input type="number" min="0" class="form-control" 
                    [(ngModel)]="editFormData.quantityAvailable" 
                    name="quantityAvailable" required #editQuantityAvailable="ngModel">
             <div class="text-danger" *ngIf="editQuantityAvailable.invalid && editQuantityAvailable.touched">
