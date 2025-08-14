@@ -1,4 +1,6 @@
 <div class="dashboard-container">
+    <h2>Welcome back, {{ userName }}!</h2>
+    <p class="subtitle">See what's happening today.</p>
 
   <div class="cards-row">
     <!-- Medicine Stock -->
@@ -10,7 +12,7 @@
           <span>{{stock.count}}</span>
         </div>
         <div class="progress">
-          <div class="progress-bar bg-success" [style.width.%]="(stock.count / 340) * 100"></div>
+          <div class="progress-bar bg-success" [style.width.%]="(stock.count / 300) * 100"></div>
         </div>
       </div>
     </div>
@@ -19,7 +21,7 @@
     <div class="card half-width">
       <div class="d-flex justify-content-between" style="margin-bottom:15px;">
         <h6>Recent Orders</h6>
-        <a routerLink="/all-orders">View All</a>
+        <a routerLink="/admin-dashboard/all-orders">View All</a>
       </div>
       <table>
         <thead>

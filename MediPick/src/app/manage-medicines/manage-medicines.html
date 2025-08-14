@@ -2,8 +2,8 @@
   
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h5>Manage Medicines</h5>
-    <button class="btn btn-warning text-white" (click)="toggleAddForm()">
-      Add New Medicine
+    <button class="btn btn-warning text-white" data-bs-toggle="modal" data-bs-target="#addMedicineModal">
+  Add New Medicine
     </button>
   </div>
 
@@ -55,82 +55,108 @@
             </span>
           </td>
           <td>
-            <button class="btn btn-sm btn-outline-primary me-2" (click)="startEdit(med)">Edit</button>
-            <button class="btn btn-sm btn-outline-danger" (click)="deleteMedicine(med.rawName)">Delete</button>
+            <button class="btn btn-sm btn-outline-primary me-2" 
+            (click)="openEditModal(med)" 
+              data-bs-toggle="modal" data-bs-target="#editMedicineModal">
+               Edit
+            </button>
+            <button class="btn btn-sm btn-outline-danger" (click)="deleteMedicine(med.name,med.code)">Delete</button>
           </td>
         </tr>
       </tbody>
     </table>
 
     <!-- Add Medicine Form -->
-<div *ngIf="showAddForm" class="card p-3 mb-3">
-  <h5>Add New Medicine</h5>
-  <form (ngSubmit)="addMedicine()" #addForm="ngForm">
-    <div class="mb-3">
-      <label class="form-label">Name</label>
-      <input type="text" class="form-control" [(ngModel)]="newMedicine.medicineName" name="medicineName" required>
+<div class="modal fade" id="addMedicineModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add New Medicine</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="addMedicine()" #addForm="ngForm">
+          <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" [(ngModel)]="newMedicine.medicineName" name="medicineName" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Brand</label>
+            <input type="text" class="form-control" [(ngModel)]="newMedicine.brand" name="brand" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Price</label>
+            <input type="number" class="form-control" [(ngModel)]="newMedicine.price" name="price" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Quantity Available</label>
+            <input type="number" class="form-control" [(ngModel)]="newMedicine.quantityAvailable" name="quantityAvailable" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Manufacture Date</label>
+            <input type="date" class="form-control" [(ngModel)]="newMedicine.manufactureDate" name="manufactureDate" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Expiry Date</label>
+            <input type="date" class="form-control" [(ngModel)]="newMedicine.expiryDate" name="expiryDate" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" [(ngModel)]="newMedicine.description" name="description"></textarea>
+          </div>
+          <div class="form-check mb-3">
+            <input type="checkbox" class="form-check-input" [(ngModel)]="newMedicine.prescriptionRequired" name="prescriptionRequired">
+            <label class="form-check-label">Prescription Required</label>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Add Medicine</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </form>
+      </div>
     </div>
-    <div class="mb-3">
-      <label class="form-label">Brand</label>
-      <input type="text" class="form-control" [(ngModel)]="newMedicine.brand" name="brand" required>
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Price</label>
-      <input type="number" class="form-control" [(ngModel)]="newMedicine.price" name="price" required>
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Quantity Available</label>
-      <input type="number" class="form-control" [(ngModel)]="newMedicine.quantityAvailable" name="quantityAvailable" required>
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Manufacture Date</label>
-      <input type="date" class="form-control" [(ngModel)]="newMedicine.manufactureDate" name="manufactureDate" required>
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Expiry Date</label>
-      <input type="date" class="form-control" [(ngModel)]="newMedicine.expiryDate" name="expiryDate" required>
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Description</label>
-      <textarea class="form-control" [(ngModel)]="newMedicine.description" name="description"></textarea>
-    </div>
-    <div class="form-check mb-3">
-      <input type="checkbox" class="form-check-input" [(ngModel)]="newMedicine.prescriptionRequired" name="prescriptionRequired">
-      <label class="form-check-label">Prescription Required</label>
-    </div>
-    <button type="submit" class="btn btn-success me-2">Add Medicine</button>
-    <button type="button" class="btn btn-secondary" (click)="toggleAddForm()">Cancel</button>
-  </form>
+  </div>
 </div>
 
 
     <!-- Edit Form -->
-<div *ngIf="editingMedicine" class="card p-3 mt-3">
-  <h5>Edit Medicine</h5>
-  <form (ngSubmit)="updateMedicine()" #editForm="ngForm">
-    <div class="mb-3">
-      <label class="form-label">Name</label>
-      <input type="text" class="form-control" [(ngModel)]="editFormData.medicineName" name="medicineName" required>
+<div class="modal fade" id="editMedicineModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Medicine</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="updateMedicine()" #editForm="ngForm">
+          <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" class="form-control" [(ngModel)]="editFormData.medicineName" name="medicineName" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Brand</label>
+            <input type="text" class="form-control" [(ngModel)]="editFormData.brand" name="brand" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Price</label>
+            <input type="number" class="form-control" [(ngModel)]="editFormData.price" name="price" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Quantity Available</label>
+            <input type="number" class="form-control" [(ngModel)]="editFormData.quantityAvailable" name="quantityAvailable" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" [(ngModel)]="editFormData.description" name="description"></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-success"  data-bs-dismiss="modal">Save Changes</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </form>
+      </div>
     </div>
-    <div class="mb-3">
-      <label class="form-label">Brand</label>
-      <input type="text" class="form-control" [(ngModel)]="editFormData.brand" name="brand" required>
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Price</label>
-      <input type="number" class="form-control" [(ngModel)]="editFormData.price" name="price" required>
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Quantity Available</label>
-      <input type="number" class="form-control" [(ngModel)]="editFormData.quantityAvailable" name="quantityAvailable" required>
-    </div>
-    <div class="mb-3">
-      <label class="form-label">Description</label>
-      <textarea class="form-control" [(ngModel)]="editFormData.description" name="description"></textarea>
-    </div>
-    <button type="submit" class="btn btn-success me-2">Save Changes</button>
-    <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
-  </form>
+  </div>
 </div>
 
   </div>
