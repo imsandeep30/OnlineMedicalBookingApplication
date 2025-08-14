@@ -1,35 +1,27 @@
-<div class="container-fluid p-0">
-    
-  <!-- Main Content -->
-  <div class="container-fluid py-4">
-    <div class="row mb-4">
+<div class="dashboard-container">
 
-      <!-- Medicine Stock -->
-      <div class="col-md-6">
-        <div class="card p-3">
-          <h6>Medicine Stock</h6>
-          <div *ngFor="let stock of medicineStock" class="mb-2">
-            <div class="d-flex justify-content-between">
-              <small>{{stock.category}}</small>
-              <small>{{stock.count}}</small>
-            </div>
-            <div class="progress">
-              <div class="progress-bar bg-success" role="progressbar"
-                [style.width.%]="(stock.count / 340) * 100">
-              </div>
-            </div>
-          </div>
+  <div class="cards-row">
+    <!-- Medicine Stock -->
+    <div class="card half-width">
+      <h6>Medicine Stock</h6>
+      <div *ngFor="let stock of medicineStock" class="stock-item">
+        <div class="d-flex">
+          <span>{{stock.category}}</span>
+          <span>{{stock.count}}</span>
+        </div>
+        <div class="progress">
+          <div class="progress-bar bg-success" [style.width.%]="(stock.count / 340) * 100"></div>
         </div>
       </div>
     </div>
 
     <!-- Recent Orders -->
-    <div class="card p-3">
-      <div class="d-flex justify-content-between">
+    <div class="card half-width">
+      <div class="d-flex justify-content-between" style="margin-bottom:15px;">
         <h6>Recent Orders</h6>
-        <a routerLink="/all-orders" class="small">View All</a>
+        <a routerLink="/all-orders">View All</a>
       </div>
-      <table class="table table-hover">
+      <table>
         <thead>
           <tr>
             <th>Order ID</th>
@@ -62,4 +54,5 @@
       </table>
     </div>
   </div>
+
 </div>

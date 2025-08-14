@@ -41,11 +41,18 @@ export class CustHome implements OnInit {
     this.http.get<any[]>(`http://localhost:5184/api/Order/GetOrderByUserId/${userId}`, { headers })
       .subscribe({
         next: orders => {
+          console.log(orders);
           this.totalOrders = orders.length;
           this.deliveredOrders = orders.filter(o => o.orderStatus === 'Confirmed').length;
           this.pendingOrders = orders.filter(o => o.orderStatus === 'Pending').length;
           this.processingOrders = orders.filter(o => o.orderStatus === 'Processing').length;
-          this.totalSpent = orders.reduce((sum, o) => sum + o.totalAmount, 0);
+          this.totalSpent = orders.filter(o => o.orderStatus === 'Confirmed').reduce((sum, o) => sum + o.totalAmount, 0);
+          this.recentActivity = orders.map(order => {
+          const items = order.orderItems.map((item: any) => item.medicineName).join(', ');
+            return {
+              message: `You booked ${items} and the order was ${order.orderStatus}`
+            };
+          });
         },
         error: err => console.error('Error loading user orders:', err)
       });
