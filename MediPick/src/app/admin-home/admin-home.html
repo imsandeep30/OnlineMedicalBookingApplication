@@ -12,8 +12,14 @@
           <span>{{stock.count}}</span>
         </div>
         <div class="progress">
-          <div class="progress-bar bg-success" [style.width.%]="(stock.count / 300) * 100"></div>
-        </div>
+        <div class="progress-bar"
+          [ngClass]="{
+         'bg-danger': stock.count < 30,
+         'bg-success': stock.count >= 30
+       }"
+       [style.width.%]="(stock.count / 300) * 100">
+  </div>
+</div>
       </div>
     </div>
 

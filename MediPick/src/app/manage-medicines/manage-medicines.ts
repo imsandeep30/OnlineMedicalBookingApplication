@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+//import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-manage-medicines',
@@ -11,23 +14,38 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   styleUrls: ['./manage-medicines.css']
 })
 export class ManageMedicines implements OnInit {
+  @ViewChild('addForm') addForm!: NgForm;
+  @ViewChild('editForm') editForm!: NgForm;
   searchTerm = '';
   selectedStatus = '';
   Math = Math;
-
   medicines: any[] = [];
   statuses = ['In Stock', 'Out of Stock', 'Low Stock'];
-
-  // For Add/Edit
   newMedicine: any = this.getEmptyMedicine();
   editFormData: any = {};
   editingMedicineId: number | null = null;
 
   constructor(private http: HttpClient) {}
 
-  ngOnInit() {
-    this.fetchMedicines();
+ ngOnInit() {
+  this.fetchMedicines();
+
+  // Reset Add form on modal close
+  const addModalEl = document.getElementById('addMedicineModal');
+  if (addModalEl) {
+    addModalEl.addEventListener('hidden.bs.modal', () => {
+      this.addForm.resetForm(this.getEmptyMedicine()); // resets values + validation state
+    });
   }
+
+  // Reset Edit form on modal close
+  const editModalEl = document.getElementById('editMedicineModal');
+  if (editModalEl) {
+    editModalEl.addEventListener('hidden.bs.modal', () => {
+      this.editForm.resetForm(); // Just clear form validation state
+    });
+  }
+}
 
   getEmptyMedicine() {
     return {

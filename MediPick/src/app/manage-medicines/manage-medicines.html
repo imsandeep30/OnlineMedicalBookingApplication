@@ -66,7 +66,7 @@
       </tbody>
     </table>
 
-    <!-- Add Medicine Form -->
+  <!-- Add Medicine Modal -->
 <div class="modal fade" id="addMedicineModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -76,42 +76,92 @@
       </div>
       <div class="modal-body">
         <form (ngSubmit)="addMedicine()" #addForm="ngForm">
+          
+          <!-- Name -->
           <div class="mb-3">
-            <label class="form-label">Name</label>
-            <input type="text" class="form-control" [(ngModel)]="newMedicine.medicineName" name="medicineName" required>
+            <label class="form-label">Name*</label>
+            <input type="text" class="form-control" 
+                   [(ngModel)]="newMedicine.medicineName" 
+                   name="medicineName" required #medicineName="ngModel">
+            <div class="text-danger" *ngIf="medicineName.invalid && medicineName.touched">
+              Name is required.
+            </div>
           </div>
+
+          <!-- Brand -->
           <div class="mb-3">
-            <label class="form-label">Brand</label>
-            <input type="text" class="form-control" [(ngModel)]="newMedicine.brand" name="brand" required>
+            <label class="form-label">Brand*</label>
+            <input type="text" class="form-control" 
+                   [(ngModel)]="newMedicine.brand" 
+                   name="brand" required #brand="ngModel">
+            <div class="text-danger" *ngIf="brand.invalid && brand.touched">
+              Brand is required.
+            </div>
           </div>
+
+          <!-- Price -->
           <div class="mb-3">
-            <label class="form-label">Price</label>
-            <input type="number" class="form-control" [(ngModel)]="newMedicine.price" name="price" required>
+            <label class="form-label">Price*</label>
+            <input type="number" class="form-control" 
+                   [(ngModel)]="newMedicine.price" 
+                   name="price" required #price="ngModel">
+            <div class="text-danger" *ngIf="price.invalid && price.touched">
+              Price is required.
+            </div>
           </div>
+
+          <!-- Quantity -->
           <div class="mb-3">
-            <label class="form-label">Quantity Available</label>
-            <input type="number" class="form-control" [(ngModel)]="newMedicine.quantityAvailable" name="quantityAvailable" required>
+            <label class="form-label">Quantity Available*</label>
+            <input type="number" class="form-control" 
+                   [(ngModel)]="newMedicine.quantityAvailable" 
+                   name="quantityAvailable" required #quantityAvailable="ngModel">
+            <div class="text-danger" *ngIf="quantityAvailable.invalid && quantityAvailable.touched">
+              Quantity available is required.
+            </div>
           </div>
+
+          <!-- Manufacture Date -->
           <div class="mb-3">
-            <label class="form-label">Manufacture Date</label>
-            <input type="date" class="form-control" [(ngModel)]="newMedicine.manufactureDate" name="manufactureDate" required>
+            <label class="form-label">Manufacture Date*</label>
+            <input type="date" class="form-control" 
+                   [(ngModel)]="newMedicine.manufactureDate" 
+                   name="manufactureDate" required #manufactureDate="ngModel">
+            <div class="text-danger" *ngIf="manufactureDate.invalid && manufactureDate.touched">
+              Manufacture Date is required.
+            </div>
           </div>
+
+          <!-- Expiry Date -->
           <div class="mb-3">
-            <label class="form-label">Expiry Date</label>
-            <input type="date" class="form-control" [(ngModel)]="newMedicine.expiryDate" name="expiryDate" required>
+            <label class="form-label">Expiry Date*</label>
+            <input type="date" class="form-control" 
+                   [(ngModel)]="newMedicine.expiryDate" 
+                   name="expiryDate" required #expiryDate="ngModel">
+            <div class="text-danger" *ngIf="expiryDate.invalid && expiryDate.touched">
+              Expiry Date is required.
+            </div>
           </div>
+
+          <!-- Description -->
           <div class="mb-3">
-            <label class="form-label">Description</label>
+            <label class="form-label">Description (Optional)</label>
             <textarea class="form-control" [(ngModel)]="newMedicine.description" name="description"></textarea>
           </div>
+
+          <!-- Prescription Checkbox -->
           <div class="form-check mb-3">
             <input type="checkbox" class="form-check-input" [(ngModel)]="newMedicine.prescriptionRequired" name="prescriptionRequired">
             <label class="form-check-label">Prescription Required</label>
           </div>
+
           <div class="modal-footer">
-            <button type="submit" class="btn btn-success" data-bs-dismiss="modal">Add Medicine</button>
+            <button type="submit" class="btn btn-success" [disabled]="addForm.invalid" data-bs-dismiss="modal">
+              Add Medicine
+            </button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
           </div>
+
         </form>
       </div>
     </div>
@@ -119,7 +169,8 @@
 </div>
 
 
-    <!-- Edit Form -->
+
+ <!-- Edit Medicine Modal -->
 <div class="modal fade" id="editMedicineModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -129,35 +180,70 @@
       </div>
       <div class="modal-body">
         <form (ngSubmit)="updateMedicine()" #editForm="ngForm">
+          
+          <!-- Name -->
           <div class="mb-3">
-            <label class="form-label">Name</label>
-            <input type="text" class="form-control" [(ngModel)]="editFormData.medicineName" name="medicineName" required>
+            <label class="form-label">Name*</label>
+            <input type="text" class="form-control" 
+                   [(ngModel)]="editFormData.medicineName" 
+                   name="medicineName" required #editName="ngModel">
+            <div class="text-danger" *ngIf="editName.invalid && editName.touched">
+              Name is required.
+            </div>
           </div>
+
+          <!-- Brand -->
           <div class="mb-3">
-            <label class="form-label">Brand</label>
-            <input type="text" class="form-control" [(ngModel)]="editFormData.brand" name="brand" required>
+            <label class="form-label">Brand*</label>
+            <input type="text" class="form-control" 
+                   [(ngModel)]="editFormData.brand" 
+                   name="brand" required #editBrand="ngModel">
+            <div class="text-danger" *ngIf="editBrand.invalid && editBrand.touched">
+              Brand is required.
+            </div>
           </div>
+
+          <!-- Price -->
           <div class="mb-3">
-            <label class="form-label">Price</label>
-            <input type="number" class="form-control" [(ngModel)]="editFormData.price" name="price" required>
+            <label class="form-label">Price*</label>
+            <input type="number" class="form-control" 
+                   [(ngModel)]="editFormData.price" 
+                   name="price" required #editPrice="ngModel">
+            <div class="text-danger" *ngIf="editPrice.invalid && editPrice.touched">
+              Price is required.
+            </div>
           </div>
+
+          <!-- Quantity -->
           <div class="mb-3">
-            <label class="form-label">Quantity Available</label>
-            <input type="number" class="form-control" [(ngModel)]="editFormData.quantityAvailable" name="quantityAvailable" required>
+            <label class="form-label">Quantity Available*</label>
+            <input type="number" class="form-control" 
+                   [(ngModel)]="editFormData.quantityAvailable" 
+                   name="quantityAvailable" required #editQuantityAvailable="ngModel">
+            <div class="text-danger" *ngIf="editQuantityAvailable.invalid && editQuantityAvailable.touched">
+              Quantity available is required.
+            </div>
           </div>
+
+          <!-- Description -->
           <div class="mb-3">
-            <label class="form-label">Description</label>
+            <label class="form-label">Description (Optional)</label>
             <textarea class="form-control" [(ngModel)]="editFormData.description" name="description"></textarea>
           </div>
+
           <div class="modal-footer">
-            <button type="submit" class="btn btn-success"  data-bs-dismiss="modal">Save Changes</button>
+            <button type="submit" class="btn btn-success" [disabled]="editForm.invalid" data-bs-dismiss="modal">
+              Save Changes
+            </button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
           </div>
+
         </form>
       </div>
     </div>
   </div>
 </div>
+
 
   </div>
 </div>
