@@ -34,7 +34,8 @@ export const routes: Routes = [
            {path:'all-orders',component:OrderAdmin},
            {path:'manage-medicines',component:ManageMedicines},
            {path:'admin-reports',component:AdminReports},
-           {path:'admin-manageusers',component:AdminManageUsers}
+           {path:'admin-manageusers',component:AdminManageUsers},
+           {path:'user-settings',component:UsersSettings}
         ]
    },
     {
