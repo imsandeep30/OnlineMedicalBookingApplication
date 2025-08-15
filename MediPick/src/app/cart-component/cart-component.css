@@ -290,3 +290,26 @@
 .checkout-summary h3 {
   animation: fadeInUp 0.6s ease forwards;
 }
+.change-address-btn {
+  text-decoration: none;
+  background-color: #4CAF50; /* Green */
+  color: white;
+  padding: 10px 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.change-address-btn:hover {
+  background-color: #45a049; /* Darker green */
+  transform: translateY(-2px);
+}
+
+.change-address-btn:active {
+  transform: translateY(0);
+  background-color: #3d8b40;
+}

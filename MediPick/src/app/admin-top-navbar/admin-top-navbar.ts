@@ -33,10 +33,12 @@ export class AdminTopNavbar {
     }
   }
   logout() {
-
-    // Clear user data from localStorage or auth service
-    localStorage.clear();
-    // Redirect to login page or home
-    this.router.navigate(['/login']);
+    const confirmLogout=confirm("Are you sure want to logout");
+    if(confirmLogout){
+      // Clear user data from localStorage or auth service
+      localStorage.clear();
+      // Redirect to login page or home
+      this.router.navigate(['/login']);
+    }
   }
 }

@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { EmailService } from '../email-service';
+import { EmailService } from '../Services/email-service';
 interface transactionPlayload{
   orderId:number;
   paymentMethod:string;

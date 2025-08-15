@@ -10,7 +10,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 @Component({
   selector: 'app-root',
-  imports: [Register, RouterOutlet, CartComponent, Login, TopNavbar],
+  imports: [ RouterOutlet],
   templateUrl: './app.html',
   styleUrls: ['./app.css'],
 })

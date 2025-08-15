@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Allorders } from '../allorders';
+import { Allorders } from '../DTOS/allorders';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Orderstatus } from '../orderstatus';
+import { Orderstatus } from '../DTOS/orderstatus';
 
 @Component({
   selector: 'app-order-admin',

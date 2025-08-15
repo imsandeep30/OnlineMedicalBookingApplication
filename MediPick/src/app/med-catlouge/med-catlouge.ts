@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { CartService } from '../cart.service';
+import { CartService } from '../Services/cart.service';
 import { RouterLink } from '@angular/router';
 import { TopNavbar } from '../top-navbar/top-navbar';
 import { debounceTime, Subject } from 'rxjs';
@@ -81,7 +81,7 @@ export class MedCatlouge implements OnInit {
         // Set quantity to 1 for filtered results as well
         this.medicines = data.map(m => ({ ...m, quantity: 1 }));
       },
-      error: err => console.error('Error filtering medicines', err)
+      error: (err) => console.error('Error filtering medicines', err)
     });
   }
 
@@ -108,7 +108,7 @@ export class MedCatlouge implements OnInit {
     const qty = medicine.quantity ?? 1;
     this.cartService.addToCart(userId, medicine, qty).subscribe({
       next: () => console.log('Added to cart:', medicine),
-      error: err => console.error('Failed to add to cart', err)
+      error: ( err : any) => console.error('Failed to add to cart', err)
     });
   }
   colors = [

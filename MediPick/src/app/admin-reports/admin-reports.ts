@@ -125,7 +125,7 @@ export class AdminReports implements OnInit {
     this.totalOrders = filteredOrders.length;
     this.totalSales = filteredOrders.reduce((sum, order) => sum + order.totalAmount, 0);
 
-    this.lowStockMedicinesCount = this.medicines.filter(m => m.quantityAvailable < 10).length;
+    this.lowStockMedicinesCount = this.medicines.filter(m => m.quantityAvailable < 50).length;
   }
 
   formatCurrency(value: number): string {

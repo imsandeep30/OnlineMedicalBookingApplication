@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule,Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { EmailService } from '../email-service';
+import { EmailService } from '../Services/email-service';
 import { HttpHeaders } from '@angular/common/http';
 interface ResponsePlayload{
   userId: number;
@@ -57,11 +57,14 @@ export class Forgotpassword {
   searchEmail() {
     if (this.isSubmitting) return; // prevent double click
     this.isSubmitting = true;
-    this.http.post<any>('http://localhost:5184/api/User/SearchMail', this.EmailRequest)
+    this.http.post<ResponsePlayload>('http://localhost:5184/api/User/SearchMail', this.EmailRequest)
       .subscribe({
         next: (res) => {
+          this.isSubmitting = false;
           console.log(res);
           if (res) {
+            this.PasswordResetDTO.OldPassword=res.password;
+            this.PasswordResetDTO.UserId=res.userId;
             this.emailError = false;
             this.generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
             this.emailService.OtpGeneration(this.generatedOtp, this.EmailRequest.gmail)
@@ -73,6 +76,7 @@ export class Forgotpassword {
         },
         error: (err) => {
           if (err.status === 404) {
+            this.isSubmitting=false;
             this.emailError = true; // show "Email not found"
           }
         }
@@ -101,6 +105,7 @@ export class Forgotpassword {
     this.http.post<any>('http://localhost:5184/api/User/ResetPassword', this.PasswordResetDTO)
       .subscribe({
         next: () => {
+          // console.log(reset);
           this.step = 4;
         },
         error: err => console.error('Error resetting password', err)

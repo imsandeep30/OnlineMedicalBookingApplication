@@ -60,9 +60,9 @@
           type="submit"
           class="btn w-100 text-white"
           style="background-color: #ff6b35;"
-          [disabled]="loginForm.invalid"
+          [disabled]="loginForm.invalid || isLoading"
         >
-          Sign In
+          {{ isLoading ? 'Signing In...' : 'Sign In' }}
         </button>
       </div>
     </form>
