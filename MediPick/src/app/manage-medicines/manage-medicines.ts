@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+//import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-manage-medicines',
@@ -11,32 +14,51 @@ import { HttpClient,HttpHeaders } from '@angular/common/http';
   styleUrls: ['./manage-medicines.css']
 })
 export class ManageMedicines implements OnInit {
+  @ViewChild('addForm') addForm!: NgForm;
+  @ViewChild('editForm') editForm!: NgForm;
   searchTerm = '';
   selectedStatus = '';
   Math = Math;
-
   medicines: any[] = [];
   statuses = ['In Stock', 'Out of Stock', 'Low Stock'];
-  editingMedicine: any = null;
+  newMedicine: any = this.getEmptyMedicine();
   editFormData: any = {};
-  showAddForm = false;
-
-newMedicine: any = {
-  medicineId: 0,
-  medicineName: '',
-  brand: '',
-  price: 0,
-  quantityAvailable: 0,
-  manufactureDate: '',
-  expiryDate: '',
-  description: '',
-  prescriptionRequired: false
-};
+  editingMedicineId: number | null = null;
 
   constructor(private http: HttpClient) {}
 
-  ngOnInit() {
-    this.fetchMedicines();
+ ngOnInit() {
+  this.fetchMedicines();
+
+  // Reset Add form on modal close
+  const addModalEl = document.getElementById('addMedicineModal');
+  if (addModalEl) {
+    addModalEl.addEventListener('hidden.bs.modal', () => {
+      this.addForm.resetForm(this.getEmptyMedicine()); // resets values + validation state
+    });
+  }
+
+  // Reset Edit form on modal close
+  const editModalEl = document.getElementById('editMedicineModal');
+  if (editModalEl) {
+    editModalEl.addEventListener('hidden.bs.modal', () => {
+      this.editForm.resetForm(); // Just clear form validation state
+    });
+  }
+}
+
+  getEmptyMedicine() {
+    return {
+      medicineId: 0,
+      medicineName: '',
+      brand: '',
+      price: 0,
+      quantityAvailable: 0,
+      manufactureDate: '',
+      expiryDate: '',
+      description: '',
+      prescriptionRequired: false
+    };
   }
 
   fetchMedicines() {
@@ -51,135 +73,112 @@ newMedicine: any = {
           } else {
             status = 'In Stock';
           }
-
           return {
             code: med.medicineId,
             name: `${med.medicineName} (${med.brand})`,
-            rawName: med.medicineName, // keeping original name for delete API
+            rawName: med.medicineName,
             description: med.description,
             price: med.price,
             stock: med.quantityAvailable,
-            status: status,
+            status: status
           };
         });
-
       });
   }
 
-  toggleAddForm() {
-  this.showAddForm = !this.showAddForm;
-  if (this.showAddForm) {
-    // Reseting form when opening
-    this.newMedicine = {
-      medicineId: 0,
-      medicineName: '',
-      brand: '',
-      price: 0,
-      quantityAvailable: 0,
-      manufactureDate: '',
-      expiryDate: '',
-      description: '',
-      prescriptionRequired: false
-    };
-  }
-}
+  // ===== Add Medicine Modal =====
 
-addMedicine() {
-  const token = localStorage.getItem('jwt');
-  const headers = new HttpHeaders({
-    Authorization: `Bearer ${token}`
-  });
+  addMedicine() {
+    const token = localStorage.getItem('jwt');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
 
-  // Converting dates to ISO
-  if (this.newMedicine.manufactureDate) {
-    this.newMedicine.manufactureDate = new Date(this.newMedicine.manufactureDate).toISOString();
-  }
-  if (this.newMedicine.expiryDate) {
-    this.newMedicine.expiryDate = new Date(this.newMedicine.expiryDate).toISOString();
-  }
-
-  this.http.post('http://localhost:5184/api/Medicine/add-medicine', this.newMedicine, { headers })
-    .subscribe({
-      next: (res) => {
-        alert('Medicine added successfully.');
-        this.fetchMedicines();
-        this.toggleAddForm();
-      },
-      error: (err) => {
-        console.error(err);
-        alert('Failed to add medicine.');
-      }
-    });
-}
-
-  startEdit(medicine: any) {
-  this.editingMedicine = medicine.code;
-  // Pre-filling form with current values
-  this.editFormData = {
-    medicineId: medicine.code,
-    medicineName: medicine.name.split(" (")[0], // removing brand from display name
-    brand: medicine.name.match(/\(([^)]+)\)/)?.[1] || "",
-    price: medicine.price,
-    quantityAvailable: medicine.stock,
-    description: medicine.description
-  };
-}
-
-cancelEdit() {
-  this.editingMedicine = null;
-  this.editFormData = {};
-}
-
-updateMedicine() {
-  const token = localStorage.getItem('jwt');
-  const headers = new HttpHeaders({
-    Authorization: `Bearer ${token}`
-  });
-
-  this.http.put(
-    `http://localhost:5184/api/Medicine/update-medicine/${this.editFormData.medicineId}`,
-    this.editFormData,
-    { headers }
-  ).subscribe({
-    next: (res) => {
-      alert('Medicine updated successfully.');
-      this.fetchMedicines();
-      this.cancelEdit();
-    },
-    error: (err) => {
-      console.error(err);
-      alert('Failed to update medicine.');
+    if (this.newMedicine.manufactureDate) {
+      this.newMedicine.manufactureDate = new Date(this.newMedicine.manufactureDate).toISOString();
     }
-  });
-}
+    if (this.newMedicine.expiryDate) {
+      this.newMedicine.expiryDate = new Date(this.newMedicine.expiryDate).toISOString();
+    }
 
-deleteMedicine(medicineName: string) {
-  const token = localStorage.getItem('jwt');
-  const headers = new HttpHeaders({
-    Authorization: `Bearer ${token}`
-  });
+    this.http.post('http://localhost:5184/api/Medicine/add-medicine', this.newMedicine, { headers })
+      .subscribe({
+        next: () => {
+          alert('Medicine added successfully.');
+          this.fetchMedicines();
+            const modalEl= document.getElementById('addMedicineModal');
+  if (modalEl) {
+    modalEl.addEventListener('show.bs.modal', () => {
+      this.newMedicine = this.getEmptyMedicine();
+    });
+  }
+        },
+        error: (err) => {
+          console.error(err);
+          alert('Failed to add medicine.');
+        }
+      });
+  }
 
-  if (confirm(`Are you sure you want to delete all records for "${medicineName}"?`)) {
-    this.http.delete(`http://localhost:5184/api/Medicine/delete-medicine/${medicineName}`, {
-      responseType: 'text',
-      headers
-    }).subscribe({
-      next: (res) => {
-        alert(res); // showing exact msg from backend
-        this.fetchMedicines(); // refreshing table
+
+  // ===== Edit Medicine Modal =====
+  openEditModal(medicine: any) {
+    this.editingMedicineId = medicine.code;
+    this.editFormData = {
+      medicineId: medicine.code,
+      medicineName: medicine.name.split(" (")[0],
+      brand: medicine.name.match(/\(([^)]+)\)/)?.[1] || "",
+      price: medicine.price,
+      quantityAvailable: medicine.stock,
+      description: medicine.description
+    };
+   
+  }
+
+
+
+  updateMedicine() {
+    const token = localStorage.getItem('jwt');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    this.http.put(
+      `http://localhost:5184/api/Medicine/update-medicine/${this.editFormData.medicineId}`,
+      this.editFormData,
+      { headers }
+    ).subscribe({
+      next: () => {
+        alert('Medicine updated successfully.');
+        this.fetchMedicines();
       },
       error: (err) => {
         console.error(err);
-        alert('Failed to delete medicine.');
+        alert('Failed to update medicine.');
       }
     });
   }
-}
 
+  deleteMedicine(medicineName: string,medicineId:number) {
+    const token = localStorage.getItem('jwt');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    if (confirm(`Are you sure you want to delete all records for "${medicineName}"?`)) {
+      this.http.delete(`http://localhost:5184/api/Medicine/delete-medicine/${medicineId}`, {
+        responseType: 'text',
+        headers
+      }).subscribe({
+        next: (res) => {
+          alert(res);
+          this.fetchMedicines();
+        },
+        error: (err) => {
+          console.error(err);
+          alert('Failed to delete medicine.');
+        }
+      });
+    }
+  }
 
   get filteredMedicines() {
     return this.medicines.filter(m => {
-      return (!this.searchTerm || m.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ) &&
+      return (!this.searchTerm || m.name.toLowerCase().includes(this.searchTerm.toLowerCase())) &&
              (!this.selectedStatus || m.status === this.selectedStatus);
     });
   }

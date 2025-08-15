@@ -16,8 +16,8 @@ namespace OnlineMedicineBookingApplication.Application.Interfaces
         // Updates an existing medicine's details
         Task<MedicineDTO> UpdateMedicine(MedicineDTO medicine);
 
-        // Deletes a medicine from the catalog based on its name
-        Task DeleteMedicine(string name);
+        // Deletes a medicine from the catalog based on its Id
+        Task DeleteMedicine(int medicineId);
 
         // Retrieves all medicines from the system
         Task<List<MedicineDTO>> GetAllMedicinesAsync();

@@ -18,7 +18,7 @@
       <select class="form-select" [(ngModel)]="selectedStatus" (change)="applyFilters()">
         <option value="">All Orders</option>
         <option value="Pending">Pending</option>
-        <option value="Processing">Processing</option>
+        <option value="Confirmed">Confirmed</option>
         <option value="Shipped">Shipped</option>
         <option value="Delivered">Delivered</option>
         <option value="Cancelled">Cancelled</option>
@@ -67,7 +67,7 @@
           <td>
             <span class="badge" [ngClass]="{
               'bg-secondary': order.orderStatus === 'Pending',
-              'bg-primary': order.orderStatus === 'Processing',
+              'bg-primary': order.orderStatus === 'Confirmed',
               'bg-info': order.orderStatus === 'Shipped',
               'bg-success': order.orderStatus === 'Delivered',
               'bg-danger': order.orderStatus === 'Cancelled'

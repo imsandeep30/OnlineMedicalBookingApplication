@@ -14,10 +14,19 @@ import { forkJoin, map, switchMap } from 'rxjs';
 export class AdminHome implements OnInit {
   medicineStock: { category: string; count: number }[] = [];
   recentOrders: any[] = [];
+  userName:string = '';
 
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
+     console.log(localStorage.getItem('userName'));
+    const storedUsername = localStorage.getItem('userName');
+    if (storedUsername) {
+      this.userName = storedUsername;
+    } else {
+      this.userName = 'Guest';
+    }
+  
     this.loadMedicineStock();
     this.loadRecentOrders();
   }

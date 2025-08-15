@@ -39,6 +39,24 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
             return Task.CompletedTask; // Nothing to delete
         }
 
+        //updates medicine data 
+        public async Task UpdateMedicine(Medicine medicine)
+        {
+            var existingMedicine = await _context.Medicines.FindAsync(medicine.MedicineId);
+            if (existingMedicine == null)
+                throw new KeyNotFoundException("Medicine not found.");
+
+            // Updates only relevant fields from passed-in entity
+            existingMedicine.MedicineName = medicine.MedicineName;
+            existingMedicine.Brand = medicine.Brand;
+            existingMedicine.Price = medicine.Price;
+            existingMedicine.QuantityAvailable = medicine.QuantityAvailable;
+            existingMedicine.Description = medicine.Description;
+
+            // Do NOT touch other properties like ManufactureDate, ExpiryDate, etc.
+            await _context.SaveChangesAsync();
+        }
+
         // Retrieves all medicines from the database
         public async Task<List<Medicine>> GetAllAsync()
         {
