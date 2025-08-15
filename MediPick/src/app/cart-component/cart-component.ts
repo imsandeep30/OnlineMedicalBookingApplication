@@ -81,7 +81,7 @@ export class CartComponent implements OnInit, OnDestroy {
       error: err => console.error('Error removing item', err)
     });
   }
-
+  routerParam='';
   loadAddress(): void {
     const userId = localStorage.getItem('userId');
     if (!userId) return;
