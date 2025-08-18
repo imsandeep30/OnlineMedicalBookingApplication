@@ -39,7 +39,7 @@ export const routes: Routes = [
         ]
    },
     {
-        path:'customer-dashboard',component:CustomerDashboard,canActivate: [authGuard],data: { roles: ['User'] },children:[
+        path:'customer-dashboard',component:CustomerDashboard /*,canActivate: [authGuard],data: { roles: ['User'] }*/,children:[
             { path: '', component: CustHome },
             {path:'orderby-userid',component:OrderBoth},
             {path : 'cart',component:CartComponent},

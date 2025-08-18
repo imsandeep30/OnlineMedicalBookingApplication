@@ -11,6 +11,8 @@ import { TopNavbar } from "../top-navbar/top-navbar";
 import { HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { RouterOutlet } from '@angular/router';
+import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 interface UserAddress {
   userStreet: string;
   userCity: string;
@@ -25,7 +27,7 @@ interface OrderPayload {
 @Component({
   selector: 'app-cart-component',
   standalone: true,
-  imports: [CommonModule, MedicineCard, TopNavbar, RouterOutlet],
+  imports: [CommonModule, MedicineCard, TopNavbar, RouterOutlet,RouterLink,FormsModule],
   templateUrl: './cart-component.html',
   styleUrls: ['./cart-component.css']
 })
@@ -113,7 +115,7 @@ export class CartComponent implements OnInit, OnDestroy {
     this.http.post<any>('http://localhost:5184/api/Order/place-order', this.OrderPayload, {
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('jwt') }
         }).subscribe({
-          next: response => {
+          next : response => {
             this.OrderId = response.orderId.toString();
             console.log('Order placed successfully:', response.orderId);
 
@@ -125,6 +127,23 @@ export class CartComponent implements OnInit, OnDestroy {
       error: err => console.error('Error placing order', err)
     });
 
+  }
+  userCoupon='';
+  discount : number=0;
+  isnotCoupon:boolean=false;
+  ActualCoupon="Medicine";
+  ApplyCoupon(){
+    console.log(this.userCoupon);
+    if(this.userCoupon==this.ActualCoupon){
+      this.discount=(this.cartTotal*10)/100;
+      this.cartTotal-=this.discount;
+    }
+    else{
+      this.isnotCoupon=true;
+    }
+  }
+  goToCatalogue() {
+    this.router.navigate(['/customer-dashboard/medicine-catalogue']);
   }
   ngOnDestroy(): void {
     if (this.routeSub) {

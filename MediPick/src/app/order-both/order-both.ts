@@ -12,9 +12,10 @@ import { CommonModule } from '@angular/common';
 export class OrderBoth implements OnInit {
   orderSteps = [
     'Pending',
+    'Confirmed',
     'Shipped',
-    'Out for Delivery',
-    'Confirmed'
+    'Out-for-Delivery',
+    'Delivered'
   ];
 
   ordersbyuserid: any[] = [];
@@ -30,8 +31,9 @@ export class OrderBoth implements OnInit {
 
   // Check if a progress step is completed based on order status
   isStepCompleted(currentStatus: string, step: string): boolean {
-    const currentIndex = this.orderSteps.indexOf(currentStatus);
-    const stepIndex = this.orderSteps.indexOf(step);
+    // console.log(currentStatus,step);
+    const currentIndex = this.orderSteps.indexOf(currentStatus);//Confirmed 1<-1
+    const stepIndex = this.orderSteps.indexOf(step);//Confirmed
     return stepIndex <= currentIndex;
   }
 

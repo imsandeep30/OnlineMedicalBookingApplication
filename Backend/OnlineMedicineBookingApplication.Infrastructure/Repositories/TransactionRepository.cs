@@ -19,28 +19,30 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
         // Adds a new transaction and updates order status if payment is not completed
         public async Task<Transaction> AddTransactionAsync(Transaction transaction)
         {
-            // Find the associated order and include its items
-            var order = await _context.Orders.Include(o => o.OrderItems)
-                                             .FirstOrDefaultAsync(o => o.OrderId == transaction.OrderId);
+            // Find the associated order
+            var order = await _context.Orders
+                .Include(o => o.OrderItems)
+                .FirstOrDefaultAsync(o => o.OrderId == transaction.OrderId);
 
             if (order == null)
                 throw new ArgumentException("Order not found");
 
-            // If payment is not already marked as completed, update it
+            // Step 1: Mark payment as completed immediately
             if (order.PaymentStatus != "Completed")
             {
                 order.PaymentStatus = "Completed";
                 order.OrderStatus = "Confirmed";
             }
 
-            // Add the transaction record
+            // Add transaction
             _context.Transactions.Add(transaction);
-
-            // Save both transaction and order updates
             await _context.SaveChangesAsync();
+
+            // Step 2: Schedule order confirmation after 3 seconds (non-blocking)
 
             return transaction;
         }
+
 
         // Fetches all transaction records from the database
         public async Task<List<Transaction>> GetAllTransactionsAsync()

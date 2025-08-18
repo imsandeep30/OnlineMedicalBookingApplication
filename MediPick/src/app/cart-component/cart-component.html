@@ -6,7 +6,7 @@
     <div *ngIf="cartItems.length === 0" class="empty-cart">
       <img src="./duckPng.png" alt="Empty Cart" class="empty-cart-img" />
       <p>Your cart is empty</p>
-      <a routerLink="/browse-medicines" class="shop-now-btn">🛒 Shop Now</a>
+      <a routerLink='/customer-dashboard/medicine-catalogue' class="shop-now-btn">🛒 Shop Now</a>
     </div>
     <div class="cart-grid">
       <app-medicine-card
@@ -45,9 +45,10 @@
 
     <label>Apply Coupon</label>
     <div class="coupon">
-      <input type="text" placeholder="Enter coupon code" />
-      <button>Apply</button>
+      <input type="text" placeholder="Enter coupon code" [(ngModel)]="userCoupon" />
+      <button (click)="ApplyCoupon()">Apply</button>
     </div>
+    <span *ngIf="isnotCoupon" id="spancoupon">Coupon not applied</span>
 
     <label>Payment Method</label>
     <div class="payment-options">

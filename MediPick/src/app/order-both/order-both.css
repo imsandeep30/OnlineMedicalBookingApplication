@@ -58,7 +58,9 @@
   color: white;
   text-transform: capitalize;
 }
-
+.order-status-badge.out-for-delivery {
+  background-color: #073c14; /* green */
+ }  
 .order-status-badge.delivered {
   background-color: #28a745; /* green */
 }
@@ -71,8 +73,10 @@
   background-color: #ffc107; /* yellow */
   color: #222;
 }
-
-.order-status-badge.cancelled {
+.order-status-badge.confirmed {
+  background-color: #bab3b3; /* red */
+}
+.order-status-badge.canceled {
   background-color: #dc3545; /* red */
 }
 

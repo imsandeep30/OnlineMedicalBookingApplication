@@ -29,8 +29,16 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
         // Adds a new user to the database
         public async Task AddUserAsync(User user)
         {
-            await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
+            var res = await _context.Users.FirstOrDefaultAsync(u=>u.UserEmail==user.UserEmail);
+            if (res == null)
+            {
+                await _context.Users.AddAsync(user);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new InvalidOperationException("A user with this email already exists.");
+            }
         }
 
         // Retrieves a user by their unique ID

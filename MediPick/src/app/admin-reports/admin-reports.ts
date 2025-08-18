@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable'; // correct import
 import * as XLSX from 'xlsx';
@@ -37,7 +36,7 @@ interface Medicine {
 export class AdminReports implements OnInit {
 
   dateRanges = ['Last 7 Days', 'Last 30 Days', 'Last Year'];
-  userTypes = ['All Users', 'Admin', 'User'];
+  userTypes = ['All Users', 'User'];
 
   selectedDateRange = this.dateRanges[0];
   selectedUserType = this.userTypes[0];

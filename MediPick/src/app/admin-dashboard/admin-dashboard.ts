@@ -11,6 +11,5 @@ import { AdminTopNavbar } from '../admin-top-navbar/admin-top-navbar';
   styleUrls: ['./admin-dashboard.css']
 })
 export class AdminDashboard {
-
   
 }

@@ -20,6 +20,7 @@
         <option value="Pending">Pending</option>
         <option value="Confirmed">Confirmed</option>
         <option value="Shipped">Shipped</option>
+        <option value="Out for Delivery">Out for delivery</option>
         <option value="Delivered">Delivered</option>
         <option value="Cancelled">Cancelled</option>
       </select>
@@ -69,8 +70,9 @@
               'bg-secondary': order.orderStatus === 'Pending',
               'bg-primary': order.orderStatus === 'Confirmed',
               'bg-info': order.orderStatus === 'Shipped',
+              'bg-warning': order.orderStatus === 'Out-for-Delivery',
               'bg-success': order.orderStatus === 'Delivered',
-              'bg-danger': order.orderStatus === 'Cancelled'
+              'bg-danger': order.orderStatus === 'Canceled'
             }">
               {{ order.orderStatus }}
             </span>
@@ -83,8 +85,8 @@
                       name="status{{order.orderId}}">
                 <option value="">Select Status</option>
                 <option value="Pending">Pending</option>
-                <option value="Processing">Processing</option>
                 <option value="Shipped">Shipped</option>
+                <option value="Out-for-Delivery">Out for delivery</option>
                 <option value="Delivered">Delivered</option>
                 <option value="Cancelled">Cancelled</option>
               </select>

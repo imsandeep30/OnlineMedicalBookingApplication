@@ -4,6 +4,7 @@ import { OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { EmailService } from '../Services/email-service';
+//transaction playload
 interface transactionPlayload{
   orderId:number;
   paymentMethod:string;
@@ -83,7 +84,6 @@ export class PaymentComponent implements OnInit {
     });
   }
   onPaymentSuccess() {
-
     this.emailService.sendPaymentSuccessEmail(this.customerEmail)
       .subscribe({
         next: () => console.log('Email sent successfully!'),

@@ -43,13 +43,13 @@
         </div>
         <div 
           class="progress-line" 
-          [class.completed]="isStepCompleted(order.orderStatus, 'Processing')"
-          [class.cancelled]="order.orderStatus.toLowerCase() === 'canceled' && isStepCompleted(order.orderStatus, 'Processing')"
+          [class.completed]="isStepCompleted(order.orderStatus, 'Confirmed')"
+          [class.cancelled]="order.orderStatus.toLowerCase() === 'canceled' && isStepCompleted(order.orderStatus, 'Confirmed')"
         ></div>
         <div 
           class="progress-step" 
-          [class.completed]="isStepCompleted(order.orderStatus, 'Processing')"
-          [class.cancelled]="order.orderStatus.toLowerCase() === 'canceled' && isStepCompleted(order.orderStatus, 'Processing')"
+          [class.completed]="isStepCompleted(order.orderStatus, 'Confirmed')"
+          [class.cancelled]="order.orderStatus.toLowerCase() === 'canceled' && isStepCompleted(order.orderStatus, 'Confirmed')"
         >
           <span class="step-icon">&#10003;</span>
           <span>Processing</span>
@@ -69,26 +69,26 @@
         </div>
         <div 
           class="progress-line" 
-          [class.completed]="isStepCompleted(order.orderStatus, 'Out for Delivery')"
-          [class.cancelled]="order.orderStatus.toLowerCase() === 'canceled' && isStepCompleted(order.orderStatus, 'Out for Delivery')"
+          [class.completed]="isStepCompleted(order.orderStatus, 'Out-for-Delivery')"
+          [class.cancelled]="order.orderStatus.toLowerCase() === 'canceled' && isStepCompleted(order.orderStatus, 'Out-for-Delivery')"
         ></div>
         <div 
           class="progress-step" 
-          [class.completed]="isStepCompleted(order.orderStatus, 'Out for Delivery')"
-          [class.cancelled]="order.orderStatus.toLowerCase() === 'canceled' && isStepCompleted(order.orderStatus, 'Out for Delivery')"
+          [class.completed]="isStepCompleted(order.orderStatus, 'Out-for-Delivery')"
+          [class.cancelled]="order.orderStatus.toLowerCase() === 'canceled' && isStepCompleted(order.orderStatus, 'Out-for-Delivery')"
         >
           <span class="step-icon">&#10003;</span>
           <span>Out for Delivery</span>
         </div>
         <div 
           class="progress-line" 
-          [class.completed]="isStepCompleted(order.orderStatus, 'Confirmed')"
-          [class.cancelled]="order.orderStatus.toLowerCase() === 'canceled' && isStepCompleted(order.orderStatus, 'Confirmed')"
+          [class.completed]="isStepCompleted(order.orderStatus, 'Delivered')"
+          [class.cancelled]="order.orderStatus.toLowerCase() === 'canceled' && isStepCompleted(order.orderStatus, 'Delivered')"
         ></div>
         <div 
           class="progress-step" 
-          [class.completed]="isStepCompleted(order.orderStatus, 'Confirmed')"
-          [class.cancelled]="order.orderStatus.toLowerCase() === 'canceled' && isStepCompleted(order.orderStatus, 'Confirmed')"
+          [class.completed]="isStepCompleted(order.orderStatus, 'Delivered')"
+          [class.cancelled]="order.orderStatus.toLowerCase() === 'canceled' && isStepCompleted(order.orderStatus, 'Delivered')"
         >
           <span class="step-icon">&#10003;</span>
           <span>Delivered</span>
@@ -98,7 +98,7 @@
 
         <div class="actions">
           <button class="cancel-btn" 
-                  [disabled]="order.orderStatus.toLowerCase() === 'canceled' || order.orderStatus.toLowerCase() === 'confirmed'"
+                  [disabled]="order.orderStatus.toLowerCase() === 'canceled' || order.orderStatus.toLowerCase() === 'delivered'"
                   (click)="cancelOrder(order.orderId)">
             {{ order.orderStatus.toLowerCase() === 'canceled' ? 'Cancelled' : 'Cancel Order' }}
           </button>
