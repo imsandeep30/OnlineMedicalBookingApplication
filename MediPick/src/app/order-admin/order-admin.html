@@ -1,0 +1,108 @@
+<div class="container mt-4">
+  <!-- Filters Row -->
+  <div class="row g-3 align-items-end mb-3">
+    <!-- Date Range -->
+    <div class="col-md-3">
+      <label class="form-label">Date Range</label>
+      <select class="form-select" [(ngModel)]="selectedDateRange" (change)="applyFilters()">
+        <option value="today">Today</option>
+        <option value="thisWeek">This Week</option>
+        <option value="thisMonth">This Month</option>
+        <option value="custom">All</option>
+      </select>
+    </div>
+
+    <!-- Status Filter -->
+    <div class="col-md-3">
+      <label class="form-label">Status Filter</label>
+      <select class="form-select" [(ngModel)]="selectedStatus" (change)="applyFilters()">
+        <option value="">All Orders</option>
+        <option value="Pending">Pending</option>
+        <option value="Confirmed">Confirmed</option>
+        <option value="Shipped">Shipped</option>
+        <option value="Out for Delivery">Out for delivery</option>
+        <option value="Delivered">Delivered</option>
+        <option value="Cancelled">Cancelled</option>
+      </select>
+    </div>
+
+    <!-- Search Orders -->
+    <div class="col-md-4">
+      <label class="form-label">Search Orders</label>
+      <input type="text" id="search" class="form-control" placeholder="Search by Order ID"
+        [(ngModel)]="searchQuery" (input)="applyFilters()">
+    </div>
+
+    <!-- Export Button -->
+    <!-- <div class="col-md-2">
+      <label class="form-label d-block">&nbsp;</label>
+      <button class="btn btn-warning w-100">
+        <i class="bi bi-download"></i> Export
+      </button>
+    </div>
+  </div> -->
+
+  <!-- Orders Table -->
+  <div class="table-responsive">
+    <h2>Manage Orders</h2>
+    <table class="table table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>Order ID</th>
+          <th>User ID</th>
+          <th>Order Date</th>
+          <th>Shipping Address</th>
+          <th>Payment Status</th>
+          <th>Order Status</th>
+          <th>Total Amount</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of filteredOrders">
+          <td>{{ order.orderId }}</td>
+          <td>{{ order.userId }}</td>
+          <td>{{ order.orderDate | date: 'short' }}</td>
+          <td>{{ order.shippingAddress }}</td>
+          <td>{{ order.paymentStatus }}</td>
+          <td>
+            <span class="badge" [ngClass]="{
+              'bg-secondary': order.orderStatus === 'Pending',
+              'bg-primary': order.orderStatus === 'Confirmed',
+              'bg-info': order.orderStatus === 'Shipped',
+              'bg-warning': order.orderStatus === 'Out-for-Delivery',
+              'bg-success': order.orderStatus === 'Delivered',
+              'bg-danger': order.orderStatus === 'Canceled'
+            }">
+              {{ order.orderStatus }}
+            </span>
+          </td>
+          <td>{{ order.totalAmount | currency:'INR' }}</td>
+          <td>
+            <div class="d-flex flex-column flex-sm-row gap-1">
+              <select class="form-select form-select-sm"
+                      [(ngModel)]="orderstatus.newStatus"
+                      name="status{{order.orderId}}">
+                <option value="">Select Status</option>
+                <option value="Pending">Pending</option>
+                <option value="Shipped">Shipped</option>
+                <option value="Out-for-Delivery">Out for delivery</option>
+                <option value="Delivered">Delivered</option>
+                <option value="Canceled">Cancelled</option>
+              </select>
+              <button class="btn btn-primary btn-sm"
+                      (click)="orderstatus.orderId = order.orderId; UpdateStatus(order.orderId)">
+                Update
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Show update response -->
+  <div *ngIf="message" class="mt-3 alert alert-info">
+    {{ message }}
+  </div>
+</div>

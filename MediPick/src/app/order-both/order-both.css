@@ -1,0 +1,187 @@
+/* Container */
+.container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 0 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+/* Header */
+.header h2 {
+  margin-bottom: 0;
+  font-weight: 700;
+  font-size: 1.8rem;
+}
+
+.header p {
+  margin-top: 5px;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Order Card */
+.order-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 3px 8px rgb(0 0 0 / 0.1);
+  padding: 20px;
+  margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.order-header strong {
+  font-size: 1.2rem;
+}
+
+.order-date {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 3px;
+}
+
+/* Status badge */
+.order-status-badge {
+  padding: 5px 14px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: white;
+  text-transform: capitalize;
+}
+.order-status-badge.out-for-delivery {
+  background-color: #073c14; /* green */
+ }  
+.order-status-badge.delivered {
+  background-color: #28a745; /* green */
+}
+
+.order-status-badge.shipped {
+  background-color: #007bff; /* blue */
+}
+
+.order-status-badge.processing {
+  background-color: #ffc107; /* yellow */
+  color: #222;
+}
+.order-status-badge.confirmed {
+  background-color: #bab3b3; /* red */
+}
+.order-status-badge.canceled {
+  background-color: #dc3545; /* red */
+}
+
+/* Medicines */
+.medicines {
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: #444;
+}
+
+/* Delivery address */
+.delivery-address {
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+  color: #444;
+}
+
+/* Order Progress */
+.order-progress {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  user-select: none;
+  font-size: 0.75rem;
+}
+
+.progress-step {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 90px;
+  color: #bbb;
+  font-weight: 600;
+  text-align: center;
+  position: relative;
+}
+
+.progress-step.completed {
+  color: #28a745;
+}
+
+.progress-step .step-icon {
+  font-size: 1.3rem;
+  background-color: currentColor;
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+/* Progress Line */
+.progress-line {
+  height: 4px;
+  flex-grow: 1;
+  background-color: #ddd;
+  margin: 0 4px;
+  border-radius: 2px;
+  transition: background-color 0.3s ease;
+}
+
+.progress-line.completed {
+  background-color: #28a745;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cancel-btn {
+  background-color: #dc3545; /* red */
+  border: none;
+  padding: 8px 15px;
+  color: white;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cancel-btn:not(:disabled):hover {
+  background-color: #b02a37; /* darker red */
+}
+
+.cancel-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* No orders */
+.no-orders {
+  padding: 15px;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+}
+.progress-step.cancelled {
+  color: #dc3545; /* red */
+}
+
+.progress-line.cancelled {
+  background-color: #dc3545; /* red */
+}

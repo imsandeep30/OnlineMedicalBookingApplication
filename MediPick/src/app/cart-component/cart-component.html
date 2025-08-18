@@ -1,0 +1,88 @@
+<div class="cart-page">
+  <!-- Left: Cart Items -->
+  <div class="cart-items-section">
+    <h2 > Hello {{ userName }}, Your Cart</h2>
+    <p>Review your items and complete your order</p>
+    <div *ngIf="cartItems.length === 0" class="empty-cart">
+      <img src="./duckPng.png" alt="Empty Cart" class="empty-cart-img" />
+      <p>Your cart is empty</p>
+      <a routerLink='/customer-dashboard/medicine-catalogue' class="shop-now-btn">🛒 Shop Now</a>
+    </div>
+    <div class="cart-grid">
+      <app-medicine-card
+        *ngFor="let item of cartItems"
+        [medicine]="item"
+        (remove)="removeItem(item)">
+      </app-medicine-card>
+    </div>
+
+    <div class="subtotal-card">
+      <span>Subtotal:</span>
+      <strong>₹{{ cartTotal }}</strong>
+    </div>
+  </div>
+
+  <!-- Right: Checkout Summary -->
+  <div class="checkout-summary">
+    <h3>Checkout Summary</h3>
+
+    <label>Delivery Address</label>
+    <div class="address-box">
+      <ng-container *ngIf="userAddress; else noAddress">
+        <p>
+          {{ userAddress.userStreet }},
+          {{ userAddress.userCity }}, 
+          {{ userAddress.userState }}, 
+          {{ userAddress.userZipCode }}, 
+          {{ userAddress.userCountry }}, 
+        </p>
+      </ng-container>
+
+      <ng-template #noAddress>
+        <p class="no-address">No address found. Please add one.</p>
+      </ng-template>
+    </div>
+
+    <label>Apply Coupon</label>
+    <div class="coupon">
+      <input type="text" placeholder="Enter coupon code" [(ngModel)]="userCoupon" />
+      <button (click)="ApplyCoupon()">Apply</button>
+    </div>
+    <span *ngIf="isnotCoupon" id="spancoupon">Coupon not applied</span>
+
+    <label>Payment Method</label>
+    <div class="payment-options">
+      <button 
+        class="payment upi" 
+        [class.selected]="paymentMethod === 'UPI'"
+        (click)="selectPaymentMethod('UPI')">
+        UPI Payment
+      </button><br><br>
+
+      <button 
+        class="payment card" 
+        [class.selected]="paymentMethod === 'CARD'"
+        (click)="selectPaymentMethod('CARD')">
+        Credit/Debit Card
+      </button><br>
+
+      <button 
+        class="payment wallet" 
+        [class.selected]="paymentMethod === 'WALLET'"
+        (click)="selectPaymentMethod('WALLET')">
+        Digital Wallet
+      </button>
+    </div>
+
+    <div class="price-summary">
+      <p>Subtotal: ₹{{ cartTotal }}</p>
+      <p>Delivery: Free</p>
+      <p class="total">Total: ₹{{ cartTotal }}</p>
+    </div>
+
+    <button class="proceed-btn" (click)="placeOrder()">Place Order</button>
+
+
+  </div>
+</div>
+<router-outlet></router-outlet>

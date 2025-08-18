@@ -1,0 +1,56 @@
+
+
+<div class="admin-reports-container">
+
+  <h2>Admin Reports</h2>
+
+  <div class="filters mb-3">
+    <label>
+      Date Range:
+      <select [(ngModel)]="selectedDateRange" (change)="applyFilters()">
+        <option *ngFor="let range of dateRanges" [value]="range">{{range}}</option>
+      </select>
+    </label>
+
+    <label class="ms-3">
+      User Type:
+      <select [(ngModel)]="selectedUserType" (change)="applyFilters()">
+        <option *ngFor="let type of userTypes" [value]="type">{{type}}</option>
+      </select>
+    </label>
+  </div>
+
+  <div *ngIf="loading">Loading data...</div>
+  <div *ngIf="errorMsg" class="text-danger">{{ errorMsg }}</div>
+
+  <div *ngIf="!loading && !errorMsg">
+    <div class="stats d-flex gap-4">
+      <div class="stat-box p-3 border rounded">
+        <h4>Total Users</h4>
+        <p>{{ totalUsers }}</p>
+      </div>
+
+      <div class="stat-box p-3 border rounded">
+        <h4>Total Orders</h4>
+        <p>{{ totalOrders }}</p>
+      </div>
+
+      <div class="stat-box p-3 border rounded">
+        <h4>Total Sales</h4>
+        <p>{{ formatCurrency(totalSales) }}</p>
+      </div>
+
+      <!-- Always show this card -->
+      <div class="stat-box p-3 border rounded">
+        <h4>Low Stock Medicines</h4>
+        <p>{{ lowStockMedicinesCount }}</p>
+      </div>
+    </div>
+
+    <div class="export-buttons mt-3">
+      <button (click)="exportPDF()" class="btn btn-primary me-2">Export PDF</button>
+      <button (click)="exportExcel()" class="btn btn-success">Export Excel</button>
+    </div>
+  </div>
+
+</div>

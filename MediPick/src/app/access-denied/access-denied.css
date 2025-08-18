@@ -1,0 +1,37 @@
+.access-denied-container {
+  max-width: 400px;
+  margin: 120px auto;
+  text-align: center;
+  padding: 30px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.access-denied-container h2 {
+  font-size: 2.2rem;
+  color: #d32f2f;
+  margin-bottom: 15px;
+}
+
+.access-denied-container p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 25px;
+}
+
+.access-denied-container button {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+.access-denied-container button:hover {
+  background-color: #115293;
+}

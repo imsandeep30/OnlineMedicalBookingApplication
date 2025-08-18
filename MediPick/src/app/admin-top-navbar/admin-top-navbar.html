@@ -1,0 +1,33 @@
+<nav class="top-navbar">
+  <ul>
+    <li [routerLink]="['/admin-dashboard/']" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <i class="icon">🏠</i> Home
+    </li>
+    <li routerLinkActive="active" [routerLink]="['/admin-dashboard/manage-medicines']">
+      <i class="icon">💊</i> Medicines
+    </li>
+    <li [routerLink]="['/admin-dashboard/all-orders']" routerLinkActive="active">
+      <i class="icon">📦</i> Orders
+    </li>
+
+    <li class="cart" [routerLink]="['/admin-dashboard/admin-manageusers']" routerLinkActive="active">
+      <i class="icon">👥</i> Users
+    </li>
+    <li class="cart" [routerLink]="['/admin-dashboard/admin-reports']" routerLinkActive="active">
+       <i class="icon">📑</i>Reports
+    </li>
+    <li class="cart" [routerLink]="['/admin-dashboard/user-settings']" routerLinkActive="active">
+       <i class="icon">⚙️</i>Settings
+    </li>
+
+    <!-- Show Login or Logout based on userName -->
+    <li *ngIf="userRole === 'Admin' || userRole === 'User'; else loginTpl" class="logout" (click)="logout()">
+      <i class="icon">🚪</i> Logout
+    </li>
+    <ng-template #loginTpl>
+      <li routerLink="/login">
+        <i class="icon">🔐</i> Login
+      </li>
+    </ng-template>
+  </ul>
+</nav>

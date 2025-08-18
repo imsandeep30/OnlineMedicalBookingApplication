@@ -1,0 +1,67 @@
+<div class="dashboard-container">
+    <h2>Welcome back, {{ userName }}!</h2>
+    <p class="subtitle">See what's happening today.</p>
+
+  <div class="cards-row">
+    <!-- Medicine Stock -->
+    <div class="card half-width">
+      <h6>Medicine Stock</h6>
+      <div *ngFor="let stock of medicineStock" class="stock-item">
+        <div class="d-flex">
+          <span>{{stock.category}}</span>
+          <span>{{stock.count}}</span>
+        </div>
+        <div class="progress">
+        <div class="progress-bar"
+          [ngClass]="{
+         'bg-danger': stock.count < 30,
+         'bg-success': stock.count >= 30
+       }"
+       [style.width.%]="(stock.count / 300) * 100">
+  </div>
+</div>
+      </div>
+    </div>
+
+    <!-- Recent Orders -->
+    <div class="card half-width">
+      <div class="d-flex justify-content-between" style="margin-bottom:15px;">
+        <h6>Recent Orders</h6>
+        <a routerLink="/admin-dashboard/all-orders">View All</a>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Customer</th>
+            <th>Status</th>
+            <th>Amount</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of recentOrders">
+            <td>{{order.id}}</td>
+            <td>{{order.customer}}</td>
+            <td>
+              <span class="badge"
+                    [ngClass]="{
+                      'bg-success': order.status==='Delivered',
+                      'bg-warning text-white' : order.status==='Out-for-Delivery',
+                      'bg-secondary': order.status==='Pending',
+                      'bg-info': order.status==='Shipped',
+                      'bg-primary': order.status==='Confirmed',
+                      'bg-danger': order.status==='Canceled'
+                    }">
+                {{order.status}}
+              </span>
+            </td>
+            <td>₹{{order.amount}}</td>
+            <td>{{order.date}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
