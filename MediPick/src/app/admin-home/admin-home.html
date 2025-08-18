@@ -47,10 +47,11 @@
               <span class="badge"
                     [ngClass]="{
                       'bg-success': order.status==='Delivered',
-                      'bg-warning': order.status==='Pending',
+                      'bg-warning text-white' : order.status==='Out-for-Delivery',
+                      'bg-secondary': order.status==='Pending',
                       'bg-info': order.status==='Shipped',
                       'bg-primary': order.status==='Confirmed',
-                      'bg-danger': order.status==='Cancelled'
+                      'bg-danger': order.status==='Canceled'
                     }">
                 {{order.status}}
               </span>

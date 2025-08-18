@@ -36,7 +36,7 @@
       <tbody>
         <tr *ngFor="let med of filteredMedicines">
           <td>
-             <span class="badge me-2" [style.backgroundColor]="'#'+(Math.random().toString(16).slice(2,8))">{{med.code}}</span>
+             <span class="badge me-2" [style.backgroundColor]="med.color">{{med.code}}</span>
           </td>
           <td>
             <strong>{{med.name}}</strong><br>

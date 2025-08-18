@@ -10,9 +10,7 @@
 .main-content h2 {
   font-size: 2rem;
   font-weight: bold;
-  background: linear-gradient(90deg, #42a5f5, #ab47bc);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .subtitle {
@@ -115,12 +113,6 @@ tbody tr:hover {
   text-align: center;
 }
 
-.bg-success { background: #28a745; }
-.bg-warning { background: #ffc107; color: #333; }
-.bg-info { background: #17a2b8; }
-.bg-primary { background: #007bff; }
-.bg-danger { background: #dc3545; }
-
 /* Table Responsive */
 @media (max-width: 768px) {
   table, thead, tbody, th, td, tr {
@@ -191,9 +183,6 @@ a:hover {
   box-shadow: 0 10px 25px rgba(0,0,0,0.12);
 }
 
-/* Table, badges, and progress same as your previous CSS */
-
-/* Responsive: stacked on smaller screens */
 @media (max-width: 992px) {
   .half-width {
     flex: 1 1 100%;
