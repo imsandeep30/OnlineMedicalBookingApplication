@@ -103,7 +103,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
             return Ok(filteredMedicines);
         }
 
-        // Delete a medicine by name (Admin only)
+        // Delete a medicine by id (Admin only)
         [HttpDelete("delete-medicine/{medicineId}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteMedicineAsync(int medicineId)
