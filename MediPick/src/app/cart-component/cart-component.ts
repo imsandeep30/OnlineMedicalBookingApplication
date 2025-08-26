@@ -32,7 +32,7 @@ interface OrderPayload {
   styleUrls: ['./cart-component.css']
 })
 
-export class CartComponent implements OnInit, OnDestroy {
+export class CartComponent implements OnInit {
   OrderPayload: OrderPayload = {
     userId: localStorage.getItem('userId') || '',
     shippingAddress: ''
@@ -49,7 +49,6 @@ export class CartComponent implements OnInit, OnDestroy {
     userCountry: ''
   };
   FinalAddress : string = '';
-  private routeSub!: Subscription;
   paymentMethod: string = ''; 
   constructor(private http: HttpClient, private router: Router, private cartService: CartService, private route: ActivatedRoute) {}
 
@@ -65,7 +64,7 @@ export class CartComponent implements OnInit, OnDestroy {
       next: response => {
         this.cartItems = response.items;
         this.cartTotal = response.totalPrice;
-        console.log('Cart items:', this.cartItems);
+        // console.log('Cart items:', this.cartItems);
       },
       error: err => console.error('Error fetching cart', err)
     });
@@ -128,6 +127,7 @@ export class CartComponent implements OnInit, OnDestroy {
     });
 
   }
+  isApplied : boolean = false;
   userCoupon='';
   discount : number=0;
   isnotCoupon:boolean=false;
@@ -135,6 +135,7 @@ export class CartComponent implements OnInit, OnDestroy {
   ApplyCoupon(){
     console.log(this.userCoupon);
     if(this.userCoupon==this.ActualCoupon){
+      this.isApplied=true;
       this.discount=(this.cartTotal*10)/100;
       this.cartTotal-=this.discount;
     }
@@ -144,10 +145,5 @@ export class CartComponent implements OnInit, OnDestroy {
   }
   goToCatalogue() {
     this.router.navigate(['/customer-dashboard/medicine-catalogue']);
-  }
-  ngOnDestroy(): void {
-    if (this.routeSub) {
-      this.routeSub.unsubscribe();
-    }
   }
 }

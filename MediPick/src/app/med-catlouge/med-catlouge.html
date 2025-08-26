@@ -1,46 +1,80 @@
-<div class="filters">
-  <!-- Search -->
-  <input 
-    type="text" 
-    placeholder="Search medicines, categories, or manufacturers..." 
-    class="search-bar"
-    [(ngModel)]="searchTerm"
-    (input)="filterMedicines(searchTerm)" />
+<div class="catalogue-container">
+  
+  <!-- Sidebar Filters -->
+  <div class="filters-sidebar">
+    <!-- Search -->
+    <input 
+      type="text" 
+      placeholder="Search medicines, categories, or manufacturers..." 
+      class="search-bar"
+      [(ngModel)]="searchTerm"
+      (input)="onSearchChange(searchTerm)" />
 
-  <!-- Sort -->
-  <select [(ngModel)]="sortBy" (change)="filterMedicines(searchTerm)">
-    <option value="" disabled selected>Sort by</option>
-    <option value="name">Sort by Name</option>
-    <option value="price">Sort by Price</option>
-    <option value="rating">Sort by Rating</option>
-  </select>
-</div>
+    <!-- Sort -->
+    <select [(ngModel)]="sortBy" (change)="filterMedicines(searchTerm)">
+      <option value="" disabled selected>Sort by</option>
+      <option value="name">Sort by Name</option>
+      <option value="price">Sort by Price</option>
+      <option value="rating">Sort by Rating</option>
+    </select>
 
-<!-- Medicine List -->
-<div class="medicine-grid">
-  <div class="medicine-card" *ngFor="let m of medicines; let i = index">
-    <div class="medicine-color-block" [style.background-color]="getMedicineColor(m.medicineName)">
-      <span class="medicine-name-text">{{ m.medicineName }}</span>
-    </div>
+    <!-- Keywords -->
+    <div class="keyword-list">
+      <p class="keyword-title">Filter by Keywords</p>
+      <label *ngFor="let keyword of keywordsList" class="keyword-option">
+        <input 
+          type="checkbox" 
+          [checked]="selectedKeywords.includes(keyword)" 
+          (change)="toggleKeyword(keyword)" />
+        {{ keyword }}
+      </label>
 
-    <div class="medicine-header">
-      <span class="medicine-title">{{ m.medicineName }}</span>
-      <span class="rating">5⭐</span>
-    </div>
+      <!-- Add keyword -->
+      <div class="add-keyword">
+        <input 
+          type="text" 
+          [(ngModel)]="newKeyword" 
+          placeholder="Enter keyword..." />
+        <button (click)="addKeyword()">Add</button>
+      </div>
 
-    <p class="price">₹{{ m.price }}</p>
-    <p class="reviews">reviews 20k+</p>
-
-    <button 
-      [class.out-of-stock]="m.quantityAvailable === 0" 
-      (click)="m.quantityAvailable > 0 && addToCart(m)">
-      {{ m.quantityAvailable > 0 ? 'Add to Cart' : 'Out of Stock' }}
-    </button>
-
-    <div id="quantity-controls">
-      <button id="decrease-quantity" class="quantity" (click)="decreaseQuantity(m)">-</button>
-      <span class="quantity">{{ m.quantity }}</span>
-      <button id="increase-quantity" class="quantity" (click)="increaseQuantity(m)">+</button>
+      <!-- Selected keywords as tags -->
+      <div class="selected-keywords">
+        <span *ngFor="let kw of selectedKeywords" class="keyword-tag">
+          {{ kw }}
+          <button (click)="removeKeyword(kw)">x</button>
+        </span>
+      </div>
     </div>
   </div>
+
+  <!-- Medicine Grid -->
+  <div class="medicine-grid">
+    <div class="medicine-card" *ngFor="let m of medicines; let i = index">
+      <div class="medicine-color-block" [style.background-color]="getMedicineColor(m.medicineName)">
+        <span class="medicine-name-text">{{ m.medicineName }}</span>
+      </div>
+
+      <div class="medicine-header">
+        <span class="medicine-title">{{ m.medicineName }}</span>
+        <span class="rating">5⭐</span>
+      </div>
+
+      <p class="price">₹{{ m.price }}</p>
+      <p class="reviews">reviews 20k+</p>
+
+      <button 
+        [class.out-of-stock]="m.quantityAvailable === 0" 
+        (click)="m.quantityAvailable > 0 && addToCart(m)">
+        {{ m.quantityAvailable > 0 ? 'Add to Cart' : 'Out of Stock' }}
+      </button>
+
+      <div id="quantity-controls">
+        <button id="decrease-quantity" class="quantity" (click)="decreaseQuantity(m)">-</button>
+        <span class="quantity">{{ m.quantity }}</span>
+        <button id="increase-quantity" class="quantity" (click)="increaseQuantity(m)">+</button>
+      </div>
+    </div>
+  </div>
+
 </div>
