@@ -148,7 +148,6 @@
           <select [(ngModel)]="user.role" name="accountType" required #role="ngModel">
             <option value="" disabled selected>Select account type</option>
             <option value="User">Customer</option>
-            <option value="Admin">Admin</option>
           </select>
           <div *ngIf="role.invalid && role.touched" class="error">
             <small>Please select an account type.</small>

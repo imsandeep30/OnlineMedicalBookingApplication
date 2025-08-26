@@ -82,7 +82,8 @@
             <div class="d-flex flex-column flex-sm-row gap-1">
               <select class="form-select form-select-sm"
                       [(ngModel)]="orderstatus.newStatus"
-                      name="status{{order.orderId}}">
+                      name="status{{order.orderId}}" 
+                      [disabled]="order.orderStatus === 'Canceled' || order.orderStatus=='Delivered'">
                 <option value="">Select Status</option>
                 <option value="Pending">Pending</option>
                 <option value="Shipped">Shipped</option>
@@ -91,7 +92,8 @@
                 <option value="Canceled">Cancelled</option>
               </select>
               <button class="btn btn-primary btn-sm"
-                      (click)="orderstatus.orderId = order.orderId; UpdateStatus(order.orderId)">
+                      (click)="orderstatus.orderId = order.orderId; UpdateStatus(order.orderId)"
+                      [disabled]="order.orderStatus === 'Canceled' || order.orderStatus=='Delivered'">
                 Update
               </button>
             </div>

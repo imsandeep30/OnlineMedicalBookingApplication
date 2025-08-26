@@ -51,7 +51,7 @@ export class OrderBoth implements OnInit {
 
     this.http.get<any[]>(url, { headers }).subscribe({
       next: (response) => {
-        console.log('Orders fetched successfully:', response);
+        //console.log('Orders fetched successfully:', response);
         this.ordersbyuserid = response;
 
         this.ordersbyuserid.forEach(order => {

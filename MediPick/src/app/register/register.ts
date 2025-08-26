@@ -46,9 +46,22 @@ export class Register {
     role: 'User',
   };
   confirmPassword: string = '';
-
+  role : any;
   constructor(private http: HttpClient, private router: Router) {}
-
+  ngOnInit(): void {
+    this.IsAlreadyIn();
+  }
+  IsAlreadyIn(){
+    if(localStorage.getItem('jwt')!=null){
+      this.role  = localStorage.getItem("role");
+      if(this.role == 'User'){
+        this.router.navigate(['/customer-dashboard']);
+      }
+      else if(this.role=='Admin'){
+        this.router.navigate(['/admin-dashboard']);
+      }
+    }
+  }
   registerUser() {
     // You may want to validate password and confirm password here before sending
     if (this.user.userPassword !== this.confirmPassword) {

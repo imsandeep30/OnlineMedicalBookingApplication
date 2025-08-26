@@ -18,7 +18,7 @@ export const authGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
   if (requiredRoles && requiredRoles.length > 0) {
     if (!userRole || !requiredRoles.includes(userRole)) {
       // Role not authorized for this route
-      // Redirect to some "Access Denied" page or homepage
+      // Redirect to "Access Denied" page or homepage
       return router.createUrlTree(['/access-denied']);
     }
   }

@@ -46,7 +46,7 @@
     <label>Apply Coupon</label>
     <div class="coupon">
       <input type="text" placeholder="Enter coupon code" [(ngModel)]="userCoupon" />
-      <button (click)="ApplyCoupon()">Apply</button>
+      <button (click)="ApplyCoupon()" [disabled]="isApplied">Apply</button>
     </div>
     <span *ngIf="isnotCoupon" id="spancoupon">Coupon not applied</span>
 
