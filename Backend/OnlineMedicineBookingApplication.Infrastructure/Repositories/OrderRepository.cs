@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Security;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,15 @@ using OnlineMedicineBookingApplication.Infrastructure.DBContext;
 
 namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
 {
+    //changes added
+    public class Changes
+    {
+        public Changes() { }
+        public void Hello()
+        {
+            
+        }
+    }
     public class OrderRepository : IOrderContract
     {
         private readonly MedicineAppContext _context;
