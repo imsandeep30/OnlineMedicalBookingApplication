@@ -62,6 +62,7 @@ export class CartComponent implements OnInit {
     if (!userId) return;
     this.cartService.getCart(userId).subscribe({
       next: response => {
+        console.log(response);
         this.cartItems = response.items;
         this.cartTotal = response.totalPrice;
         // console.log('Cart items:', this.cartItems);
@@ -115,9 +116,8 @@ export class CartComponent implements OnInit {
       headers: { 'Authorization': 'Bearer ' + localStorage.getItem('jwt') }
         }).subscribe({
           next : response => {
-            this.OrderId = response.orderId.toString();
+            this.OrderId = response.orderId;
             console.log('Order placed successfully:', response.orderId);
-
             // Navigate only after we get the orderId
             this.router.navigate(['payment'], {
               queryParams: { method: this.paymentMethod, Id: this.OrderId }

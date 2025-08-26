@@ -51,9 +51,14 @@
   <!-- Medicine Grid -->
   <div class="medicine-grid">
     <div class="medicine-card" *ngFor="let m of medicines; let i = index">
-      <div class="medicine-color-block" [style.background-color]="getMedicineColor(m.medicineName)">
-        <span class="medicine-name-text">{{ m.medicineName }}</span>
-      </div>
+      
+      <!-- Medicine Image (fallback if not found) -->
+      <img 
+        *ngIf="m.imageUrl" 
+        [src]="m.imageUrl" 
+        alt="{{ m.medicineName }}" 
+        class="medicine-image"
+        (error)="m.imageUrl = 'assets/images/default.jpg'" />
 
       <div class="medicine-header">
         <span class="medicine-title">{{ m.medicineName }}</span>
