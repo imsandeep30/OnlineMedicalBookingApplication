@@ -74,7 +74,7 @@ namespace OnlineMedicineBookingApplication.API.Controllers
 
         // Get a specific order by order ID (Admin only)
         [HttpGet("GetByOrderId")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "User,Admin")]
         public async Task<IActionResult> GetOrderById(int orderId)
         {
             var order = await _orderService.GetOrderByIdAsync(orderId);

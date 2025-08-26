@@ -43,7 +43,8 @@ namespace OnlineMedicineBookingApplication.Application.Services
                 {
                     MedicneName = i.MedicineName,
                     MedicineId = i.MedicineId,
-                    Quantity = i.Quantity
+                    Quantity = i.Quantity,
+                    Price = i.Price,
                 }).ToList()
             };
         }
