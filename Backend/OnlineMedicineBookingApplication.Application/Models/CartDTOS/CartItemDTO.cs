@@ -11,5 +11,7 @@ namespace OnlineMedicineBookingApplication.Application.Models.CartDTOS
         public string MedicneName { get; set; }
         public int MedicineId { get; set; }
         public int Quantity { get; set; }
+
+        public decimal Price { get; set; }
     }
 }

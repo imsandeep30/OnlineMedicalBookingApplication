@@ -26,6 +26,7 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
             var res = await _context.Orders
+                .OrderByDescending(o=>o.OrderId)
                 .Include(o => o.OrderItems) // load related order items
                 .FirstOrDefaultAsync(o => o.UserId == order.UserId && o.OrderStatus=="Pending");
             if (res != null)
@@ -105,6 +106,10 @@ namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
             if (order != null && order.OrderStatus != "Delivered")
             {
                 order.OrderStatus = "Canceled";
+                if (order.PaymentStatus == "Completed")
+                {
+                    order.PaymentStatus = "Refund Processing";
+                }
                 _context.Orders.Update(order);
                 return true;
             }
