@@ -178,7 +178,6 @@
   transform: translateY(-2px);
   opacity: 0.50;
 }
-
 .upi { background: linear-gradient(135deg, #ff9966, #ff5e62); color: #fff; }
 .card { background: linear-gradient(135deg, #4facfe, #00f2fe); color: #fff; }
 .wallet { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #fff; }
@@ -317,4 +316,7 @@
 .change-address-btn:active {
   transform: translateY(0);
   background-color: #3d8b40;
+}
+button:disabled{
+  opacity: 0.5;
 }

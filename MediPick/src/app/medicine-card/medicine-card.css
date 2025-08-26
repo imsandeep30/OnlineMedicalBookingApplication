@@ -176,3 +176,27 @@ h3 {
     font-size: 1rem;
   }
 }
+.cart-image {
+  width: 100%;                /* Fill card width */
+  height: 180px;              /* Fixed height for consistency */
+  object-fit: contain;        /* Show full medicine image without cropping */
+  border-bottom: 1px solid #eee;
+  background-color: #fafafa;  /* Light background in case of transparent PNG */
+  padding: 8px;               /* Small spacing inside */
+  border-radius: 12px 12px 0 0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effect for nice UI feedback */
+.cart-image:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+/* For mobile screens */
+@media screen and (max-width: 480px) {
+  .cart-image {
+    height: 140px;  /* smaller height for mobile */
+    padding: 6px;
+  }
+}

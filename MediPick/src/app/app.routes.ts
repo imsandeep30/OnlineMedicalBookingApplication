@@ -15,7 +15,6 @@ import { AccessDenied } from './access-denied/access-denied';
 import { AdminHome } from './admin-home/admin-home';
 import { Forgotpassword } from './forgotpassword/forgotpassword';
 import { PaymentComponent } from './payment-component/payment-component';
-
 import { UsersSettings } from './users-settings/users-settings';
 import { AdminReports } from './admin-reports/admin-reports';
 import { AdminManageUsers } from './admin-manageusers/admin-manageusers';

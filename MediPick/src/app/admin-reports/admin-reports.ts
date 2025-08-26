@@ -69,7 +69,7 @@ export class AdminReports implements OnInit {
     const usersRequest = this.http.get<User[]>('http://localhost:5184/api/User/AllUsers', { headers });
     const ordersRequest = this.http.get<Order[]>('http://localhost:5184/api/Order/GetAllOrders', { headers });
     const medicinesRequest = this.http.get<Medicine[]>('http://localhost:5184/api/Medicine/all-medicines', { headers });
-
+    
     import('rxjs').then(rxjs => {
       const { forkJoin } = rxjs;
       forkJoin([usersRequest, ordersRequest, medicinesRequest]).subscribe({
@@ -123,7 +123,6 @@ export class AdminReports implements OnInit {
 
     this.totalOrders = filteredOrders.length;
     this.totalSales = filteredOrders.reduce((sum, order) => sum + order.totalAmount, 0);
-
     this.lowStockMedicinesCount = this.medicines.filter(m => m.quantityAvailable < 50).length;
   }
 

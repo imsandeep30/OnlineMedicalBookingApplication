@@ -64,7 +64,6 @@ export class OrderAdmin {
       return dateMatch && statusMatch && searchMatch;
     });
   }
-
   UpdateStatus(orderId: number) {
     this.orderstatus.orderId = orderId;
 
