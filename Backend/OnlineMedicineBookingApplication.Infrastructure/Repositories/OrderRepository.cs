@@ -11,15 +11,6 @@ using OnlineMedicineBookingApplication.Infrastructure.DBContext;
 
 namespace OnlineMedicineBookingApplication.Infrastructure.Repositories
 {
-    //changes added
-    public class Changes
-    {
-        public Changes() { }
-        public void Hello()
-        {
-            
-        }
-    }
     public class OrderRepository : IOrderContract
     {
         private readonly MedicineAppContext _context;
