@@ -21,7 +21,7 @@ export class CustHome implements OnInit {
   processingOrders: number = 0;
   constructor (private http: HttpClient) {}
   ngOnInit(): void {
-    console.log(localStorage.getItem('userName'));
+    //console.log(localStorage.getItem('userName'));
     const storedUsername = localStorage.getItem('userName');
     if (storedUsername) {
       this.userName = storedUsername;
@@ -46,7 +46,7 @@ export class CustHome implements OnInit {
           this.deliveredOrders = orders.filter(o => o.orderStatus === 'Delivered').length;
           this.pendingOrders = orders.filter(o => o.orderStatus === 'Pending').length;
           this.processingOrders = orders.filter(o => o.orderStatus === 'Confirmed').length;
-          this.totalSpent = orders.filter(o => o.orderStatus === 'Delivered').reduce((sum, o) => sum + o.totalAmount, 0);
+          this.totalSpent = orders.filter(o => o.paymentStatus === 'Completed' && o.orderStatus!=='Canceled').reduce((sum, o) => sum + o.totalAmount, 0);
           this.recentActivity = orders.map(order => {
           const items = order.orderItems.map((item: any) => item.medicineName).join(', ');
             return {

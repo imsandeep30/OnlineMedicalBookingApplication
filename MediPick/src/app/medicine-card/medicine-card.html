@@ -1,8 +1,9 @@
 <div class="cart-card">
-  <!-- Color block with medicine name instead of image -->
-  <div class="medicine-color-block" [style.background-color]="getMedicineColor(medicine.medicneName)">
-    <span class="medicine-name-text">{{ medicine.medicneName }}</span>
-  </div>
+  <!-- Medicine Image -->
+  <img 
+  [src]="imageUrl(medicine.medicneName)" 
+    alt="{{ medicine.medicineName }}" 
+    class="cart-image"/>
 
   <div class="cart-body">
     <span class="tag">{{ medicine.category || 'Medicine' }}</span>
@@ -12,7 +13,7 @@
     <p class="desc">{{ medicine.description }}</p>
 
     <div class="price-qty">
-      <span class="price">{{ medicine.price }}</span>
+      <span class="price">₹{{ medicine.price }}</span>
       <span class="qty">Qty: {{ medicine.quantity }}</span>
     </div>
 

@@ -15,6 +15,7 @@ interface Medicine {
   brand: string;
   quantityAvailable: number;
   quantity?: number;
+  imageUrl?: string; // added
 }
 
 @Component({
@@ -52,7 +53,12 @@ export class MedCatlouge implements OnInit {
     })
     .subscribe({
       next: data => {
-        this.medicines = data.map(m => ({ ...m, quantity: 1 }));
+        this.medicines = data.map(m => ({
+          ...m,
+          quantity: 1,
+          imageUrl: `Assets/${m.medicineName.trim().replace(/\s+/g, '')}.jpg`,
+        }));
+        console.log(this.medicines);
       },
       error: err => console.error('Error fetching medicines', err)
     });
@@ -108,7 +114,11 @@ export class MedCatlouge implements OnInit {
         } else {
           data.sort((a, b) => a.medicineName.localeCompare(b.medicineName));
         }
-        this.medicines = data.map(m => ({ ...m, quantity: 1 }));
+        this.medicines = data.map(m => ({
+          ...m,
+          quantity: 1,
+          imageUrl: `Assets/${m.medicineName.trim().replace(/\s+/g, '')}.jpg`
+        }));
       },
       error: (err) => console.error('Error filtering medicines', err)
     });
@@ -135,18 +145,5 @@ export class MedCatlouge implements OnInit {
       next: () => console.log('Added to cart:', medicine),
       error: ( err : any) => console.error('Failed to add to cart', err)
     });
-  }
-
-  colors = [
-    '#a3d9a5', '#f7f3b2', '#c2f0fc', '#e7cbf5', '#f4b0b0', '#a9c5ba',
-    '#5a3e36', '#2f4f4f', '#4b0082', '#800000', '#355e3b', '#3b3b6d',
-    '#6b4226', '#4a4a4a', '#5c4033', '#3e5f8a', '#7b3f00', '#403d58',
-    '#2c3e50', '#34495e', '#1b2631', '#4a235a', '#7d6608', '#784212',
-    '#512e5f', '#1c2833', '#283747', '#6e2c00', '#4d5656', '#6c3483',
-    '#6e2f2f', '#1b4f72', '#4a235a', '#7e5109', '#5d6d7e', '#3a3b3c'
-  ];
-  getMedicineColor(name: string): string {
-    const index = name.charCodeAt(0) % this.colors.length;
-    return this.colors[index];
   }
 }

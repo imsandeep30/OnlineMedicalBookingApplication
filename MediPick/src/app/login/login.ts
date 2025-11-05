@@ -12,12 +12,26 @@ import { CommonModule } from '@angular/common';
   styleUrl: './login.css'
 })
 export class Login {
+  
   login: LoginDto = { userEmail: '', userPassword: '' };
   errMessage: string = '';
   isLoading: boolean = false; //  added loading state
-
+  role : any;
   constructor(private http: HttpClient, private router: Router) {}
-
+  ngOnInit(): void {
+    this.IsAlreadyIn();
+  }
+  IsAlreadyIn(){
+    if(localStorage.getItem('jwt')!=null){
+      this.role  = localStorage.getItem("role");
+      if(this.role == 'User'){
+        this.router.navigate(['/customer-dashboard']);
+      }
+      else if(this.role=='Admin'){
+        this.router.navigate(['/admin-dashboard']);
+      }
+    }
+  }
   loginUser() {
     this.errMessage = '';
     this.isLoading = true; //  start loading
